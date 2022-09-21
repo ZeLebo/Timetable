@@ -7,6 +7,10 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 }
 
+allOpen {
+    annotation("javax.persistence.Entity")
+}
+
 group = "nsu"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
