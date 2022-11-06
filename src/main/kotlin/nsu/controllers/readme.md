@@ -1,1 +1,0 @@
-This is router (handler) package all the logic for getting the data from user and sending it back is here
