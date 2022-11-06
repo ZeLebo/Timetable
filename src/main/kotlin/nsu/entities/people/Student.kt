@@ -1,3 +1,3 @@
 package nsu.entities.people
 
-class Student(val name: String)
+data class Student(val name: String)
