@@ -1,4 +1,6 @@
-package nsu.entities.university
+package nsu.entities.people
+
+import nsu.entities.university.Subject
 
 class Teacher(name: String, subjects: LinkedHashMap<Subject, String>) {
     private val name: String

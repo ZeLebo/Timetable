@@ -1,4 +1,4 @@
-package nsu.entities.university
+package nsu.entities.people
 
 class Student(name: String) {
     private val name: String
