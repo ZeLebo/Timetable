@@ -1,15 +1,11 @@
 package nsu.entities.university
 
-class Teacher(name: String, subjects: ArrayList<Subject>, subjectTypes: ArrayList<String>) {
+class Teacher(name: String, subjects: LinkedHashMap<Subject, String>) {
     private val name: String
         get() {
             return field
         }
-    private val subjects: ArrayList<Subject>
-        get() {
-            return field
-        }
-    private val subjectTypes: ArrayList<String>
+    private val subjects: LinkedHashMap<Subject, String>
         get() {
             return field
         }
@@ -17,7 +13,5 @@ class Teacher(name: String, subjects: ArrayList<Subject>, subjectTypes: ArrayLis
     init {
         this.subjects = subjects
         this.name = name
-        this.subjectTypes = subjectTypes
     }
-
 }
