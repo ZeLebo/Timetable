@@ -1,4 +1,4 @@
-package nsu.controllers.routers
+package nsu.controllers
 
 
 import org.springframework.http.MediaType
@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.util.concurrent.ThreadLocalRandom
 
 @RestController
-class GeneralRouter {
+class GeneralController {
     // method that tells hello to user
     @GetMapping("/hello")
     fun hello(@RequestParam(value = "name", defaultValue = "world") name: String): String {

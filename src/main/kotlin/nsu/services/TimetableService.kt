@@ -1,4 +1,4 @@
-package nsu.usercase
+package nsu.services
 
 class TimetableService {
 }
