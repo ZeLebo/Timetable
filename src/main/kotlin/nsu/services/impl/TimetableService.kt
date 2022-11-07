@@ -1,4 +1,4 @@
-package nsu.services
+package nsu.services.impl
 
 class TimetableService {
 }
