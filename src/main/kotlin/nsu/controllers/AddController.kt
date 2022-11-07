@@ -1,4 +1,4 @@
-package nsu.controllers.routers
+package nsu.controllers
 
 import nsu.controllers.request.StudentRequest
 import nsu.entities.people.Student
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/add")
-class AddRouter {
+class AddController {
     @RequestMapping("/")
     fun test(): String {
         return "Sorry, that page is not configured yet, but soon it will be showing the buttons and so on"

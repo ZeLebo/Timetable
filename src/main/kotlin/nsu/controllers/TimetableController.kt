@@ -1,11 +1,11 @@
-package nsu.controllers.routers
+package nsu.controllers
 
 import org.springframework.web.bind.annotation.*
 
 // here are the request mapping
 @RestController
 @RequestMapping("/api/v1/timetable")
-class TimetableRouter {
+class TimetableController {
     @GetMapping("/")
     fun test(): String {
         return "The server is working, soon at this page you will be able to see all the buttons to pass the info"
