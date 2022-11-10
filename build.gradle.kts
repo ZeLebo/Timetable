@@ -29,6 +29,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+    implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5")
 }
 
 tasks.withType<KotlinCompile> {

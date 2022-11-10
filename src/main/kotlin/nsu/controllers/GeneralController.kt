@@ -2,23 +2,27 @@ package nsu.controllers
 
 
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import java.time.Duration
-
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
 import java.util.concurrent.ThreadLocalRandom
 
-@RestController
+@Controller
 class GeneralController {
     // method that tells hello to user
-    @GetMapping("/hello")
-    fun hello(@RequestParam(value = "name", defaultValue = "world") name: String): String {
-        return String.format("Hello %s!", name)
+    @GetMapping(
+        "/sayHello"
+    )
+    fun sayHello (@RequestParam name: String, model: Model): String{
+        model.addAttribute(name)
+        return "hello"
     }
-
 
     @GetMapping(
         value = ["/stocks/{symbol}"],
