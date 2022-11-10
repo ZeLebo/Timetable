@@ -21,7 +21,12 @@ class GeneralController {
     )
     fun sayHello (@RequestParam name: String, model: Model): String{
         model.addAttribute(name)
-        return "hello"
+        return "hello.html"
+    }
+
+    @GetMapping("/showButton")
+    fun showButton(): String {
+        return "listsExample.html"
     }
 
     @GetMapping(

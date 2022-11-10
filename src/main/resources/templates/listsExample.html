@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>$Title$</title>
+</head>
+<body>
+<h1>Hello mazafaka</h1>
+<button onclick="alert('Hello world!')">Say hello</button>
+
+<button onclick="myFunction()">Click me</button>
+<p id="demo">
+  <h2>Hello testing script</h2>
+</p>
+
+<script>
+function myFunction() {
+//  make a dropdown list of numbers from 1 to 5
+  var x = document.createElement("SELECT");
+  x.setAttribute("id", "mySelect");
+  document.body.appendChild(x);
+//  create an option for each number
+    for (var i = 1; i <= 5; i++) {
+        var option = document.createElement("option");
+        option.text = i;
+        option.value = i;
+        x.add(option);
+    }
+
+//  create a button
+    var btn = document.createElement("BUTTON");
+    var t = document.createTextNode("Click me");
+    btn.appendChild(t);
+    document.body.appendChild(btn);
+
+//  create a paragraph
+    var p = document.createElement("p");
+    var t = document.createTextNode("Hello world");
+    p.appendChild(t);
+    document.body.appendChild(p);
+
+    // when click on button click me show the number from the drop down list and the text you've choosen number
+    btn.onclick = function() {
+        var x = document.getElementById("mySelect").value;
+        var y = document.getElementById("demo");
+        y.innerHTML = "You selected: " + x;
+    }
+}
+</script>
+</body>
+</html>
