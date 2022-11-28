@@ -1,3 +1,3 @@
 package nsu.entities.people
 
-data class Group(val students: ArrayList<Student>, val amount: Int, val incomingYear: String)
+data class Group( val name: String, val id: Int)

@@ -1,5 +1,6 @@
 package nsu.repository
 
+import nsu.entities.people.Group
 import java.sql.DriverManager
 import nsu.entities.people.Student
 import java.sql.Connection
@@ -20,7 +21,7 @@ class DBClient {
         val statement = connection.createStatement()
         //execute query
         try {
-            statement.execute("CREATE TABLE students (id SERIAL PRIMARY KEY, first_name VARCHAR(255), second_name VARCHAR(255), group_id INT)")
+            statement.execute("CREATE TABLE students (id SERIAL PRIMARY KEY, first_name VARCHAR(255), last_name VARCHAR(255), group_id INT)")
         } catch (e: Exception) {
             println("Table students already exists")
         }
@@ -57,10 +58,10 @@ class DBClient {
         //create statement
         val statement = connection.createStatement()
         //execute query
-        statement.execute("INSERT INTO students (first_name, last_name, group_id) VALUES ('${student.first_name}', '${student.second_name}', ${student.group_id})")
+        statement.execute("INSERT INTO students (first_name, last_name, group_id, id) VALUES ('${student.first_name}', '${student.last_name}', ${student.group_id}, ${student.id})")
     }
 
-    //get all records from table
+    //get all records from table students
     fun getAllStudents(): List<Student> {
         //create connection
         val connection = connect()
@@ -80,5 +81,25 @@ class DBClient {
         //return list of students
         return students
     }
-}
 
+    //get all records from table groups
+    fun getAllGroups(): List<Group> {
+        //create connection
+        val connection = connect()
+        //create statement
+        val statement = connection.createStatement()
+        //execute query
+        val resultSet = statement.executeQuery("SELECT * FROM groups")
+        //create list of groups
+        val groups = mutableListOf<Group>()
+        //iterate over result set
+        while (resultSet.next()) {
+            //create group
+            val group = Group(resultSet.getString("name"), resultSet.getInt("id"))
+            //add group to list
+            groups.add(group)
+        }
+        //return list of groups
+        return groups
+    }
+}
