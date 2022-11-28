@@ -1,5 +1,7 @@
 package nsu.services.impl
 
+import nsu.entities.people.Group
+import nsu.entities.people.Student
 import nsu.entities.people.Teacher
 import nsu.entities.university.*
 
@@ -69,7 +71,11 @@ fun main() {
     subjectsForNewThread.add(Subject(lessonsForImperativka, "Imperativka"))
 
     val studyYearsForFit: ArrayList<StudyYear> = ArrayList()
-    studyYearsForFit.add(StudyYear(subjectsForNewThread, 1))
+    val students: ArrayList<Student> = ArrayList()
+    students.add(Student("Malov Alexey"))
+    val groups: ArrayList<Group> = ArrayList()
+    groups.add(Group(students, 1, "2020"))
+    studyYearsForFit.add(StudyYear(subjectsForNewThread, 1, groups))
     val fitSpecializations: ArrayList<Specialization> = ArrayList()
     fitSpecializations.add(Specialization(studyYearsForFit, "New Thread()"))
     val faculties: ArrayList<Faculty> = ArrayList()
