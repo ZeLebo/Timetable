@@ -4,20 +4,126 @@ import nsu.entities.people.Group
 import nsu.entities.people.Student
 import nsu.entities.people.Teacher
 import nsu.entities.university.*
+import java.util.Arrays
 
 // this is service for creating timetable
+/**
+ *
+ * */
+class TimetableMaker() {
+    private val currentUniversityPlan: UniversityPlan
+    private val rooms: ArrayList<Room>
+    private val teachers: ArrayList<Teacher>
+    private val lessonsForMatan: ArrayList<Lesson>
+    private val lessonsForImperat: ArrayList<Lesson>
+    private val subjects: ArrayList<Subject>
+    private val firstStudyYear: ArrayList<StudyYear>
+    private val firstYearGroups: ArrayList<Group>
+    private val specializations: ArrayList<Specialization>
+    private val faculties: ArrayList<Faculty>
 
-class TimetableMaker(universityPlan: UniversityPlan, private val rooms: ArrayList<Room>, private val teachers: ArrayList<Teacher>) {
-    private val faculties: ArrayList<Faculty> = universityPlan.faculties
     private val specializationsByFaculties: LinkedHashMap<Faculty, ArrayList<Specialization>>
     private val studyYearByFaculty: LinkedHashMap<Faculty, ArrayList<StudyYear>>
     private val subjectsBySpecialization: LinkedHashMap<Specialization, ArrayList<Subject>>
 
 
     init {
+        //Zatichki before db creation
+        teachers = createTeachers()
+        firstYearGroups = createFirstYearGroups()
+        lessonsForMatan = createMatanLessons()
+        lessonsForImperat = createImperatLessons()
+        subjects = createSubjects()
+        firstStudyYear = createFirstStudyYear()
+        specializations = createSpecializations()
+        faculties = createFaculty()
+        currentUniversityPlan = createUniversityPlan()
+        rooms = createRooms()
+
         specializationsByFaculties = getSpecializationByFaculty(faculties)
         studyYearByFaculty = getStudyYearByFaculty(faculties)
         subjectsBySpecialization = getSubjectBySpecialization(faculties)
+
+
+    }
+
+    private fun createRooms(): ArrayList<Room> {
+        val rooms = ArrayList<Room>()
+        rooms.add(Room(300, "Лекционная"))
+        rooms.add(Room(15, "Терминальная"))
+        rooms.add(Room(15, "Семинарская"))
+        return rooms
+    }
+
+    private fun createUniversityPlan(): UniversityPlan {
+        return UniversityPlan(faculties)
+    }
+
+    private fun createFaculty(): ArrayList<Faculty> {
+        val faculty = ArrayList<Faculty>()
+        faculty.add(Faculty(specializations, "ФИТ"))
+        return faculty
+    }
+
+    private fun createSpecializations(): ArrayList<Specialization> {
+        val specializationsArray = ArrayList<Specialization>()
+        specializationsArray.add(Specialization(firstStudyYear, "Новый поток"))
+        return specializationsArray
+    }
+
+    private fun createFirstYearGroups(): java.util.ArrayList<Group> {
+        val groups = ArrayList<Group>()
+        groups.add(Group("22213", 1))
+        groups.add(Group("22214", 2))
+        groups.add(Group("22215", 3))
+        groups.add(Group("22216", 4))
+        return groups
+    }
+
+    private fun createFirstStudyYear(): ArrayList<StudyYear> {
+        val studyYear: ArrayList<StudyYear> = ArrayList()
+        studyYear.add(StudyYear(subjects, 1, firstYearGroups))
+        return studyYear
+    }
+
+    private fun createSubjects(): ArrayList<Subject> {
+        val subjects: ArrayList<Subject> = ArrayList()
+        subjects.add(Subject(lessonsForImperat, "Императивное программирование"))
+        subjects.add(Subject(lessonsForMatan, "Матан"))
+        return subjects
+    }
+
+    private fun createMatanLessons(): ArrayList<Lesson> {
+        val lessons: ArrayList<Lesson> = ArrayList()
+        lessons.add(Lesson("Матан", "Лекционная", "Лекция"))
+        lessons.add(Lesson("Матан", "Семинарская", "Семинар"))
+        lessons.add(Lesson("Матан", "Семинарская", "Семинар"))
+        lessons.add(Lesson("Матан", "Лекционная", "Лекция"))
+        lessons.add(Lesson("Матан", "Семинарская", "Семинар"))
+        lessons.add(Lesson("Матан", "Лекционная", "Лекция"))
+        return lessons
+    }
+
+    private fun createImperatLessons(): ArrayList<Lesson>{
+        val lessons: ArrayList<Lesson> = ArrayList()
+        lessons.add(Lesson("Императивное программирования", "Лекционная", "Лекция"))
+        lessons.add(Lesson("Императивное программирование", "Семинарская", "Семинар"))
+        lessons.add(Lesson("Императивное программирования", "Терминальная", "Лабораторная работа"))
+        lessons.add(Lesson("Императивное программирование", "Лекционная", "Лекция"))
+        lessons.add(Lesson("Императивное программирование", "Семинарская", "Семинар"))
+        lessons.add(Lesson("Императивное программирование", "Терминальная", "Лабораторная работа"))
+        return lessons
+    }
+
+    private fun createTeachers(): ArrayList<Teacher> {
+        val generatedTeachers: ArrayList<Teacher> = ArrayList()
+        val subject1: LinkedHashMap<Subject, String> = LinkedHashMap()
+        subject1[subjects[1]] = "Лекция"
+        generatedTeachers.add(Teacher("Aboba Abobusovich", subject1))
+        val subject2: LinkedHashMap<Subject, String> = LinkedHashMap()
+        subject2[subjects[1]] = "Семинар"
+        generatedTeachers.add(Teacher("Mister Misterovich", subject2))
+        return generatedTeachers
     }
 
     private fun getSubjectBySpecialization(faculties: ArrayList<Faculty>): LinkedHashMap<Specialization, ArrayList<Subject>> {
@@ -50,47 +156,4 @@ class TimetableMaker(universityPlan: UniversityPlan, private val rooms: ArrayLis
         }
         return studyYearByFaculty
     }
-
-    fun getEverything(){
-        println(specializationsByFaculties[faculties[0]])
-    }
-
-}
-
-fun main() {
-    val lessonsForMatanForNewThread: ArrayList<Lesson> = ArrayList()
-    lessonsForMatanForNewThread.add(Lesson("Матан", "Лекционная", "Лекция"))
-    lessonsForMatanForNewThread.add(Lesson("Матан","Семинарская", "Семинар"))
-
-    val lessonsForImperativka: ArrayList<Lesson> = ArrayList()
-    lessonsForImperativka.add(Lesson("Imperativka", "Lekcionnaya", "Lekciya"))
-    lessonsForImperativka.add(Lesson("Imperativka", "Seminarskaya", "Seminar"))
-
-    val subjectsForNewThread: ArrayList<Subject> = ArrayList()
-    subjectsForNewThread.add(Subject(lessonsForMatanForNewThread, "Матан"))
-    subjectsForNewThread.add(Subject(lessonsForImperativka, "Imperativka"))
-
-    val studyYearsForFit: ArrayList<StudyYear> = ArrayList()
-    val students: ArrayList<Student> = ArrayList()
-    students.add(Student("Malov Alexey"))
-    val groups: ArrayList<Group> = ArrayList()
-    groups.add(Group(students, 1, "2020"))
-    studyYearsForFit.add(StudyYear(subjectsForNewThread, 1, groups))
-    val fitSpecializations: ArrayList<Specialization> = ArrayList()
-    fitSpecializations.add(Specialization(studyYearsForFit, "New Thread()"))
-    val faculties: ArrayList<Faculty> = ArrayList()
-    faculties.add(Faculty(fitSpecializations, "FIT"))
-    val universityPlan = UniversityPlan(faculties)
-
-    val rooms: ArrayList<Room> = ArrayList()
-    rooms.add(Room(30, "Лекционная"))
-    rooms.add(Room(10, "Семинарская"))
-
-    val teachers: ArrayList<Teacher> = ArrayList()
-    val linkedHashMap: LinkedHashMap<Subject, String> = LinkedHashMap()
-    linkedHashMap[Subject(lessonsForMatanForNewThread, "Матан")] = "Семинары"
-    teachers.add(Teacher("Abobus Abobusovich",linkedHashMap))
-
-    val timetableMaker = TimetableMaker(universityPlan, rooms, teachers)
-    timetableMaker.getEverything()
 }
