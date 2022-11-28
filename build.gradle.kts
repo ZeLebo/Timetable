@@ -31,6 +31,7 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5")
+    implementation("org.postgresql:postgresql:42.3.7")
 }
 
 tasks.withType<KotlinCompile> {

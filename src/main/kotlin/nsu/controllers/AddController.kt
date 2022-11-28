@@ -19,8 +19,8 @@ class AddController {
 
     @PostMapping("/student")
     fun addStudent(@RequestBody Student : StudentRequest): String {
-        val student = Student(Student.name)
-        return "Student ${student.name} was added"
+        val student = Student(Student.first_name, Student.last_name, Student.id, Student.group_id)
+        return "Student ${student.first_name} was added"
     }
 
     @GetMapping("/teacher")
