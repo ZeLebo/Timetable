@@ -11,9 +11,12 @@ import javax.persistence.*
 class Student(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int = 0,
+    val id: Long,
     @Column(name = "first_name")
-    val first_name: String,
+    val first: String,
     @Column(name = "last_name")
-    val last_name:String
-)
+    val last:String,
+) {
+    // empty constructor
+    constructor() : this(0, "", "")
+}

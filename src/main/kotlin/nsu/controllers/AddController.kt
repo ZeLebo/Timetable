@@ -2,11 +2,16 @@ package nsu.controllers
 
 import nsu.controllers.request.StudentRequest
 import nsu.entities.people.Student
+import nsu.repository.StudentRepository
+import nsu.service.StudentService
+import nsu.service.impl.StudentServiceImpl
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/add")
-class AddController {
+class AddController(
+    private val studentService: StudentService
+) {
     @RequestMapping("/")
     fun test(): String {
         return "Sorry, that page is not configured yet, but soon it will be showing the buttons and so on"
@@ -19,8 +24,24 @@ class AddController {
 
     @PostMapping("/student")
     fun addStudent(@RequestBody Student : StudentRequest): String {
-        val student = Student(Student.first_name, Student.last_name, Student.id, Student.group_id)
-        return "Student ${student.first_name} was added"
+        // check the existance of the user in database
+        // if not exist, add it
+        // if exists, return error
+        if (studentService.exists(Student.first_name, Student.last_name)) {
+            return "Sorry, but this student already exists"
+        }
+
+        // add student to the database
+        studentService.addStudent(Student(
+            0, Student.first_name, Student.last_name
+        ))
+
+        val tmp = studentService.findByFirstAndLast(Student.first_name, Student.last_name)
+        if (tmp != null) {
+            return "Student ${tmp.first} ${tmp.last} added successfully"
+        }
+
+        return "Unable to add student"
     }
 
     @GetMapping("/teacher")
