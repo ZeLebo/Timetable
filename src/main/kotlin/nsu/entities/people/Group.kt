@@ -1,6 +1,7 @@
 package nsu.entities.people
 
 import javax.persistence.*
+import nsu.entities.people.Student
 
 /**
  * Entity for group
@@ -10,12 +11,16 @@ import javax.persistence.*
 class Group(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val group_id: Long,
 
     @Column(name = "number")
     val number: String,
 
-    // list of students in group
-    @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    val students: List<Student> = emptyList()
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "students_to_group",
+        joinColumns = [JoinColumn(name = "student_id")],
+        inverseJoinColumns = [JoinColumn(name = "group_id")]
+    )
+    val students: MutableList<Student> = mutableListOf()
 )

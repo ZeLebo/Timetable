@@ -9,14 +9,16 @@ import javax.persistence.*
 @Entity
 @Table(name = "students")
 class Student(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
     @Column(name = "first_name")
     val first: String,
     @Column(name = "last_name")
-    val last:String,
+    val last: String,
+
+    @Id
+    @Column(name = "student_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val studentId: Long = 0,
 ) {
     // empty constructor
-    constructor() : this(0, "", "")
+    constructor(first: String, last: String) : this(first, last, 0)
 }
