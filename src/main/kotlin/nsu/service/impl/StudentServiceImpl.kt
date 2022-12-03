@@ -10,6 +10,9 @@ class StudentServiceImpl(
     private val studentRepository: StudentRepository
 ):  StudentService {
     override fun addStudent(student: Student): Student {
+        if (studentRepository.existsByFirstAndLast(student.first, student.last)) {
+            throw Exception("Student already exists")
+        }
         return studentRepository.save(student)
     }
 

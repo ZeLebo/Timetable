@@ -3,8 +3,8 @@ package nsu.entities.people
 import javax.persistence.*
 
 /**
- * @property name - name of the student
- *
+ * @property first - name of the student
+ * @property last - surname of the student
  * */
 @Entity
 @Table(name = "students")

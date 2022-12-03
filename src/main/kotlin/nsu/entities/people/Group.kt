@@ -1,7 +1,6 @@
 package nsu.entities.people
 
 import javax.persistence.*
-import nsu.entities.people.Student
 
 /**
  * Entity for group
@@ -10,8 +9,9 @@ import nsu.entities.people.Student
 @Table(name = "groups")
 class Group(
     @Id
+    @Column(name = "group_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val group_id: Long,
+    val groupId: Long,
 
     @Column(name = "number")
     val number: String,
@@ -23,4 +23,6 @@ class Group(
         inverseJoinColumns = [JoinColumn(name = "group_id")]
     )
     val students: MutableList<Student> = mutableListOf()
-)
+) {
+    constructor(number: String, students: MutableList<Student>) : this(0, number, students)
+}
