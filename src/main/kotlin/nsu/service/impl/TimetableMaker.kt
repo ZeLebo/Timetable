@@ -87,8 +87,8 @@ class TimetableMaker() {
 
     private fun createSubjects(): ArrayList<Subject> {
         val subjects: ArrayList<Subject> = ArrayList()
-        subjects.add(Subject(lessonsForImperat, "Императивное программирование"))
-        subjects.add(Subject(lessonsForMatan, "Матан"))
+//        subjects.add(Subject(lessonsForImperat, "Императивное программирование"))
+//        subjects.add(Subject(lessonsForMatan, "Матан"))
         return subjects
     }
 

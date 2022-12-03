@@ -1,5 +1,6 @@
 package nsu.entities.people
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 /**
@@ -14,16 +15,17 @@ class Student(
     @Column(name = "last_name")
     val last: String,
 
-//    @ManyToOne
-//    @JoinTable()
-    @Column(name = "group_number")
-    val groupNumber: String,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+        name = "group_id",
+        nullable = true
+    )
+    // need to connect students from students table to this group
+    @field: JsonIgnore
+    var group: Group? = null,
 
     @Id
     @Column(name = "student_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val studentId: Long = 0,
-) {
-    // empty constructor
-    constructor(first: String, last: String, groupNumber: String) : this(first, last, groupNumber, 0)
-}
+)

@@ -1,8 +1,33 @@
 package nsu.entities.university
+
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.*
+
 /**
  * Lesson entity (lesson is like  para)
  * @property name - name of the lesson
  * @property roomType - type of the room, which is needed for this lesson
  * @property subjectType - type of the subject (Lection, seminar, lab)
  * */
-data class Lesson(val name: String, val roomType: String, val subjectType: String)
+@Entity
+@Table(name = "lesson")
+class Lesson(
+    @Column(name = "name")
+    val name: String,
+
+    @Column(name = "room_type")
+    val roomType: String,
+
+    @Column(name = "subject_type")
+    val subjectType: String,
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    @field: JsonIgnore
+    var subject: Subject? = null,
+
+    @Id
+    @Column(name = "lesson_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val lessonId: Long = 0,
+)

@@ -4,6 +4,7 @@ import nsu.entities.people.Student
 import nsu.repository.StudentRepository
 import nsu.service.StudentService
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 
 @Service
 class StudentServiceImpl(
@@ -11,7 +12,7 @@ class StudentServiceImpl(
 ):  StudentService {
     override fun addStudent(student: Student): Student {
         if (studentRepository.existsByFirstAndLast(student.first, student.last)) {
-            throw Exception("Student already exists")
+            throw RuntimeException("Student already exists")
         }
         return studentRepository.save(student)
     }
