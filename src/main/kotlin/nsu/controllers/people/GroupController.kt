@@ -1,7 +1,5 @@
 package nsu.controllers.people
 
-import nsu.controllers.request.GroupRequest
-import nsu.controllers.request.StudentRequest
 import nsu.entities.people.Group
 import nsu.entities.people.Student
 import nsu.service.impl.GroupServiceImpl
@@ -16,45 +14,49 @@ class GroupController(
     private val groupService: GroupServiceImpl,
 ) {
     @GetMapping("student")
-    fun showStudentForm(): String {
-        return "Sorry, that page is not configured yet, but soon it will be showing the buttons and so on"
+    fun showStudentForm(@RequestParam id: Int): ResponseEntity<Student> {
+        return ResponseEntity.ok(studentService.findByID(id.toLong())!!)
     }
 
     @PostMapping("student")
-    fun addStudent(@RequestBody Student: StudentRequest): ResponseEntity<*> {
+    fun addStudent(@RequestBody request: Student): ResponseEntity<*> {
         return try {
             val student = studentService.addStudent(
-                Student(Student.first_name,
-                    Student.last_name)
+                Student(request.first,
+                    request.last,
+                    request.groupNumber)
             )
             // add student to group
-            val group = groupService.findByNumber(Student.group_number)
+            val group = groupService.findByNumber(request.groupNumber)
                 ?: return ResponseEntity.badRequest().body("No such group")
 
             group.students.add(student)
             groupService.updateGroup(group)
 
-            ResponseEntity.ok().body(student)
+            ResponseEntity.ok(student)
         } catch (e: Exception) {
             ResponseEntity.badRequest().body("Such student already exists")
         }
     }
 
     @GetMapping("group")
-    fun showGroupForm(): String {
-        return "Sorry, that page is not configured yet, but soon it will be showing the buttons and so on"
+    fun showGroupForm(@RequestParam id: Int): ResponseEntity<*> {
+        val group = groupService.findByID(id.toLong())
+            ?: return ResponseEntity.badRequest().body("No such group")
+        return ResponseEntity.ok(group)
     }
 
     @PostMapping("group")
-    fun addGroup(@RequestBody request: GroupRequest): ResponseEntity<*> {
+    fun addGroup(@RequestBody request: Group): ResponseEntity<*> {
         return try {
             val group = groupService.addGroup(
                 Group(request.number,
                     request.students.map {
                         studentService.addStudent(
                             Student(
-                                it.first_name,
-                                it.last_name
+                                it.first,
+                                it.last,
+                                it.groupNumber,
                             )
                         )
                     }.toMutableList()
