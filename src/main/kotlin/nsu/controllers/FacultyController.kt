@@ -6,37 +6,37 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/faculty")
+@RequestMapping("/api/v1")
 class FacultyController(
     private val facultyService: FacultyRepository,
 ) {
     //get the list of all faculties
-    @GetMapping("/")
+    @GetMapping("faculty")
     fun getFaculties(): ResponseEntity<*> {
         return ResponseEntity.ok(facultyService.findAll())
     }
 
-    // get specific faculty
-    @GetMapping("/{facultyId}")
-    fun getFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(facultyService.findById(facultyId.toLong()))
-    }
-
     // add faculty
-    @PostMapping("/")
+    @PostMapping("faculty")
     fun addFaculty(@RequestBody faculty: Faculty): ResponseEntity<*> {
         return ResponseEntity.ok(facultyService.save(faculty))
     }
 
+    // get specific faculty
+    @GetMapping("faculty/{facultyId}")
+    fun getFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
+        return ResponseEntity.ok(facultyService.findById(facultyId.toLong()))
+    }
+
     // delete faculty
-    @DeleteMapping("/{facultyId}")
+    @DeleteMapping("faculty/{facultyId}")
     fun deleteFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
         facultyService.deleteById(facultyId.toLong())
         return ResponseEntity.ok("Faculty was deleted successfully")
     }
 
     // update faculty
-    @PatchMapping("/{facultyId}")
+    @PatchMapping("faculty/{facultyId}")
     fun updateFaculty(@PathVariable facultyId: Int, @RequestBody faculty: Faculty): ResponseEntity<*> {
         val facultyToUpdate = facultyService.findByFacultyId(facultyId.toLong())
             ?: return ResponseEntity.badRequest().body("No such faculty")

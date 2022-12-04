@@ -10,4 +10,5 @@ interface StudentService {
     fun findByName(name: String): Student?
     fun exists(id: Long): Boolean
     fun exists(name: String): Boolean
+    fun findAll(): List<Student>
 }

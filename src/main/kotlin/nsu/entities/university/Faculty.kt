@@ -12,7 +12,7 @@ class Faculty(
     @Column(name = "name")
     var name: String,
 
-    @OneToMany(mappedBy = "faculty")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "faculty")
     var specializations: MutableList<Specialization> = mutableListOf(),
 
     @Id

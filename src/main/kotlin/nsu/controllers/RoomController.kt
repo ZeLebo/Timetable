@@ -6,27 +6,26 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api/v1")
 class RoomController(
     // todo change to service with logic
     private val roomService: RoomRepository,
 ) {
-    @GetMapping
+    @GetMapping("room")
     fun getAll(): ResponseEntity<*> {
         return ResponseEntity.ok(roomService.findAll())
     }
-
-    @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): ResponseEntity<*> {
-        return ResponseEntity.ok(roomService.findById(id))
-    }
-
-    @PostMapping
+    @PostMapping("room")
     fun create(@RequestBody room: Room): ResponseEntity<*> {
         return ResponseEntity.ok(roomService.save(room))
     }
 
-    @PatchMapping("/{id}")
+    @GetMapping("room/{id}")
+    fun getById(@PathVariable id: Long): ResponseEntity<*> {
+        return ResponseEntity.ok(roomService.findById(id))
+    }
+
+    @PatchMapping("room/{id}")
     fun update(@PathVariable id: Long, @RequestBody room: Room): ResponseEntity<*> {
         val roomToUpdate = roomService.findByRoomId(id)
             ?: return ResponseEntity.badRequest().body("No such room")
@@ -35,7 +34,7 @@ class RoomController(
         return ResponseEntity.ok(roomService.save(roomToUpdate))
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("room/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<*> {
         roomService.deleteById(id)
         // check exists

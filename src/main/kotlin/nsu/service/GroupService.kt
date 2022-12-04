@@ -10,4 +10,6 @@ interface GroupService {
     fun findByNumber(number: String): Group?
     fun exists(id: Long): Boolean
     fun exists(number: String): Boolean
+
+    fun findAll(): List<Group>
 }

@@ -13,10 +13,10 @@ import javax.persistence.*
 @Table(name = "lesson")
 class Lesson(
     @Column(name = "name")
-    val name: String,
+    var name: String,
 
     @Column(name = "room_type")
-    val roomType: String,
+    var roomType: String,
 
     @Column(name = "subject_type")
     val subjectType: String,

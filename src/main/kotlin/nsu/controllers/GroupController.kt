@@ -1,35 +1,61 @@
 package nsu.controllers
 
 import nsu.entities.people.Group
-import nsu.entities.people.Student
+import nsu.repository.StudyYearRepository
 import nsu.service.impl.GroupServiceImpl
-import nsu.service.impl.StudentServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/")
 class GroupController(
+    private val studyYearService: StudyYearRepository,
     private val groupService: GroupServiceImpl,
 ) {
-
+    // get the list of all groups
     @GetMapping("group")
-    fun showGroupForm(@RequestParam id: Int): ResponseEntity<*> {
-        val group = groupService.findByID(id.toLong())
+    fun getGroups(): ResponseEntity<*> {
+        return ResponseEntity.ok(groupService.findAll())
+    }
+
+    // get specific group
+    @GetMapping("group/{groupId}")
+    fun getGroup(@PathVariable groupId: Int): ResponseEntity<*> {
+        val group = groupService.findByID(groupId.toLong())
             ?: return ResponseEntity.badRequest().body("No such group")
         return ResponseEntity.ok(group)
     }
 
-    @PostMapping("group")
-    fun addGroup(@RequestBody request: Group): ResponseEntity<*> {
+    // get the list of all groups for specific study year
+    @GetMapping("studyYear/{studyYearId}/group")
+    fun getGroupsForStudyYear(@PathVariable studyYearId: Int): ResponseEntity<*> {
+        return ResponseEntity.ok(studyYearService.findByStudyYearId(studyYearId.toLong()))
+    }
+
+    // add new group to specific study year
+    @PostMapping("studyYear/{studyYearId}/group")
+    fun addGroup(@RequestBody request: Group, @PathVariable studyYearId: Int): ResponseEntity<*> {
         return try {
+            studyYearService.findByStudyYearId(studyYearId.toLong())
+                ?: return ResponseEntity.badRequest().body("No such study year")
             val group = groupService.addGroup(request)
             ResponseEntity.ok(group)
         } catch (e: Exception) {
-            ResponseEntity.badRequest().body(e.message)
+            ResponseEntity.badRequest().body("Such group already exists")
         }
     }
 
+    //    @PostMapping("group")
+//    fun addGroup(@RequestBody request: Group): ResponseEntity<*> {
+//        return try {
+//            val group = groupService.addGroup(request)
+//            ResponseEntity.ok(group)
+//        } catch (e: Exception) {
+//            ResponseEntity.badRequest().body(e.message)
+//        }
+//    }
+//
+    // delete specific group
     @DeleteMapping("group/{id}")
     fun deleteGroup(@PathVariable id: Int): ResponseEntity<*> {
         val group = groupService.findByID(id.toLong())
@@ -37,6 +63,23 @@ class GroupController(
         groupService.delete(group.groupId)
         return if (groupService.findByID(group.groupId) == null) {
             ResponseEntity.ok("Group was deleted successfully")
+        } else {
+            ResponseEntity.badRequest().body("Something went wrong")
+        }
+    }
+
+    // update specific group
+    @PatchMapping("group/{id}")
+    fun updateGroup(@PathVariable id: Int, @RequestBody request: Group): ResponseEntity<*> {
+        val group = groupService.findByID(id.toLong())
+            ?: return ResponseEntity.badRequest().body("No such group")
+
+        group.number = request.number
+        group.students = request.students
+        groupService.updateGroup(group)
+
+        return if (groupService.findByID(group.groupId) == request) {
+            ResponseEntity.ok("Group was updated successfully")
         } else {
             ResponseEntity.badRequest().body("Something went wrong")
         }

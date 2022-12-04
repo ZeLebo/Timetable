@@ -6,10 +6,10 @@ import javax.persistence.*
 @Table(name = "teacher")
 class Teacher(
     @Column(name = "name")
-    val name: String,
+    var name: String,
 
     @OneToMany(mappedBy = "teacher")
-    val subjects: MutableList<Subject>,
+    var subjects: MutableList<Subject>,
 
     @Id
     @Column(name = "teacher_id")
