@@ -1,16 +1,15 @@
-package nsu.services.impl
+package nsu.service.impl
 
 import nsu.entities.people.Group
-import nsu.entities.people.Student
 import nsu.entities.people.Teacher
 import nsu.entities.university.*
-import java.util.Arrays
 
 // this is service for creating timetable
 /**
  *
  * */
 class TimetableMaker() {
+    /*
     private val currentUniversityPlan: UniversityPlan
     private val rooms: ArrayList<Room>
     private val teachers: ArrayList<Teacher>
@@ -73,10 +72,11 @@ class TimetableMaker() {
 
     private fun createFirstYearGroups(): java.util.ArrayList<Group> {
         val groups = ArrayList<Group>()
-        groups.add(Group("22213", 1))
-        groups.add(Group("22214", 2))
-        groups.add(Group("22215", 3))
-        groups.add(Group("22216", 4))
+        groups.add(Group(1, "22212"))
+        groups.add(Group(1, "22213"))
+        groups.add(Group(1, "22214"))
+        groups.add(Group(1, "22215"))
+        groups.add(Group(1, "22216"))
         return groups
     }
 
@@ -88,8 +88,8 @@ class TimetableMaker() {
 
     private fun createSubjects(): ArrayList<Subject> {
         val subjects: ArrayList<Subject> = ArrayList()
-        subjects.add(Subject(lessonsForImperat, "Императивное программирование"))
-        subjects.add(Subject(lessonsForMatan, "Матан"))
+//        subjects.add(Subject(lessonsForImperat, "Императивное программирование"))
+//        subjects.add(Subject(lessonsForMatan, "Матан"))
         return subjects
     }
 
@@ -156,4 +156,5 @@ class TimetableMaker() {
         }
         return studyYearByFaculty
     }
+     */
 }

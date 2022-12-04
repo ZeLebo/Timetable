@@ -1,1 +1,0 @@
-entities that are not in university plan (students, groups, teachers)
