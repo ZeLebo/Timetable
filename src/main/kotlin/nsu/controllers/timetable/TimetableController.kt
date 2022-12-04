@@ -1,4 +1,4 @@
-package nsu.controllers
+package nsu.controllers.timetable
 
 import org.springframework.web.bind.annotation.*
 
@@ -23,7 +23,6 @@ class TimetableController {
             val groupInt = group.toInt()
             "The server is working, soon at this page you will be able to see the timetable for the group $group"
         } catch (e: NumberFormatException) {
-            ErrorResponse("The group must be a number").toString()
             "The group must be a number"
         }
     }

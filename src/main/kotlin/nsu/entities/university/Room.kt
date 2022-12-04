@@ -11,13 +11,13 @@ import javax.persistence.*
 @Table
 class Room(
     @Column(name = "capacity")
-    val capacity: Int,
+    var capacity: Int,
 
     @Column(name = "room_type")
     val roomType: String,
 
     @Column(name = "number")
-    val number: String,
+    var number: String,
 
     @Id
     @Column(name = "room_id")
