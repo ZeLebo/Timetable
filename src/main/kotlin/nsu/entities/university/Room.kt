@@ -16,6 +16,9 @@ class Room(
     @Column(name = "room_type")
     val roomType: String,
 
+    @Column(name = "number")
+    val number: String,
+
     @Id
     @Column(name = "room_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,6 +9,7 @@ import nsu.entities.university.*
  *
  * */
 class TimetableMaker() {
+    /*
     private val currentUniversityPlan: UniversityPlan
     private val rooms: ArrayList<Room>
     private val teachers: ArrayList<Teacher>
@@ -155,4 +156,5 @@ class TimetableMaker() {
         }
         return studyYearByFaculty
     }
+     */
 }

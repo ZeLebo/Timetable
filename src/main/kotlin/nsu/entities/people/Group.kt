@@ -1,5 +1,6 @@
 package nsu.entities.people
 
+import nsu.entities.university.StudyYear
 import javax.persistence.*
 
 /**
@@ -16,15 +17,16 @@ class Group(
     @Column(name = "number")
     val number: String,
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//        name = "students_to_group",
-//        joinColumns = [JoinColumn(name = "student_id")],
-//        inverseJoinColumns = [JoinColumn(name = "group_id")]
-//    )
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
 //    @JoinColumn(name = "student_id")
-    var students: MutableList<Student> = mutableListOf()
+    var students: MutableList<Student> = mutableListOf(),
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+        name = "study_year_id",
+        nullable = true
+    )
+    var studyYear: StudyYear? = null,
 ) {
     constructor(number: String, students: MutableList<Student>) : this(0, number, students)
 }
