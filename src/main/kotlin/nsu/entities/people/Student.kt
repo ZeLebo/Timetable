@@ -10,7 +10,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "students")
 class Student(
-    @Column(name = "first_name")
+    @Column(name = "name")
     var name: String,
 
     @ManyToOne(fetch = FetchType.EAGER)

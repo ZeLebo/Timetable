@@ -18,7 +18,6 @@ class Group(
     val number: String,
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
-//    @JoinColumn(name = "student_id")
     var students: MutableList<Student> = mutableListOf(),
 
     @ManyToOne(fetch = FetchType.EAGER)

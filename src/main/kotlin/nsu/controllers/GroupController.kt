@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/")
 class GroupController(
-    private val studentService: StudentServiceImpl,
     private val groupService: GroupServiceImpl,
 ) {
 
@@ -27,21 +26,6 @@ class GroupController(
     fun addGroup(@RequestBody request: Group): ResponseEntity<*> {
         return try {
             val group = groupService.addGroup(request)
-            // create a group and get it id
-//            val groupId = groupService.addGroup(Group(request.number, mutableListOf())).groupId
-//            val group = groupService.addGroup(
-//                Group(
-//                    request.number,
-//                    request.students.map {
-//                        studentService.addStudent(
-//                            Student(
-//                                it.name,
-//                                it.group,
-//                            )
-//                        )
-//                    }.toMutableList()
-//                )
-//            )
             ResponseEntity.ok(group)
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
