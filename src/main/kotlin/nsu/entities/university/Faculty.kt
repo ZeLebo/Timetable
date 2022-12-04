@@ -10,10 +10,10 @@ import javax.persistence.*
 @Table(name = "faculty")
 class Faculty(
     @Column(name = "name")
-    val name: String,
+    var name: String,
 
-    @OneToMany(mappedBy = "faculty")
-    val specializations: MutableList<Specialization> = mutableListOf(),
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "faculty")
+    var specializations: MutableList<Specialization> = mutableListOf(),
 
     @Id
     @Column(name = "faculty_id")

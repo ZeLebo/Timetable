@@ -1,4 +1,4 @@
-package nsu.controllers
+package nsu.controllers.misc
 
 
 import org.springframework.http.MediaType

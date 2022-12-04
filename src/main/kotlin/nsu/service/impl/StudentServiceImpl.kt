@@ -39,4 +39,8 @@ class StudentServiceImpl(
     override fun exists(name: String): Boolean {
         return studentRepository.findByName(name) != null
     }
+
+    override fun findAll(): List<Student> {
+        return studentRepository.findAll()
+    }
 }

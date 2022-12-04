@@ -7,22 +7,37 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
-class StudentRequest(
-    val name: String,
-)
 
 @RestController
-@RequestMapping("/api/v1/group")
+@RequestMapping("/api/v1")
 class StudentController(
     private val studentService: StudentServiceImpl,
     private val groupService: GroupServiceImpl,
 ) {
-    @GetMapping("/{groupId}/student")
-    fun showStudentForm(@RequestParam id: Int, @PathVariable groupId: String): ResponseEntity<Student> {
-        return ResponseEntity.ok(studentService.findByID(id.toLong())!!)
+    class StudentRequest(
+        val name: String,
+    )
+
+    @GetMapping("student")
+    fun getAll(): ResponseEntity<*> {
+        return ResponseEntity.ok(studentService.findAll())
     }
 
-    @PostMapping("/{groupId}/student")
+    @GetMapping("/student/{studentId}")
+    fun showStudentForm(@PathVariable studentId: Int): ResponseEntity<Student> {
+        return ResponseEntity.ok(studentService.findByID(studentId.toLong())!!)
+    }
+
+    // get the list of all students for specific group
+    @GetMapping("group/{groupId}/student")
+    fun getStudentsForGroup(@PathVariable groupId: Int): ResponseEntity<*> {
+        // check if the group exists
+        val group = groupService.findByID(groupId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such group")
+        return ResponseEntity.ok(group.students)
+    }
+
+    @PostMapping("group/{groupId}/student")
     fun addStudent(@RequestBody request: StudentRequest, @PathVariable groupId: Int): ResponseEntity<*> {
         return try {
             val group = groupService.findByID(groupId.toLong())
@@ -39,21 +54,19 @@ class StudentController(
         }
     }
 
-    @DeleteMapping("/{groupId}/student")
-    fun deleteStudent(@RequestBody request: StudentRequest, @PathVariable groupId: Int): ResponseEntity<*> {
-        val student = studentService.findByName(request.name)
+    @DeleteMapping("student/{studentId}")
+    fun deleteStudent(@PathVariable studentId: Int): ResponseEntity<*> {
+        val student = studentService.findByID(studentId.toLong())
             ?: return ResponseEntity.badRequest().body("No such student")
-
         studentService.delete(student.studentId)
-
-        return if (studentService.findByID(student.studentId) == null) {
-            ResponseEntity.ok("Student was deleted successfully")
+        return if (studentService.findByID(studentId.toLong()) == null) {
+            ResponseEntity.ok("Student deleted")
         } else {
             ResponseEntity.badRequest().body("Something went wrong")
         }
     }
 
-    @PatchMapping("/{groupId}/student")
+    @PatchMapping("group/{groupId}/student")
     fun updateStudent(@RequestBody request: StudentRequest, @PathVariable groupId: Int): ResponseEntity<*> {
         val group = groupService.findByID(groupId.toLong())
             ?: return ResponseEntity.badRequest().body("No such group")

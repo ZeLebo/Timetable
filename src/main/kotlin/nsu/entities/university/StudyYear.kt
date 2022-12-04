@@ -13,7 +13,7 @@ import javax.persistence.*
 @Table(name = "study_year")
 class StudyYear(
     @Column(name = "year")
-    val year: Int,
+    var year: Int,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(

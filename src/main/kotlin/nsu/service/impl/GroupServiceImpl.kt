@@ -59,4 +59,8 @@ class GroupServiceImpl(
     override fun exists(number: String): Boolean {
         return groupRepository.existsByNumber(number)
     }
+
+    override fun findAll(): List<Group> {
+        return groupRepository.findAll()
+    }
 }
