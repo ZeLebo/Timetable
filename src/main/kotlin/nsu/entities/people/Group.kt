@@ -24,7 +24,7 @@ class Group(
 //    )
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
 //    @JoinColumn(name = "student_id")
-    val students: MutableList<Student> = mutableListOf()
+    var students: MutableList<Student> = mutableListOf()
 ) {
     constructor(number: String, students: MutableList<Student>) : this(0, number, students)
 }

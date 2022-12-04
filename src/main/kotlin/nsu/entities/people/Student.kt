@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 /**
- * @property first - name of the student
+ * @property name - name of the student
  * @property last - surname of the student
  * */
 @Entity
 @Table(name = "students")
 class Student(
     @Column(name = "first_name")
-    val first: String,
-    @Column(name = "last_name")
-    val last: String,
+    var name: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(

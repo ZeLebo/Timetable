@@ -11,7 +11,7 @@ class StudentServiceImpl(
     private val studentRepository: StudentRepository
 ):  StudentService {
     override fun addStudent(student: Student): Student {
-        if (studentRepository.existsByFirstAndLast(student.first, student.last)) {
+        if (studentRepository.findByName(student.name) != null) {
             throw RuntimeException("Student already exists")
         }
         return studentRepository.save(student)
@@ -29,15 +29,14 @@ class StudentServiceImpl(
         return studentRepository.findById(id).orElse(null)
     }
 
-    override fun findByFirstAndLast(first: String, last: String): Student? {
-        return studentRepository.findByFirstAndLast(first, last)
+    override fun findByName(name: String): Student? {
+        return studentRepository.findByName(name)
     }
-
     override fun exists(id: Long): Boolean {
         return studentRepository.existsById(id)
     }
 
-    override fun exists(first: String, last: String): Boolean {
-        return studentRepository.existsByFirstAndLast(first, last)
+    override fun exists(name: String): Boolean {
+        return studentRepository.findByName(name) != null
     }
 }

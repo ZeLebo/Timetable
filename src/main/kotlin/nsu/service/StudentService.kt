@@ -7,7 +7,7 @@ interface StudentService {
     fun updateStudent(student: Student): Student
     fun delete(id: Long)
     fun findByID(id: Long): Student?
-    fun findByFirstAndLast(first: String, last: String): Student?
+    fun findByName(name: String): Student?
     fun exists(id: Long): Boolean
-    fun exists(first: String, last: String): Boolean
+    fun exists(name: String): Boolean
 }
