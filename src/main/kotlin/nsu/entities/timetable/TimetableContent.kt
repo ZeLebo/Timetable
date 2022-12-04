@@ -15,8 +15,6 @@ import javax.persistence.*
  * @property group - group which will attend the lesson
  * @property room - room where the lesson will be
  * */
-data class TimetableContent2 (val discipline: String, val day: String, val hour: Int, val teacher: Teacher, val group: ArrayList<Group>, val room: Room)
-
 @Entity
 @Table(name = "timetable_content")
 class TimetableContent(

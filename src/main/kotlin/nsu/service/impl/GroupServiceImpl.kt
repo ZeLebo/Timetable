@@ -15,8 +15,10 @@ class GroupServiceImpl(
         if (groupRepository.existsByNumber(group.number)) {
             throw Exception("Group already exists")
         }
+
         // get the saved group from database
         val groupDb = groupRepository.save(group)
+
         // adding all the students to the group
         groupDb.students = group.students.map {
             studentService.addStudent(

@@ -6,8 +6,6 @@ import javax.persistence.*
  * @property specializations - list of specializations on this faculty.
  * @property name - faculty name
  * */
-data class Faculty2(val specializations: ArrayList<Specialization>, val name: String)
-
 @Entity
 @Table(name = "faculty")
 class Faculty(
