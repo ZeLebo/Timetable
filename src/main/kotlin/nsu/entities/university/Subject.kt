@@ -1,5 +1,6 @@
 package nsu.entities.university
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import nsu.entities.people.Teacher
 import javax.persistence.*
 
@@ -19,6 +20,7 @@ class Subject(
         name = "study_year_id",
         nullable = true
     )
+    @field: JsonIgnore
     var StudyYear: StudyYear? = null,
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,6 +28,7 @@ class Subject(
         name = "teacher_id",
         nullable = true
     )
+    @field: JsonIgnore
     var teacher: Teacher? = null,
 
     @OneToMany(mappedBy = "subject")

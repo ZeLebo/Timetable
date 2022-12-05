@@ -1,6 +1,8 @@
 package nsu.entities.university
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import nsu.entities.people.Group
+import org.hibernate.annotations.Fetch
 import javax.persistence.*
 
 /**
@@ -20,12 +22,15 @@ class StudyYear(
         name = "specialization_id",
         nullable = true
     )
+    @field: JsonIgnore
     var specialization: Specialization? = null,
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
     val groups: MutableList<Group> = mutableListOf(),
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
     val subjects: MutableList<Subject> = mutableListOf(),
 
     @Id

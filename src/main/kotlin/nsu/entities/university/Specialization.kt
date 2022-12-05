@@ -1,5 +1,6 @@
 package nsu.entities.university
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 /**
@@ -19,6 +20,7 @@ class Specialization(
         name = "faculty_id",
         nullable = true
     )
+    @field: JsonIgnore
     var faculty: Faculty? = null,
 
     @OneToMany(mappedBy = "specialization")
