@@ -1,5 +1,6 @@
 package nsu.entities.people
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import nsu.entities.university.StudyYear
 import javax.persistence.*
 
@@ -25,6 +26,7 @@ class Group(
         name = "study_year_id",
         nullable = true
     )
+    @field: JsonIgnore
     var studyYear: StudyYear? = null,
 ) {
     constructor(number: String, students: MutableList<Student>) : this(0, number, students)

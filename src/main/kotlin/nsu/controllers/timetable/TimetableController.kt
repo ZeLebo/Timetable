@@ -1,14 +1,42 @@
 package nsu.controllers.timetable
 
+import nsu.entities.people.Group
+import nsu.entities.university.Specialization
+import nsu.entities.university.StudyYear
+import nsu.repository.GroupRepository
+import nsu.repository.StudyYearRepository
+import nsu.service.impl.GroupServiceImpl
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 // here are the request mapping
 @RestController
 @RequestMapping("/api/v1/timetable")
-class TimetableController {
+class TimetableController(
+    private val studyYearRepository: StudyYearRepository,
+    private val groupService: GroupServiceImpl,
+) {
     @GetMapping("/")
-    fun test(): String {
-        return "The server is working, soon at this page you will be able to see all the buttons to pass the info"
+    fun test(): ResponseEntity<*> {
+
+        var group = groupService.findByID(1) ?: return ResponseEntity.badRequest().body("No such group")
+
+        val studyYear = StudyYear(
+            1,
+            null,
+            mutableListOf(group),
+            mutableListOf(),
+            0
+        )
+        val st = studyYearRepository.save(studyYear)
+
+        group.studyYear = st
+        groupService.updateGroup(group)
+//
+//        st.groups.add(group)
+
+//        return ResponseEntity.ok(studyYearRepository.save(st))
+        return ResponseEntity.ok(st)
     }
 
     @GetMapping("/group")
