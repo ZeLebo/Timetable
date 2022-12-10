@@ -1,15 +1,16 @@
 package nsu.service
 
-import nsu.entities.university.Lesson
+
+import nsu.entities.university.Room
 
 interface RoomService {
 
-    fun addRoom(on: Lesson): Lesson
-    fun updateLesson(lesson: Lesson): Lesson
+    fun addRoom(room: Room): Room
+    fun updateRoom(room: Room): Room
     fun delete(id: Long)
-    fun findByID(id: Long): Lesson?
-    fun findByName(name: String): Lesson?
+    fun findByID(id: Long): Room?
+    fun findByNumber(number: String): Room?
     fun exists(id: Long): Boolean
-    fun exists(name: String): Boolean
-    fun findAll(): List<Lesson>
+    fun exists(number: String): Boolean
+    fun findAll(): List<Room>
 }

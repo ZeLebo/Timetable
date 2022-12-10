@@ -1,51 +1,47 @@
 package nsu.service.impl
 
-import nsu.entities.people.Student
 import nsu.entities.university.Room
 import nsu.repository.RoomRepository
 import nsu.service.RoomService
-import nsu.service.StudentService
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
 
-/*
+
 @Service
 class RoomServiceImpl(
-    private val roomRepository: RoomRepository,
-    private val studentRepository: StudentServiceImpl,
+    private val roomRepository: RoomRepository
 ): RoomService {
-    override fun addRoom(student: Student): Student {
-        if (studentRepository.findByName(student.name) != null) {
-            throw RuntimeException("Student already exists")
+    override fun addRoom(room: Room): Room {
+        if (roomRepository.findByNumber(room.number) != null) {
+            throw RuntimeException("Room already exists")
         }
-        return studentRepository.save(student)
+        return roomRepository.save(room)
     }
 
-    override fun updateStudent(student: Student): Student {
-        return studentRepository.save(student)
+    override fun updateRoom(room: Room): Room {
+        return roomRepository.save(room)
     }
 
     override fun delete(id: Long) {
-        studentRepository.deleteById(id)
+        roomRepository.deleteById(id)
     }
 
-    override fun findByID(id: Long): Student? {
-        return studentRepository.findById(id).orElse(null)
+    override fun findByID(id: Long): Room? {
+        return roomRepository.findById(id).orElse(null)
     }
 
-    override fun findByName(name: String): Student? {
-        return studentRepository.findByName(name)
+    override fun findByNumber(number: String): Room? {
+        return roomRepository.findByNumber(number)
     }
     override fun exists(id: Long): Boolean {
-        return studentRepository.existsById(id)
+        return roomRepository.existsById(id)
     }
 
-    override fun exists(name: String): Boolean {
-        return studentRepository.findByName(name) != null
+    override fun exists(number: String): Boolean {
+        return roomRepository.findByNumber(number) != null
     }
 
-    override fun findAll(): List<Student> {
-        return studentRepository.findAll()
+    override fun findAll(): List<Room> {
+        return roomRepository.findAll()
     }
-} {
-}*/
+}
