@@ -32,7 +32,7 @@ class Subject(
     var teacher: Teacher? = null,
 
     @OneToMany(mappedBy = "subject")
-    val lessons: MutableList<Lesson> = mutableListOf(),
+    var lessons: MutableList<Lesson> = mutableListOf(),
 
     @Id
     @Column(name = "subject_id")
