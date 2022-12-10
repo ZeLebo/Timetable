@@ -10,25 +10,11 @@ import java.lang.RuntimeException
 @Service
 class TeacherServiceImpl(
     private val teacherRepository: TeacherRepository,
-    private val subjectService: SubjectServiceImpl,
 ):  TeacherService {
     override fun addTeacher(teacher: Teacher): Teacher {
         if (teacherRepository.findByName(teacher.name) != null) {
             throw RuntimeException("Teacher already exists")
         }
-
-    val teacherDb = teacherRepository.save(teacher)
-
-
-    teacherDb.subjects = teacher.subjects.map
-    {
-        subjectService.addSubject(
-            Subject(
-                it.name,
-                teacherDb
-            )
-        )
-    }.toMutableList()
 
     return teacherRepository.save(teacher)
 }
