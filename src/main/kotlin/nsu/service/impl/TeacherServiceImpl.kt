@@ -1,5 +1,6 @@
 package nsu.service.impl
 
+import nsu.entities.people.Student
 import nsu.repository.TeacherRepository
 import org.springframework.stereotype.Service
 import nsu.entities.people.Teacher
@@ -8,15 +9,29 @@ import java.lang.RuntimeException
 
 @Service
 class TeacherServiceImpl(
-    private val teacherRepository: TeacherRepository
-):  TeacherService{
+    private val teacherRepository: TeacherRepository,
+    private val subjectService: SubjectServiceImpl,
+):  TeacherService {
     override fun addTeacher(teacher: Teacher): Teacher {
         if (teacherRepository.findByName(teacher.name) != null) {
             throw RuntimeException("Teacher already exists")
         }
-        return teacherRepository.save(teacher)
-    }
 
+    val teacherDb = teacherRepository.save(teacher)
+
+
+    teacherDb.subjects = teacher.subjects.map
+    {
+        subjectService.addSubject(
+            Subject(
+                it.name,
+                teacherDb
+            )
+        )
+    }.toMutableList()
+
+    return teacherRepository.save(teacher)
+}
     override fun updateTeacher(teacher: Teacher): Teacher {
         return teacherRepository.save(teacher)
     }
@@ -45,4 +60,5 @@ class TeacherServiceImpl(
     }
 
 }
+
 
