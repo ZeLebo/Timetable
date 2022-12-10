@@ -18,6 +18,7 @@ class Lesson(
     @Column(name = "room_type")
     var roomType: String,
 
+
     @Column(name = "subject_type")
     val subjectType: String,
 
