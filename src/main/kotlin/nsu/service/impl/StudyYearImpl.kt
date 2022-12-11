@@ -10,15 +10,12 @@ import java.lang.RuntimeException
 class StudyYearImpl (
     private val studyYearRepository: StudyYearRepository
 ): StudyYearService {
-    override fun addRoom(studyYear: StudyYear): StudyYear {
-        if (studyYearRepository.findByYear(studyYear.year) != null) {
-            throw RuntimeException("Room already exists")
-        }
+    override fun addYear(studyYear: StudyYear): StudyYear {
         return studyYearRepository.save(studyYear)
     }
 
-    override fun updateRoom(room: StudyYear): StudyYear {
-        return studyYearRepository.save(room)
+    override fun updateYear(studyYear: StudyYear): StudyYear {
+        return studyYearRepository.save(studyYear)
     }
 
     override fun delete(id: Long) {

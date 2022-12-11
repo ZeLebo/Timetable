@@ -3,8 +3,8 @@ package nsu.service
 import nsu.entities.university.StudyYear
 
 interface StudyYearService {
-    fun addRoom(studyYear: StudyYear): StudyYear
-    fun updateRoom(studyYear: StudyYear): StudyYear
+    fun addYear(studyYear: StudyYear): StudyYear
+    fun updateYear(studyYear: StudyYear): StudyYear
     fun delete(id: Long)
     fun findByID(id: Long): StudyYear?
     fun findByYear(number: Int): StudyYear?
