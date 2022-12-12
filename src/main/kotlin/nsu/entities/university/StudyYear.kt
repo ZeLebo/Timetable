@@ -25,6 +25,9 @@ class StudyYear(
     @field: JsonIgnore
     var specialization: Specialization? = null,
 
+    @Column(name = "specialization_name")
+    var specializationName: String? = null,
+
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
     var groups: MutableList<Group> = mutableListOf(),

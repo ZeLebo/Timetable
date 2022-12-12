@@ -47,6 +47,10 @@ class FacultyServiceImpl(
         return facultyRepository.findByName(name)
     }
 
+    override fun findByID(id: Long): Faculty? {
+        return facultyRepository.findById(id).orElse(null)
+    }
+
     override fun exists(id: Long): Boolean {
         return facultyRepository.existsById(id)
     }

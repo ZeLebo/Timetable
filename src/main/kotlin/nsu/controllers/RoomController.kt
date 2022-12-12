@@ -1,15 +1,14 @@
 package nsu.controllers
 
 import nsu.entities.university.Room
-import nsu.repository.RoomRepository
+import nsu.service.RoomService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1")
 class RoomController(
-    // todo change to service with logic
-    private val roomService: RoomRepository,
+    private val roomService: RoomService,
 ) {
     @GetMapping("room")
     fun getAll(): ResponseEntity<*> {
@@ -17,28 +16,35 @@ class RoomController(
     }
     @PostMapping("room")
     fun create(@RequestBody room: Room): ResponseEntity<*> {
-        return ResponseEntity.ok(roomService.save(room))
+        return try {
+            ResponseEntity.ok(roomService.addRoom(room))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     @GetMapping("room/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<*> {
-        return ResponseEntity.ok(roomService.findById(id))
+        // check the existence of the room
+        val room = roomService.findByID(id)
+            ?: return ResponseEntity.badRequest().body("No such room")
+        return ResponseEntity.ok(room)
     }
 
     @PatchMapping("room/{id}")
     fun update(@PathVariable id: Long, @RequestBody room: Room): ResponseEntity<*> {
-        val roomToUpdate = roomService.findByRoomId(id)
+        val roomToUpdate = roomService.findByID(id)
             ?: return ResponseEntity.badRequest().body("No such room")
         roomToUpdate.number = room.number
         roomToUpdate.capacity = room.capacity
-        return ResponseEntity.ok(roomService.save(roomToUpdate))
+        return ResponseEntity.ok(roomService.updateRoom(roomToUpdate))
     }
 
     @DeleteMapping("room/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<*> {
-        roomService.deleteById(id)
+        roomService.delete(id)
         // check exists
-        if (roomService.existsById(id)) {
+        if (roomService.exists(id)) {
             return ResponseEntity.badRequest().body("Room was not deleted")
         }
         return ResponseEntity.ok("Room was deleted successfully")

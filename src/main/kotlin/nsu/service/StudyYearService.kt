@@ -7,8 +7,8 @@ interface StudyYearService {
     fun updateYear(studyYear: StudyYear): StudyYear
     fun delete(id: Long)
     fun findByID(id: Long): StudyYear?
-    fun findByYear(number: Int): StudyYear?
+    fun findByYearAndSpecializationName(year: Int, name: String): StudyYear?
     fun exists(id: Long): Boolean
-    fun exists(number: Int): Boolean
+    fun exists(year: Int, name: String): Boolean
     fun findAll(): List<StudyYear>
 }
