@@ -10,16 +10,17 @@ import javax.persistence.*
 @Entity
 @Table(name = "groups")
 class Group(
-    @Id
-    @Column(name = "group_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val groupId: Long = 0,
 
     @Column(name = "number")
     var number: String,
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
     var students: MutableList<Student> = mutableListOf(),
+
+    @Id
+    @Column(name = "group_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val groupId: Long = 0,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
@@ -29,5 +30,5 @@ class Group(
     @field: JsonIgnore
     var studyYear: StudyYear? = null,
 ) {
-    constructor(number: String, students: MutableList<Student>) : this(0, number, students)
+    constructor(number: String, students: MutableList<Student>) : this(number, students, 0, null)
 }

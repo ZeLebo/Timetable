@@ -1,10 +1,12 @@
 package nsu.controllers.timetable
 
 import nsu.entities.people.Group
+import nsu.entities.people.Student
 import nsu.entities.university.Specialization
 import nsu.entities.university.StudyYear
 import nsu.repository.GroupRepository
 import nsu.repository.StudyYearRepository
+import nsu.service.SpecializationService
 import nsu.service.impl.GroupServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,28 +17,45 @@ import org.springframework.web.bind.annotation.*
 class TimetableController(
     private val studyYearRepository: StudyYearRepository,
     private val groupService: GroupServiceImpl,
+    private val specializationService: SpecializationService
 ) {
-    @GetMapping("/")
+    @GetMapping("/test")
     fun test(): ResponseEntity<*> {
 
-        var group = groupService.findByID(1) ?: return ResponseEntity.badRequest().body("No such group")
+//        var group = groupService.addGroup(
+//            Group(
+//                "adddd",
+//                students = mutableListOf(Student("valera")),
+//                groupId = 2
+//            )
+//        )
+
+        val specialization = Specialization(
+            "fit",
+            studyYears = mutableListOf(
+                StudyYear(
+                    1,
+                    groups = mutableListOf(groupService.findByNumber("adddd")!!)
+                )
+            )
+        )
 
         val studyYear = StudyYear(
             1,
             null,
-            mutableListOf(group),
+            mutableListOf(groupService.findByNumber("adddd")!!),
             mutableListOf(),
             0
         )
-        val st = studyYearRepository.save(studyYear)
+//        var st = groupService.addGroup(group)
+        var sty = specializationService.updateSpecialization(specialization)
+//        sty.studyYears[0].groups[0].students[0].name = "valera"
 
-        group.studyYear = st
-        groupService.updateGroup(group)
 //
 //        st.groups.add(group)
 
 //        return ResponseEntity.ok(studyYearRepository.save(st))
-        return ResponseEntity.ok(st)
+        return ResponseEntity.ok(sty)
     }
 
     @GetMapping("/group")

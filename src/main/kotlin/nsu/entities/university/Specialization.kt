@@ -24,7 +24,7 @@ class Specialization(
     var faculty: Faculty? = null,
 
     @OneToMany(mappedBy = "specialization")
-    val studyYears: MutableList<StudyYear> = mutableListOf(),
+    var studyYears: MutableList<StudyYear> = mutableListOf(),
 
     @Id
     @Column(name = "specialization_id")
