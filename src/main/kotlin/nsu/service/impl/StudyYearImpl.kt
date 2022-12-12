@@ -1,19 +1,47 @@
 package nsu.service.impl
 
+import nsu.entities.people.Group
 import nsu.entities.university.StudyYear
+import nsu.entities.university.Subject
 import nsu.repository.StudyYearRepository
 import nsu.service.StudyYearService
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
 
 @Service
-class StudyYearImpl (
-    private val studyYearRepository: StudyYearRepository
+class StudyYearImpl(
+    private val studyYearRepository: StudyYearRepository,
+    private val subjectServiceImpl: SubjectServiceImpl,
+    private val groupServiceImpl: GroupServiceImpl
 ): StudyYearService {
     override fun addYear(studyYear: StudyYear): StudyYear {
         if (studyYearRepository.findByYear(studyYear.year) != null) {
             throw RuntimeException("Study year already exists")
         }
+
+        var studyYearDb = studyYearRepository.save(studyYear)
+
+        studyYearDb.subjects = studyYear.subjects.map {
+            subjectServiceImpl.addSubject(
+                Subject(
+                    it.name,
+                    studyYearDb
+                )
+            )
+        }.toMutableList()
+
+        studyYearDb = studyYearRepository.save(studyYear)
+
+
+        studyYearDb.groups = studyYear.groups.map {
+            groupServiceImpl.addGroup(
+                Group(
+                    it.number,
+                    it.students,
+                    )
+            )
+        }.toMutableList()
+
         return studyYearRepository.save(studyYear)
     }
 

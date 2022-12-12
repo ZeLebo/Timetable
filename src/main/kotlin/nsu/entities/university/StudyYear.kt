@@ -27,11 +27,11 @@ class StudyYear(
 
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
-    val groups: MutableList<Group> = mutableListOf(),
+    var groups: MutableList<Group> = mutableListOf(),
 
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
-    val subjects: MutableList<Subject> = mutableListOf(),
+    var subjects: MutableList<Subject> = mutableListOf(),
 
     @Id
     @Column(name = "study_year_id")

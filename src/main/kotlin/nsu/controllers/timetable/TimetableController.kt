@@ -1,6 +1,7 @@
 package nsu.controllers.timetable
 
 import nsu.entities.people.Group
+import nsu.entities.people.Student
 import nsu.entities.university.Specialization
 import nsu.entities.university.StudyYear
 import nsu.repository.GroupRepository
@@ -23,8 +24,9 @@ class TimetableController(
 
 //        var group = groupService.addGroup(
 //            Group(
-//                "test",
-//                students = mutableListOf(),
+//                "adddd",
+//                students = mutableListOf(Student("valera")),
+//                groupId = 2
 //            )
 //        )
 
@@ -33,7 +35,7 @@ class TimetableController(
             studyYears = mutableListOf(
                 StudyYear(
                     1,
-                    groups = mutableListOf(groupService.findByNumber("test")!!)
+                    groups = mutableListOf(groupService.findByNumber("adddd")!!)
                 )
             )
         )
@@ -41,18 +43,19 @@ class TimetableController(
         val studyYear = StudyYear(
             1,
             null,
-            mutableListOf(groupService.findByNumber("test")!!),
+            mutableListOf(groupService.findByNumber("adddd")!!),
             mutableListOf(),
             0
         )
-        var st = specializationService.updateSpecialization(specialization)
-
+//        var st = groupService.addGroup(group)
+        var sty = specializationService.updateSpecialization(specialization)
+//        sty.studyYears[0].groups[0].students[0].name = "valera"
 
 //
 //        st.groups.add(group)
 
 //        return ResponseEntity.ok(studyYearRepository.save(st))
-        return ResponseEntity.ok(st)
+        return ResponseEntity.ok(sty)
     }
 
     @GetMapping("/group")
