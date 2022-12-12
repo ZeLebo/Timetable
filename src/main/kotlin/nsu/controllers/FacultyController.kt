@@ -20,23 +20,34 @@ class FacultyController(
     // add faculty
     @PostMapping("faculty")
     fun addFaculty(@RequestBody faculty: Faculty): ResponseEntity<*> {
-        return ResponseEntity.ok(facultyService.addFaculty(faculty))
+        return try {
+            ResponseEntity.ok(facultyService.addFaculty(faculty))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     // get specific faculty
     @GetMapping("faculty/{facultyId}")
     fun getFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(facultyService.findByID(facultyId.toLong()))
+        // check the existence of faculty
+        val faculty = facultyService.findByID(facultyId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such faculty")
+
+        return ResponseEntity.ok(faculty)
     }
 
     // delete faculty
     @DeleteMapping("faculty/{facultyId}")
     fun deleteFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
         // check if exists
-        val faculty = facultyService.findByID(facultyId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such faculty")
+        facultyService.findByID(facultyId.toLong()) ?: return ResponseEntity.badRequest().body("No such faculty")
         facultyService.delete(facultyId.toLong())
-        return ResponseEntity.ok("Faculty was deleted successfully")
+        return if (facultyService.findByID(facultyId.toLong()) == null) {
+            ResponseEntity.ok("Faculty was deleted successfully")
+        } else {
+            ResponseEntity.badRequest().body("Something went wrong")
+        }
     }
 
     // update faculty

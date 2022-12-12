@@ -1,8 +1,6 @@
 package nsu.controllers
 
 import nsu.entities.university.StudyYear
-import nsu.repository.SpecializationRepository
-import nsu.repository.StudyYearRepository
 import nsu.service.SpecializationService
 import nsu.service.StudyYearService
 import org.springframework.http.ResponseEntity
@@ -23,7 +21,9 @@ class StudyYearController(
     // get specific study year
     @GetMapping("studyYear/{studyYearId}")
     fun getStudyYear(@PathVariable studyYearId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(studyYearService.findByID(studyYearId.toLong()))
+        val studyYear = studyYearService.findByID(studyYearId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such study year")
+        return ResponseEntity.ok(studyYear)
     }
 
     // get the list of all studyYears by specializationId
@@ -36,12 +36,14 @@ class StudyYearController(
 
     // add new study year to specific specialization
     @PostMapping("specialization/{specializationId}studyYear")
-    fun addStudyYear(@PathVariable specializationId: Int, @RequestBody studyYear: StudyYear): ResponseEntity<*> {
+    fun addStudyYear(@PathVariable specializationId: Int, @RequestBody request: StudyYear): ResponseEntity<*> {
         val specialization = specializationService.findByID(specializationId.toLong())
             ?: return ResponseEntity.badRequest().body("No such specialization")
+
+        val studyYear = studyYearService.addStudyYear(request)
         specialization.studyYears.add(studyYear)
-        specializationService.addSpecialization(specialization)
-        return ResponseEntity.ok(studyYear)
+
+        return ResponseEntity.ok(specializationService.updateSpecialization(specialization))
     }
 
     // delete specific study year for specific specialization

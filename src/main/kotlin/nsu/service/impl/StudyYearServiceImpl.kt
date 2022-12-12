@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class StudyYearServiceImpl(
     private val studyYearRepository: StudyYearRepository,
-    private val subjectServiceImpl: SubjectServiceImpl,
+    private val subjectService: SubjectServiceImpl,
     private val groupService: GroupServiceImpl
 ): StudyYearService {
     override fun addStudyYear(studyYear: StudyYear): StudyYear {
@@ -26,7 +26,7 @@ class StudyYearServiceImpl(
         var studyYearDb = studyYearRepository.save(studyYear)
 
         studyYearDb.subjects = studyYear.subjects.map {
-            subjectServiceImpl.addSubject(
+            subjectService.addSubject(
                 Subject(
                     it.name,
                     studyYearDb
@@ -67,8 +67,8 @@ class StudyYearServiceImpl(
         return studyYearRepository.existsById(id)
     }
 
-    override fun exists(year: Int, specializationName: String): Boolean {
-        return studyYearRepository.findByYearAndSpecializationName(year, specializationName) != null
+    override fun exists(year: Int, name: String): Boolean {
+        return studyYearRepository.findByYearAndSpecializationName(year, name) != null
     }
 
     override fun findAll(): List<StudyYear> {

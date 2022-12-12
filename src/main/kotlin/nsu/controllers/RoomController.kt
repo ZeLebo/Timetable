@@ -16,12 +16,19 @@ class RoomController(
     }
     @PostMapping("room")
     fun create(@RequestBody room: Room): ResponseEntity<*> {
-        return ResponseEntity.ok(roomService.addRoom(room))
+        return try {
+            ResponseEntity.ok(roomService.addRoom(room))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     @GetMapping("room/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<*> {
-        return ResponseEntity.ok(roomService.findByID(id))
+        // check the existence of the room
+        val room = roomService.findByID(id)
+            ?: return ResponseEntity.badRequest().body("No such room")
+        return ResponseEntity.ok(room)
     }
 
     @PatchMapping("room/{id}")

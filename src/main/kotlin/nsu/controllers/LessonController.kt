@@ -22,7 +22,10 @@ class LessonController(
     // get specific lesson
     @GetMapping("lesson/{lessonId}")
     fun getLesson(@PathVariable lessonId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(lessonService.findByID(lessonId.toLong()))
+        // check the existence of the lesson
+        val lesson = lessonService.findByID(lessonId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such lesson")
+        return ResponseEntity.ok(lesson)
     }
 
     // get the list of all lessons by subjectId
@@ -35,12 +38,17 @@ class LessonController(
 
     // add new lesson to specific subject
     @PostMapping("subject/{subjectId}/lesson")
-    fun addLesson(@PathVariable subjectId: Int, @RequestBody lesson: Lesson): ResponseEntity<*> {
+    fun addLesson(@PathVariable subjectId: Int, @RequestBody request: Lesson): ResponseEntity<*> {
         val subject = subjectService.findByID(subjectId.toLong())
             ?: return ResponseEntity.badRequest().body("No such subject")
+
+        // add the lesson to the database
+        val lesson = lessonService.addLesson(request)
         subject.lessons.add(lesson)
-        subjectService.addSubject(subject)
-        return ResponseEntity.ok(lesson)
+
+        subjectService.updateSubject(subject)
+
+        return ResponseEntity.ok(request)
     }
 
     // delete specific lesson

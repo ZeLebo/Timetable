@@ -21,7 +21,9 @@ class SubjectController(
     // get specific subject
     @GetMapping("subject/{subjectId}")
     fun getSubject(@PathVariable subjectId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(subjectService.findByID(subjectId.toLong()))
+        val subject = subjectService.findByID(subjectId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such subject")
+        return ResponseEntity.ok(subject)
     }
 
     // get the list of all subjects by studyYearId
