@@ -14,9 +14,14 @@ class StudyYearServiceImpl(
     private val groupService: GroupServiceImpl
 ): StudyYearService {
     override fun addStudyYear(studyYear: StudyYear): StudyYear {
-//        if (studyYearRepository.findByYear(studyYear.year) != null) {
-//            throw RuntimeException("Study year already exists")
-//        }
+        // check if exists
+        if (studyYear.specializationName?.let {
+                studyYearRepository.findByYearAndSpecializationName(studyYear.year,
+                    "No specialization"
+                )
+            } != null) {
+            throw RuntimeException("Study year already exist")
+        }
 
         var studyYearDb = studyYearRepository.save(studyYear)
 
@@ -55,15 +60,15 @@ class StudyYearServiceImpl(
         return studyYearRepository.findById(id).orElse(null)
     }
 
-    override fun findByYear(number: Int): StudyYear? {
-        return studyYearRepository.findByYear(number)
+    override fun findByYearAndSpecializationName(year: Int, name: String): StudyYear? {
+        return studyYearRepository.findByYearAndSpecializationName(year, name)
     }
     override fun exists(id: Long): Boolean {
         return studyYearRepository.existsById(id)
     }
 
-    override fun exists(number: Int): Boolean {
-        return studyYearRepository.findByYear(number) != null
+    override fun exists(year: Int, specializationName: String): Boolean {
+        return studyYearRepository.findByYearAndSpecializationName(year, specializationName) != null
     }
 
     override fun findAll(): List<StudyYear> {

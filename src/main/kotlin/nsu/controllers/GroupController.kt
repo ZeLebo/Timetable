@@ -1,7 +1,7 @@
 package nsu.controllers
 
 import nsu.entities.people.Group
-import nsu.repository.StudyYearRepository
+import nsu.service.StudyYearService
 import nsu.service.impl.GroupServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/")
 class GroupController(
-    private val studyYearService: StudyYearRepository,
+    private val studyYearService: StudyYearService,
     private val groupService: GroupServiceImpl,
 ) {
     // get the list of all groups
@@ -29,14 +29,14 @@ class GroupController(
     // get the list of all groups for specific study year
     @GetMapping("studyYear/{studyYearId}/group")
     fun getGroupsForStudyYear(@PathVariable studyYearId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(studyYearService.findByStudyYearId(studyYearId.toLong()))
+        return ResponseEntity.ok(studyYearService.findByID(studyYearId.toLong()))
     }
 
     // add new group to specific study year
     @PostMapping("studyYear/{studyYearId}/group")
     fun addGroup(@RequestBody request: Group, @PathVariable studyYearId: Int): ResponseEntity<*> {
         return try {
-            studyYearService.findByStudyYearId(studyYearId.toLong())
+            studyYearService.findByID(studyYearId.toLong())
                 ?: return ResponseEntity.badRequest().body("No such study year")
             val group = groupService.addGroup(request)
             ResponseEntity.ok(group)

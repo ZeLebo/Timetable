@@ -2,13 +2,14 @@ package nsu.controllers
 
 import nsu.entities.university.Faculty
 import nsu.repository.FacultyRepository
+import nsu.service.FacultyService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1")
 class FacultyController(
-    private val facultyService: FacultyRepository,
+    private val facultyService: FacultyService,
 ) {
     //get the list of all faculties
     @GetMapping("faculty")
@@ -19,31 +20,34 @@ class FacultyController(
     // add faculty
     @PostMapping("faculty")
     fun addFaculty(@RequestBody faculty: Faculty): ResponseEntity<*> {
-        return ResponseEntity.ok(facultyService.save(faculty))
+        return ResponseEntity.ok(facultyService.addFaculty(faculty))
     }
 
     // get specific faculty
     @GetMapping("faculty/{facultyId}")
     fun getFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        return ResponseEntity.ok(facultyService.findById(facultyId.toLong()))
+        return ResponseEntity.ok(facultyService.findByID(facultyId.toLong()))
     }
 
     // delete faculty
     @DeleteMapping("faculty/{facultyId}")
     fun deleteFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        facultyService.deleteById(facultyId.toLong())
+        // check if exists
+        val faculty = facultyService.findByID(facultyId.toLong())
+            ?: return ResponseEntity.badRequest().body("No such faculty")
+        facultyService.delete(facultyId.toLong())
         return ResponseEntity.ok("Faculty was deleted successfully")
     }
 
     // update faculty
     @PatchMapping("faculty/{facultyId}")
     fun updateFaculty(@PathVariable facultyId: Int, @RequestBody faculty: Faculty): ResponseEntity<*> {
-        val facultyToUpdate = facultyService.findByFacultyId(facultyId.toLong())
+        val facultyToUpdate = facultyService.findByID(facultyId.toLong())
             ?: return ResponseEntity.badRequest().body("No such faculty")
         facultyToUpdate.name = faculty.name
         if (faculty.specializations.isNotEmpty()) {
             facultyToUpdate.specializations = faculty.specializations
         }
-        return ResponseEntity.ok(facultyService.save(facultyToUpdate))
+        return ResponseEntity.ok(facultyService.updateFaculty(facultyToUpdate))
     }
 }

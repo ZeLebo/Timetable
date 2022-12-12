@@ -22,7 +22,9 @@ class SpecializationServiceImpl(
             studyYearService.addStudyYear(
                 StudyYear(
                     it.year,
-                    specializationDb
+                    specializationDb,
+                    // need to specify the study year somehow
+                    specializationDb.name,
                 )
             )
         }.toMutableList()
