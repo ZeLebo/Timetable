@@ -23,7 +23,7 @@ class Specialization(
     @field: JsonIgnore
     var faculty: Faculty? = null,
 
-    @OneToMany(mappedBy = "specialization")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "specialization")
     var studyYears: MutableList<StudyYear> = mutableListOf(),
 
     @Id
