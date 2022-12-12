@@ -36,12 +36,14 @@ class GroupController(
     @PostMapping("studyYear/{studyYearId}/group")
     fun addGroup(@RequestBody request: Group, @PathVariable studyYearId: Int): ResponseEntity<*> {
         return try {
-            studyYearService.findByID(studyYearId.toLong())
+            val st = studyYearService.findByID(studyYearId.toLong())
                 ?: return ResponseEntity.badRequest().body("No such study year")
             val group = groupService.addGroup(request)
-            ResponseEntity.ok(group)
+
+            st.groups.add(group)
+            ResponseEntity.ok(studyYearService.updateYear(st))
         } catch (e: Exception) {
-            ResponseEntity.badRequest().body("Such group already exists")
+            ResponseEntity.badRequest().body(e.message)
         }
     }
 

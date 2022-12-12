@@ -39,9 +39,10 @@ class SubjectController(
     fun addSubject(@PathVariable studyYearId: Int, @RequestBody subject: Subject): ResponseEntity<*> {
         val studyYear = studyYearService.findByID(studyYearId.toLong())
             ?: return ResponseEntity.badRequest().body("No such study year")
-        studyYear.subjects.add(subject)
-        studyYearService.addStudyYear(studyYear)
-        return ResponseEntity.ok(subject)
+        val newSubject = subjectService.addSubject(subject)
+        studyYear.subjects.add(newSubject)
+        val response = studyYearService.updateYear(studyYear)
+        return ResponseEntity.ok(response)
     }
 
     // delete specific subject for specific study year
