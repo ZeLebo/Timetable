@@ -17,11 +17,6 @@ class Group(
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "group")
     var students: MutableList<Student> = mutableListOf(),
 
-    @Id
-    @Column(name = "group_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val groupId: Long = 0,
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "study_year_id",
@@ -29,6 +24,9 @@ class Group(
     )
     @field: JsonIgnore
     var studyYear: StudyYear? = null,
-) {
-    constructor(number: String, students: MutableList<Student>) : this(number, students, 0, null)
-}
+
+    @Id
+    @Column(name = "group_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val groupId: Long = 0,
+)

@@ -1,12 +1,12 @@
 package nsu.controllers.timetable
 
 import nsu.entities.people.Group
-import nsu.entities.people.Student
+import nsu.entities.university.Faculty
 import nsu.entities.university.Specialization
 import nsu.entities.university.StudyYear
-import nsu.repository.GroupRepository
-import nsu.repository.StudyYearRepository
+import nsu.service.FacultyService
 import nsu.service.SpecializationService
+import nsu.service.StudyYearService
 import nsu.service.impl.GroupServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,47 +15,32 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/timetable")
 class TimetableController(
-    private val studyYearRepository: StudyYearRepository,
+    private val studyYearService: StudyYearService,
     private val groupService: GroupServiceImpl,
-    private val specializationService: SpecializationService
+    private val specializationService: SpecializationService,
+    private val facultyService: FacultyService,
 ) {
     @GetMapping("/test")
     fun test(): ResponseEntity<*> {
-
-//        var group = groupService.addGroup(
-//            Group(
-//                "adddd",
-//                students = mutableListOf(Student("valera")),
-//                groupId = 2
-//            )
-//        )
-
-        val specialization = Specialization(
-            "fit",
-            studyYears = mutableListOf(
-                StudyYear(
-                    1,
-                    groups = mutableListOf(groupService.findByNumber("adddd")!!)
-                )
+        val faculty = Faculty(
+            "Факультет информационных технологий 5",
+            mutableListOf(
+                Specialization(
+                    "Информационные системы и технологии 5",
+                    null,
+                    mutableListOf(
+                        StudyYear(
+                            2,
+                            ),
+                        StudyYear(
+                            3,
+                        ),
+                    ),
+                ),
             )
         )
 
-        val studyYear = StudyYear(
-            1,
-            null,
-            mutableListOf(groupService.findByNumber("adddd")!!),
-            mutableListOf(),
-            0
-        )
-//        var st = groupService.addGroup(group)
-        var sty = specializationService.updateSpecialization(specialization)
-//        sty.studyYears[0].groups[0].students[0].name = "valera"
-
-//
-//        st.groups.add(group)
-
-//        return ResponseEntity.ok(studyYearRepository.save(st))
-        return ResponseEntity.ok(sty)
+        return ResponseEntity.ok(facultyService.addFaculty(faculty))
     }
 
     @GetMapping("/group")

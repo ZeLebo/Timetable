@@ -1,7 +1,5 @@
 package nsu.service.impl
 
-import nsu.entities.university.Faculty
-import nsu.entities.university.Lesson
 import nsu.entities.university.Specialization
 import nsu.entities.university.StudyYear
 import nsu.repository.SpecializationRepository
@@ -9,9 +7,9 @@ import nsu.service.SpecializationService
 import org.springframework.stereotype.Service
 
 @Service
-class SpecializationImpl(
+class SpecializationServiceImpl(
     private val specializationRepository: SpecializationRepository,
-    private val studyYearImpl: StudyYearImpl
+    private val studyYearService: StudyYearServiceImpl
 ): SpecializationService {
     override fun addSpecialization(specialization: Specialization): Specialization {
         if (specializationRepository.findByName(specialization.name) != null) {
@@ -21,7 +19,7 @@ class SpecializationImpl(
         val specializationDb = specializationRepository.save(specialization)
 
         specializationDb.studyYears = specialization.studyYears.map {
-            studyYearImpl.addYear(
+            studyYearService.addStudyYear(
                 StudyYear(
                     it.year,
                     specializationDb

@@ -3,7 +3,7 @@ package nsu.service
 import nsu.entities.university.StudyYear
 
 interface StudyYearService {
-    fun addYear(studyYear: StudyYear): StudyYear
+    fun addStudyYear(studyYear: StudyYear): StudyYear
     fun updateYear(studyYear: StudyYear): StudyYear
     fun delete(id: Long)
     fun findByID(id: Long): StudyYear?
