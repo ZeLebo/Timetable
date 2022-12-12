@@ -11,6 +11,9 @@ class StudyYearImpl (
     private val studyYearRepository: StudyYearRepository
 ): StudyYearService {
     override fun addYear(studyYear: StudyYear): StudyYear {
+        if (studyYearRepository.findByYear(studyYear.year) != null) {
+            throw RuntimeException("Study year already exists")
+        }
         return studyYearRepository.save(studyYear)
     }
 

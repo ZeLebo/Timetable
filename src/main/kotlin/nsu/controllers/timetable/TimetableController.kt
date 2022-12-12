@@ -5,6 +5,7 @@ import nsu.entities.university.Specialization
 import nsu.entities.university.StudyYear
 import nsu.repository.GroupRepository
 import nsu.repository.StudyYearRepository
+import nsu.service.SpecializationService
 import nsu.service.impl.GroupServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,23 +16,38 @@ import org.springframework.web.bind.annotation.*
 class TimetableController(
     private val studyYearRepository: StudyYearRepository,
     private val groupService: GroupServiceImpl,
+    private val specializationService: SpecializationService
 ) {
-    @GetMapping("/")
+    @GetMapping("/test")
     fun test(): ResponseEntity<*> {
 
-        var group = groupService.findByID(1) ?: return ResponseEntity.badRequest().body("No such group")
+//        var group = groupService.addGroup(
+//            Group(
+//                "test",
+//                students = mutableListOf(),
+//            )
+//        )
+
+        val specialization = Specialization(
+            "fit",
+            studyYears = mutableListOf(
+                StudyYear(
+                    1,
+                    groups = mutableListOf(groupService.findByNumber("test")!!)
+                )
+            )
+        )
 
         val studyYear = StudyYear(
             1,
             null,
-            mutableListOf(group),
+            mutableListOf(groupService.findByNumber("test")!!),
             mutableListOf(),
             0
         )
-        val st = studyYearRepository.save(studyYear)
+        var st = specializationService.updateSpecialization(specialization)
 
-        group.studyYear = st
-        groupService.updateGroup(group)
+
 //
 //        st.groups.add(group)
 

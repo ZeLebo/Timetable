@@ -1,19 +1,33 @@
 package nsu.service.impl
 
+import nsu.entities.university.Faculty
+import nsu.entities.university.Lesson
 import nsu.entities.university.Specialization
+import nsu.entities.university.StudyYear
 import nsu.repository.SpecializationRepository
 import nsu.service.SpecializationService
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
-class SpecializationImpl (
-    private val specializationRepository: SpecializationRepository
+class SpecializationImpl(
+    private val specializationRepository: SpecializationRepository,
+    private val studyYearImpl: StudyYearImpl
 ): SpecializationService {
     override fun addSpecialization(specialization: Specialization): Specialization {
         if (specializationRepository.findByName(specialization.name) != null) {
-            throw RuntimeException("Specialization already exists")
+            throw Exception("Specialization already exists")
         }
+
+        val specializationDb = specializationRepository.save(specialization)
+
+        specializationDb.studyYears = specialization.studyYears.map {
+            studyYearImpl.addYear(
+                StudyYear(
+                    it.year,
+                    specializationDb
+                )
+            )
+        }.toMutableList()
         return specializationRepository.save(specialization)
     }
 
