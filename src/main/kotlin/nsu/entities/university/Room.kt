@@ -14,7 +14,7 @@ class Room(
     var capacity: Int,
 
     @Column(name = "room_type")
-    val roomType: String,
+    var roomType: String,
 
     @Column(name = "number")
     var number: String,

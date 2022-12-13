@@ -1,9 +1,6 @@
 package nsu.controllers
 
 import nsu.entities.people.Teacher
-import nsu.repository.SubjectRepository
-import nsu.repository.TeacherRepository
-import nsu.service.SubjectService
 import nsu.service.TeacherService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1")
 class TeacherController(
     private val teacherService: TeacherService,
-    private val subjectService: SubjectService,
 ) {
     // get the list of all teachers
     @GetMapping("teacher")
@@ -38,29 +34,22 @@ class TeacherController(
     // because the subject is already in the database, we just need to add it to the teacher
     @PostMapping("teacher/{teacherId}/subject/{subjectId}")
     fun addSubjectToTeacher(@PathVariable teacherId: Int, @PathVariable subjectId: Int): ResponseEntity<*> {
-        val teacher = teacherService.findByID(teacherId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such teacher")
-        // maybe this logic will be changed, but for now we can add only one subject to teacher
-        val subject = subjectService.findByID(subjectId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such subject")
-        teacher.subjects.add(subject)
-        teacherService.updateTeacher(teacher)
-        return ResponseEntity.ok(subject)
+        return try {
+            ResponseEntity.ok(teacherService.addSubject(teacherId.toLong(), subjectId.toLong()))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     // delete subject from teacher
     // need only to delete the subject from the teacher, not from database itself
     @DeleteMapping("teacher/{teacherId}/subject/{subjectId}")
-    fun deleteSubjectFromTeacher(@PathVariable teacherId: Int, @PathVariable subjectId: Int): ResponseEntity<*> {
-        val teacher = teacherService.findByID(teacherId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such teacher")
-
-        val subject = subjectService.findByID(subjectId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such subject")
-
-        teacher.subjects.remove(subject)
-        teacherService.updateTeacher(teacher)
-        return ResponseEntity.ok(subject)
+    fun removeSubjectFromTeacher(@PathVariable teacherId: Int, @PathVariable subjectId: Int): ResponseEntity<*> {
+        return try {
+            ResponseEntity.ok(teacherService.removeSubjectFromTeacher(teacherId.toLong(), subjectId.toLong()))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     // add teacher
@@ -77,27 +66,21 @@ class TeacherController(
     // delete teacher
     @DeleteMapping("teacher/{teacherId}")
     fun deleteTeacher(@PathVariable teacherId: Int): ResponseEntity<*> {
-        val teacher = teacherService.findByID(teacherId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such teacher")
-
-        teacherService.delete(teacherId.toLong())
-
-        return if (teacherService.findByID(teacherId.toLong()) == null) {
-            ResponseEntity.ok(teacher)
-        } else {
-            ResponseEntity.badRequest().body("Something went wrong")
+        return try {
+            teacherService.delete(teacherId.toLong())
+            ResponseEntity.ok("Teacher was deleted successfully")
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
         }
     }
 
     // update teacher
     @PatchMapping("teacher/{teacherId}")
     fun updateTeacher(@PathVariable teacherId: Int, @RequestBody teacher: Teacher): ResponseEntity<*> {
-        val teacherToUpdate = teacherService.findByID(teacherId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such teacher")
-
-        teacherToUpdate.name = teacher.name
-        teacherToUpdate.subjects = teacher.subjects
-
-        return ResponseEntity.ok(teacherService.updateTeacher(teacherToUpdate))
+        return try {
+            ResponseEntity.ok(teacherService.updateTeacher(teacherId.toLong(), teacher))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 }

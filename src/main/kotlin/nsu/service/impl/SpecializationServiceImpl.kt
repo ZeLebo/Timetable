@@ -35,6 +35,40 @@ class SpecializationServiceImpl(
         return specializationRepository.save(specialization)
     }
 
+    override fun updateSpecialization(specializationId: Long, specialization: Specialization): Specialization {
+        val specializationDb = specializationRepository.findById(specializationId).orElse(null)
+            ?: throw Exception("Specialization not found")
+        specializationDb.name = specialization.name
+        specializationDb.studyYears.map {
+            it.specializationName = specialization.name
+            studyYearService.updateYear(it)
+        }
+
+        specializationDb.faculty = specialization.faculty
+        return updateSpecialization(specializationDb)
+    }
+
+    override fun addStudyYearToSpecialization(specializationId: Long, studyYear: StudyYear): Specialization {
+        val specializationDb = specializationRepository.findById(specializationId).orElse(null)
+            ?: throw Exception("Specialization not found")
+
+        studyYear.specialization = specializationDb
+        studyYear.specializationName = specializationDb.name
+        val studyYearDb = studyYearService.addStudyYear(studyYear)
+        specializationDb.studyYears.add(studyYearDb)
+        return updateSpecialization(specializationDb)
+    }
+
+    override fun removeStudyYearFromSpecialization(specializationId: Long, studyYearId: Long): Specialization {
+        val specializationDb = specializationRepository.findById(specializationId).orElse(null)
+            ?: throw Exception("Specialization not found")
+        val studyYearDB = studyYearService.findByID(studyYearId)
+            ?: throw Exception("Study year not found")
+
+        specializationDb.studyYears.remove(studyYearDB)
+        return updateSpecialization(specializationDb)
+    }
+
     override fun delete(id: Long) {
         specializationRepository.deleteById(id)
     }

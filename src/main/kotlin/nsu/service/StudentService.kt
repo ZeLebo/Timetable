@@ -11,4 +11,5 @@ interface StudentService {
     fun exists(id: Long): Boolean
     fun exists(name: String): Boolean
     fun findAll(): List<Student>
+    fun updateStudent(id: Long, student: Student): Student
 }

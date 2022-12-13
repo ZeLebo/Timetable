@@ -21,8 +21,22 @@ class LessonServiceImpl(
         return lessonRepository.save(lesson)
     }
 
+    override fun updateLesson(id: Long, lesson: Lesson): Lesson {
+        val lessonDb = this.findByID(id)
+            ?: throw RuntimeException("Lesson not found")
+        lessonDb.name = lesson.name
+        lessonDb.roomType = lesson.roomType
+        return this.updateLesson(lessonDb)
+    }
+
     override fun delete(id: Long) {
+        // check if lesson exists
+        lessonRepository.findById(id).orElse(null) ?: throw RuntimeException("Lesson not found")
         lessonRepository.deleteById(id)
+
+        if (lessonRepository.findById(id).orElse(null) != null) {
+            throw RuntimeException("Lesson not deleted")
+        }
     }
 
     override fun findByID(id: Long): Lesson? {

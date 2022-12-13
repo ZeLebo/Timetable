@@ -13,4 +13,5 @@ interface RoomService {
     fun exists(id: Long): Boolean
     fun exists(number: String): Boolean
     fun findAll(): List<Room>
+    fun updateRoom(id: Long, room: Room): Room
 }

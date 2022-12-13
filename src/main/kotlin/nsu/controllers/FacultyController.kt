@@ -1,6 +1,7 @@
 package nsu.controllers
 
 import nsu.entities.university.Faculty
+import nsu.entities.university.Specialization
 import nsu.service.FacultyService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -29,35 +30,53 @@ class FacultyController(
     // get specific faculty
     @GetMapping("faculty/{facultyId}")
     fun getFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        // check the existence of faculty
-        val faculty = facultyService.findByID(facultyId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such faculty")
-
-        return ResponseEntity.ok(faculty)
+        return try {
+            ResponseEntity.ok(facultyService.findByID(facultyId.toLong()))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     // delete faculty
     @DeleteMapping("faculty/{facultyId}")
     fun deleteFaculty(@PathVariable facultyId: Int): ResponseEntity<*> {
-        // check if exists
-        facultyService.findByID(facultyId.toLong()) ?: return ResponseEntity.badRequest().body("No such faculty")
-        facultyService.delete(facultyId.toLong())
-        return if (facultyService.findByID(facultyId.toLong()) == null) {
+        return try {
+            facultyService.delete(facultyId.toLong())
             ResponseEntity.ok("Faculty was deleted successfully")
-        } else {
-            ResponseEntity.badRequest().body("Something went wrong")
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
         }
     }
 
     // update faculty
     @PatchMapping("faculty/{facultyId}")
     fun updateFaculty(@PathVariable facultyId: Int, @RequestBody faculty: Faculty): ResponseEntity<*> {
-        val facultyToUpdate = facultyService.findByID(facultyId.toLong())
-            ?: return ResponseEntity.badRequest().body("No such faculty")
-        facultyToUpdate.name = faculty.name
-        if (faculty.specializations.isNotEmpty()) {
-            facultyToUpdate.specializations = faculty.specializations
+        return try {
+            ResponseEntity.ok(facultyService.updateFaculty(facultyId, faculty))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
         }
-        return ResponseEntity.ok(facultyService.updateFaculty(facultyToUpdate))
+    }
+
+    // add new specialization to specific faculty
+    @PostMapping("faculty/{facultyId}/specialization")
+    fun addSpecialization(@PathVariable facultyId: Int, @RequestBody specialization: Specialization): ResponseEntity<*> {
+        return try {
+            ResponseEntity.ok(facultyService.addSpecialization(facultyId.toLong(), specialization))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
+    }
+
+    // get the list of all specializations for specific faculty
+    @GetMapping("faculty/{facultyId}/specialization")
+    fun getSpecializations(@PathVariable facultyId: Int): ResponseEntity<*> {
+        return try {
+            val faculty = facultyService.findByID(facultyId.toLong())
+                ?: return ResponseEntity.badRequest().body("Faculty with id $facultyId not found")
+            ResponseEntity.ok(faculty.specializations)
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 }
