@@ -37,6 +37,23 @@ class SubjectServiceImpl(
         return subjectRepository.save(subject)
     }
 
+    override fun updateSubject(subjectId: Long, subject: Subject): Subject {
+        val subjectDb = this.findByID(subjectId)
+            ?: throw RuntimeException("Subject not found")
+        subjectDb.name = subject.name
+        subjectDb.lessons = subject.lessons
+        return this.updateSubject(subjectDb)
+    }
+
+    override fun addLesson(subjectId: Long, lesson: Lesson): Lesson {
+        val subjectDb = this.findByID(subjectId)
+            ?: throw RuntimeException("Subject not found")
+        val lessonDb = lessonService.addLesson(lesson)
+        subjectDb.lessons.add(lessonDb)
+        this.updateSubject(subjectDb)
+        return lessonDb
+    }
+
     override fun delete(id: Long) {
         // delete all the students in the group
         subjectRepository.findById(id).orElse(null)?.lessons?.forEach {
@@ -46,7 +63,7 @@ class SubjectServiceImpl(
     }
 
     override fun findByID(id: Long): Subject? {
-        return subjectRepository.findById(id).orElse(null)
+        return subjectRepository.findBySubjectId(id) ?: throw RuntimeException("Subject not found")
     }
 
     override fun findByName(name: String): Subject? {

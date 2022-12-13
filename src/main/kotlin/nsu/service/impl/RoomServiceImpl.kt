@@ -22,8 +22,23 @@ class RoomServiceImpl(
         return roomRepository.save(room)
     }
 
+    override fun updateRoom(id: Long, room: Room): Room {
+        val roomDb = this.findByID(id)
+            ?: throw RuntimeException("Room not found")
+        roomDb.number = room.number
+        roomDb.capacity = room.capacity
+        roomDb.roomType = room.roomType
+        return this.updateRoom(roomDb)
+    }
+
     override fun delete(id: Long) {
+        // check if room exists
+        this.findByID(id) ?: throw RuntimeException("Room not found")
         roomRepository.deleteById(id)
+
+        if (this.findByID(id) != null) {
+            throw RuntimeException("Room not deleted")
+        }
     }
 
     override fun findByID(id: Long): Room? {

@@ -6,6 +6,7 @@ import nsu.entities.university.Subject
 import nsu.repository.StudyYearRepository
 import nsu.service.StudyYearService
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class StudyYearServiceImpl(
@@ -52,8 +53,48 @@ class StudyYearServiceImpl(
         return studyYearRepository.save(studyYear)
     }
 
+    override fun updateYear(studyYearId: Long, studyYear: StudyYear): StudyYear {
+        val studyYearDb = this.findByID(studyYearId)
+            ?: throw RuntimeException("Study year not found")
+        studyYearDb.year = studyYear.year
+        studyYearDb.specializationName = studyYear.specializationName
+        return updateYear(studyYearDb)
+    }
+
+
+    @Transactional
     override fun delete(id: Long) {
+        val studyYear = this.findByID(id) ?: throw RuntimeException("Study year not found")
         studyYearRepository.deleteById(id)
+
+        studyYear.groups.forEach {
+            groupService.delete(it.groupId)
+        }
+
+        studyYear.subjects.forEach {
+            subjectService.delete(it.subjectId)
+        }
+
+        if (this.findByID(id) != null) {
+            throw RuntimeException("Study year not deleted")
+        }
+    }
+
+    override fun addGroup(studyYearId: Long, group: Group): StudyYear {
+        val studyYear = this.findByID(studyYearId)
+            ?: throw RuntimeException("Study year not found")
+        val gr = groupService.addGroup(group)
+        studyYear.groups.add(gr)
+        return this.updateYear(studyYear)
+    }
+
+    override fun addSubject(studyYearId: Long, subject: Subject): StudyYear {
+        val studyYear = this.findByID(studyYearId)
+            ?: throw RuntimeException("No study year found")
+
+        val sub = subjectService.addSubject(subject)
+        studyYear.subjects.add(sub)
+        return this.updateYear(studyYear)
     }
 
     override fun findByID(id: Long): StudyYear? {

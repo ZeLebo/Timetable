@@ -13,7 +13,7 @@ import javax.persistence.*
 @Table(name = "subject")
 class Subject(
     @Column(name = "name")
-    val name: String,
+    var name: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(

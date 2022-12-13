@@ -33,20 +33,20 @@ class RoomController(
 
     @PatchMapping("room/{id}")
     fun update(@PathVariable id: Long, @RequestBody room: Room): ResponseEntity<*> {
-        val roomToUpdate = roomService.findByID(id)
-            ?: return ResponseEntity.badRequest().body("No such room")
-        roomToUpdate.number = room.number
-        roomToUpdate.capacity = room.capacity
-        return ResponseEntity.ok(roomService.updateRoom(roomToUpdate))
+        return try {
+            ResponseEntity.ok(roomService.updateRoom(id, room))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     @DeleteMapping("room/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<*> {
-        roomService.delete(id)
-        // check exists
-        if (roomService.exists(id)) {
-            return ResponseEntity.badRequest().body("Room was not deleted")
+        return try {
+            roomService.delete(id)
+            ResponseEntity.ok("Room deleted")
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
         }
-        return ResponseEntity.ok("Room was deleted successfully")
     }
 }

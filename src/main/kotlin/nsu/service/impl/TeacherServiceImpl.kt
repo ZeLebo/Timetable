@@ -36,8 +36,41 @@ class TeacherServiceImpl(
         return teacherRepository.save(teacher)
     }
 
+    override fun updateTeacher(teacherId: Long, teacher: Teacher): Teacher {
+        val teacherDb = this.findByID(teacherId)
+            ?: throw RuntimeException("Teacher not found")
+        teacherDb.name = teacher.name
+        teacherDb.subjects = teacher.subjects
+        return this.updateTeacher(teacherDb)
+    }
+
     override fun delete(id: Long) {
+        this.findByID(id) ?: throw RuntimeException("Teacher not found")
         teacherRepository.deleteById(id)
+
+        if (this.exists(id)) {
+            throw RuntimeException("Teacher not deleted")
+        }
+    }
+
+    override fun addSubject(teacherId: Long, subjectId: Long): Teacher {
+        val teacherDb = this.findByID(teacherId)
+            ?: throw RuntimeException("Teacher not found")
+        val subjectDb = subjectService.findByID(subjectId)
+            ?: throw RuntimeException("Subject not found")
+
+        teacherDb.subjects.add(subjectDb)
+        return this.updateTeacher(teacherDb)
+    }
+
+    override fun removeSubjectFromTeacher(teacherId: Long, subjectId: Long): Teacher {
+        val teacherDb = this.findByID(teacherId)
+            ?: throw RuntimeException("Teacher not found")
+        val subjectDb = subjectService.findByID(subjectId)
+            ?: throw RuntimeException("Subject not found")
+
+        teacherDb.subjects.remove(subjectDb)
+        return this.updateTeacher(teacherDb)
     }
 
     override fun findByID(id: Long): Teacher? {

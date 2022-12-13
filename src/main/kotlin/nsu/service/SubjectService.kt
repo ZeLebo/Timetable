@@ -1,5 +1,6 @@
 package nsu.service
 
+import nsu.entities.university.Lesson
 import nsu.entities.university.Subject
 
 interface SubjectService {
@@ -11,4 +12,6 @@ interface SubjectService {
     fun exists(id: Long): Boolean
 
     fun findAll(): List<Subject>
+    fun updateSubject(subjectId: Long, subject: Subject): Subject
+    fun addLesson(subjectId: Long, lesson: Lesson): Lesson
 }

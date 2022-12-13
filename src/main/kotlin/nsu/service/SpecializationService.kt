@@ -1,6 +1,7 @@
 package nsu.service
 
 import nsu.entities.university.Specialization
+import nsu.entities.university.StudyYear
 
 interface SpecializationService {
 
@@ -12,4 +13,7 @@ interface SpecializationService {
     fun exists(id: Long): Boolean
     fun exists(name: String): Boolean
     fun findAll(): List<Specialization>
+    fun updateSpecialization(specializationId: Long, specialization: Specialization): Specialization
+    fun addStudyYearToSpecialization(specializationId: Long, studyYear: StudyYear): Specialization
+    fun removeStudyYearFromSpecialization(specializationId: Long, studyYearId: Long): Specialization
 }

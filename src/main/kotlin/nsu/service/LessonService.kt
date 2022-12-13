@@ -13,4 +13,5 @@ interface LessonService {
         fun exists(name: String): Boolean
         fun findAll(): List<Lesson>
 
+    fun updateLesson(id: Long, lesson: Lesson): Lesson
 }

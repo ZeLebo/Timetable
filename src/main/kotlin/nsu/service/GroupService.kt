@@ -1,6 +1,7 @@
 package nsu.service
 
 import nsu.entities.people.Group
+import nsu.entities.people.Student
 
 interface GroupService {
     fun addGroup(group: Group): Group
@@ -12,4 +13,6 @@ interface GroupService {
     fun exists(number: String): Boolean
 
     fun findAll(): List<Group>
+    fun addStudent(groupId: Long, student: Student): Group
+    fun updateGroup(groupId: Long, group: Group): Group
 }
