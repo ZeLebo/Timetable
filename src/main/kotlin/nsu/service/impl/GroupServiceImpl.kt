@@ -63,6 +63,7 @@ class GroupServiceImpl(
     override fun addStudent(groupId: Long, student: Student): Group {
         val groupDb = this.findByID(groupId)
             ?: throw RuntimeException("Group not found")
+        student.group = groupDb
         val studentDb = studentService.addStudent(student)
         groupDb.students.add(studentDb)
         return this.updateGroup(groupDb)

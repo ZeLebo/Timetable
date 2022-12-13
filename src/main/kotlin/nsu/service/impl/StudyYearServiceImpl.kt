@@ -83,6 +83,7 @@ class StudyYearServiceImpl(
     override fun addGroup(studyYearId: Long, group: Group): StudyYear {
         val studyYear = this.findByID(studyYearId)
             ?: throw RuntimeException("Study year not found")
+        group.studyYear = studyYear
         val gr = groupService.addGroup(group)
         studyYear.groups.add(gr)
         return this.updateYear(studyYear)
@@ -92,6 +93,7 @@ class StudyYearServiceImpl(
         val studyYear = this.findByID(studyYearId)
             ?: throw RuntimeException("No study year found")
 
+        subject.StudyYear = studyYear
         val sub = subjectService.addSubject(subject)
         studyYear.subjects.add(sub)
         return this.updateYear(studyYear)

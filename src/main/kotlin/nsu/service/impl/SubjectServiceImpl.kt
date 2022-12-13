@@ -48,6 +48,7 @@ class SubjectServiceImpl(
     override fun addLesson(subjectId: Long, lesson: Lesson): Lesson {
         val subjectDb = this.findByID(subjectId)
             ?: throw RuntimeException("Subject not found")
+        lesson.subject = subjectDb
         val lessonDb = lessonService.addLesson(lesson)
         subjectDb.lessons.add(lessonDb)
         this.updateSubject(subjectDb)

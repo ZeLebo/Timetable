@@ -61,6 +61,7 @@ class FacultyServiceImpl(
     override fun addSpecialization(facultyId: Long, specialization: Specialization): Faculty {
         val facultyDb = facultyRepository.findByFacultyId(facultyId) ?: throw RuntimeException("Faculty not found")
         try {
+            specialization.faculty = facultyDb
             val specializationDb = specializationService.addSpecialization(specialization)
             facultyDb.specializations.add(specializationDb)
             return updateFaculty(facultyDb)
@@ -74,8 +75,8 @@ class FacultyServiceImpl(
         val specializationDb = specializationService.findByID(specializationId)
             ?: throw RuntimeException("Specialization not found")
         facultyDb.specializations.remove(specializationDb)
-        facultyRepository.save(facultyDb)
         specializationService.delete(specializationId)
+        facultyRepository.save(facultyDb)
     }
 
     override fun findByName(name: String): Faculty? {

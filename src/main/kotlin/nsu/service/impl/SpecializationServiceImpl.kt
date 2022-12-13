@@ -51,6 +51,8 @@ class SpecializationServiceImpl(
     override fun addStudyYearToSpecialization(specializationId: Long, studyYear: StudyYear): Specialization {
         val specializationDb = specializationRepository.findById(specializationId).orElse(null)
             ?: throw Exception("Specialization not found")
+
+        studyYear.specialization = specializationDb
         studyYear.specializationName = specializationDb.name
         val studyYearDb = studyYearService.addStudyYear(studyYear)
         specializationDb.studyYears.add(studyYearDb)

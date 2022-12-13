@@ -59,7 +59,10 @@ class TeacherServiceImpl(
         val subjectDb = subjectService.findByID(subjectId)
             ?: throw RuntimeException("Subject not found")
 
+        subjectDb.teacher = teacherDb
         teacherDb.subjects.add(subjectDb)
+
+        subjectService.updateSubject(subjectDb)
         return this.updateTeacher(teacherDb)
     }
 
