@@ -7,7 +7,8 @@ import nsu.service.*
 // this is service for creating timetable
 class TimetableMaker(
     private val facultyService: FacultyService,
-    private val timetableContentService: TimetableContentService
+    private val timetableContentService: TimetableContentService,
+    private val roomService: RoomService
 ) {
     private val faculties: List<Faculty>
     private val timetableContent: List<TimetableContent>
@@ -33,26 +34,18 @@ class TimetableMaker(
                             for (hours in 1..7) {
                                 val dayInTimetable = timetableContentService.findSpecialDay("$days")
                                 val hoursInTimetable = timetableContentService.findSpecialHour(hours)
-                                if (currLessons <= 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
+                                if (currLessons < 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
                                     studyYear.subjects.forEach { subject ->
-                                        val seminars = subject.lessons.filter { lesson ->
-                                            lesson.subjectType == "Семинар"
-                                        }
-                                        val lections = subject.lessons.filter { lesson ->
-                                            lesson.subjectType == "Лекция"
-                                        }
-                                        val otherTypeLessons = subject.lessons.filter { lesson ->
-                                            lesson.subjectType != "Семинар" && lesson.subjectType != "Лекция"
-                                        }
-                                        val seminar = seminars[0]
-                                        val lection = lections[0]
-                                        var otherType: Lesson? = null
-                                        if (otherTypeLessons.isNotEmpty()){
-                                            otherType = otherTypeLessons[0]
+                                        subject.lessons.forEach{lesson ->
+                                            timetableContent.forEach{cell ->
+                                                cell.discipline
+                                            }
                                         }
 
                                     }
                                     currLessons += 1
+                                } else if (currLessons == 4) {
+                                    continue
                                 }
                             }
                         }
