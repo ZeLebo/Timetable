@@ -20,6 +20,7 @@ class TimetableMaker(
 ) {
     private val faculties: List<Faculty>
     private val timetableContent: List<TimetableContent>
+    private val maxLessonsOneDay = 4
     init {
         faculties = findFaculties()
 
@@ -30,7 +31,16 @@ class TimetableMaker(
         val timetableContent = ArrayList<TimetableContent>()
         faculties.forEach {
             val specializations = it.specializations
+            specializations.forEach{specialization ->
+                val studyYears = specialization.studyYears
+                studyYears.forEach{studyYear ->
+                    val groups = studyYear.groups
+                    groups.forEach{
+                        group ->
 
+                    }
+                }
+            }
         }
         val specializations = ArrayList<Specialization>()
 
