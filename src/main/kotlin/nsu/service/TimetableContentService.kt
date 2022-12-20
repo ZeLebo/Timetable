@@ -1,7 +1,6 @@
 package nsu.service
 
 import nsu.entities.timetable.TimetableContent
-import nsu.repository.TimetableContentRepository
 
 interface TimetableContentService {
 
@@ -13,4 +12,5 @@ interface TimetableContentService {
     fun findSpecialRoom(room: String): MutableList<TimetableContent>
     fun findSpecialHour(hour: Int): MutableList<TimetableContent>
     fun findAll(): MutableList<TimetableContent>
+    fun findById(id: Long): TimetableContent?
 }

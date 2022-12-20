@@ -7,6 +7,15 @@ import nsu.service.TimetableContentService
 class TimetableContentServiceImpl(
     private val timetableContentRepository: TimetableContentRepository
 ): TimetableContentService {
+
+    override fun findById(id: Long): TimetableContent? {
+        return timetableContentRepository.findByTimetableContentId(id)
+    }
+
+    override fun addTimetableContent(timetableContent: TimetableContent): TimetableContent {
+        return timetableContentRepository.save(timetableContent)
+    }
+
     override fun findSpecialDiscipline(discipline: String): MutableList<TimetableContent> {
         val all = timetableContentRepository.findAll()
         // filter where the discipline is that
@@ -41,6 +50,10 @@ class TimetableContentServiceImpl(
         val all = timetableContentRepository.findAll()
         // filter where the hour is that
         return all.filter { it.hour == hour }.toMutableList()
+    }
+
+    override fun findAll(): MutableList<TimetableContent> {
+        return timetableContentRepository.findAll()
     }
 
 }
