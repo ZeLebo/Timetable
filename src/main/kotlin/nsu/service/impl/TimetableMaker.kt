@@ -19,57 +19,22 @@ class TimetableMaker(
     private val timetableContentService: TimetableContentService
 ) {
     private val faculties: List<Faculty>
-    private val specializations: List<Specialization>
-    private val studyYears: List<StudyYear>
-    private val subjects: List<Subject>
-    private val teachers: List<Teacher>
-    private val rooms: List<Room>
-    private val groups: List<Group>
-    private val lessons: List<Lesson>
     private val timetableContent: List<TimetableContent>
     init {
         faculties = findFaculties()
-        specializations = findSpecializations()
-        studyYears = findStudyYears()
-        subjects = findSubjects()
-        teachers = findTeachers()
-        rooms = findRooms()
-        groups = findGroups()
-        lessons = findLessons()
+
         timetableContent = createTimeTable()
     }
 
     private fun createTimeTable(): List<TimetableContent> {
         val timetableContent = ArrayList<TimetableContent>()
+        faculties.forEach {
+            val specializations = it.specializations
+
+        }
+        val specializations = ArrayList<Specialization>()
+
         return timetableContent
-    }
-
-    private fun findLessons(): List<Lesson> {
-        return lessonService.findAll()
-    }
-
-    private fun findGroups(): List<Group> {
-        return groupService.findAll()
-    }
-
-    private fun findRooms(): List<Room> {
-        return roomService.findAll()
-    }
-
-    private fun findTeachers(): List<Teacher> {
-        return teacherService.findAll()
-    }
-
-    private fun findSubjects(): List<Subject> {
-        return subjectService.findAll()
-    }
-
-    private fun findStudyYears(): List<StudyYear> {
-        return studyYearService.findAll()
-    }
-
-    private fun findSpecializations(): List<Specialization> {
-        return specializationService.findAll()
     }
 
     private fun findFaculties(): List<Faculty> {
