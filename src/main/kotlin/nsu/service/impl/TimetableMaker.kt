@@ -1,7 +1,5 @@
 package nsu.service.impl
 
-import nsu.entities.people.Group
-import nsu.entities.people.Teacher
 import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.*
 import nsu.service.*
@@ -14,6 +12,7 @@ class TimetableMaker(
     private val faculties: List<Faculty>
     private val timetableContent: List<TimetableContent>
     private val maxLessonsOneDay = 4
+
     init {
         faculties = findFaculties()
 
@@ -24,20 +23,24 @@ class TimetableMaker(
         val timetableContent = timetableContentService.findAll()
         faculties.forEach {
             val specializations = it.specializations
-            specializations.forEach{specialization ->
+            specializations.forEach { specialization ->
                 val studyYears = specialization.studyYears
-                studyYears.forEach{studyYear ->
+                studyYears.forEach { studyYear ->
                     val groups = studyYear.groups
-                    groups.forEach{group ->
-                        for(days in 1..6){
+                    groups.forEach { group ->
+                        for (days in 1..6) {
                             var currLessons = 0
-                            for (hours in 1..7){
+                            for (hours in 1..7) {
                                 val dayInTimetable = timetableContentService.findSpecialDay("$days")
                                 val hoursInTimetable = timetableContentService.findSpecialHour(hours)
-                                val emptyList = arrayListOf<TimetableContent>()
-                                if (currLessons<=4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0){
+                                if (currLessons <= 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
+                                    studyYear.subjects.forEach { subject ->
+                                        val lessonsInWeekBySubject = subject.lessons.size / 16
+                                        for (i in 0 until  lessonsInWeekBySubject){
 
-                                    currLessons+=1
+                                        }
+                                    }
+                                    currLessons += 1
                                 }
                             }
                         }
@@ -45,8 +48,6 @@ class TimetableMaker(
                 }
             }
         }
-        val specializations = ArrayList<Specialization>()
-
         return timetableContent
     }
 
