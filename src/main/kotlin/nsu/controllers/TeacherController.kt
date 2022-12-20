@@ -23,19 +23,19 @@ class TeacherController(
     }
 
     // get the list of subjects by teacherId
-    @GetMapping("teacher/{teacherId}/subjects")
-    fun getSubjectsByTeacherId(@PathVariable teacherId: Int): ResponseEntity<*> {
+    @GetMapping("teacher/{teacherId}/lessons")
+    fun getLessonsByTeacherId(@PathVariable teacherId: Int): ResponseEntity<*> {
         val teacher = teacherService.findByID(teacherId.toLong())
             ?: return ResponseEntity.badRequest().body("No such teacher")
-        return ResponseEntity.ok(teacher.subjects)
+        return ResponseEntity.ok(teacher.lessons)
     }
 
     // add subject to teacher
     // because the subject is already in the database, we just need to add it to the teacher
-    @PostMapping("teacher/{teacherId}/subject/{subjectId}")
-    fun addSubjectToTeacher(@PathVariable teacherId: Int, @PathVariable subjectId: Int): ResponseEntity<*> {
+    @PostMapping("teacher/{teacherId}/lessons/{lessonId}")
+    fun addLessonToTeacher(@PathVariable teacherId: Int, @PathVariable lessonId: Int): ResponseEntity<*> {
         return try {
-            ResponseEntity.ok(teacherService.addSubject(teacherId.toLong(), subjectId.toLong()))
+            ResponseEntity.ok(teacherService.addLesson(teacherId.toLong(), lessonId.toLong()))
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }
@@ -43,10 +43,10 @@ class TeacherController(
 
     // delete subject from teacher
     // need only to delete the subject from the teacher, not from database itself
-    @DeleteMapping("teacher/{teacherId}/subject/{subjectId}")
-    fun removeSubjectFromTeacher(@PathVariable teacherId: Int, @PathVariable subjectId: Int): ResponseEntity<*> {
+    @DeleteMapping("teacher/{teacherId}/lesson/{lessonId}")
+    fun removeLessonFromTeacher(@PathVariable teacherId: Int, @PathVariable lessonId: Int): ResponseEntity<*> {
         return try {
-            ResponseEntity.ok(teacherService.removeSubjectFromTeacher(teacherId.toLong(), subjectId.toLong()))
+            ResponseEntity.ok(teacherService.removeLessonFromTeacher(teacherId.toLong(), lessonId.toLong()))
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }

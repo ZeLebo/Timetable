@@ -1,6 +1,6 @@
 package nsu.entities.people
 
-import nsu.entities.university.Subject
+import nsu.entities.university.Lesson
 import javax.persistence.*
 @Entity
 @Table(name = "teacher")
@@ -9,7 +9,7 @@ class Teacher(
     var name: String,
 
     @OneToMany(mappedBy = "teacher")
-    var subjects: MutableList<Subject>,
+    var lessons: MutableList<Lesson>,
 
     @Id
     @Column(name = "teacher_id")
