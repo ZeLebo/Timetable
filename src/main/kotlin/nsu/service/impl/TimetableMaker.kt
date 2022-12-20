@@ -2,13 +2,11 @@ package nsu.service.impl
 
 import nsu.entities.people.Group
 import nsu.entities.people.Teacher
+import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.*
 import nsu.service.*
 
 // this is service for creating timetable
-/**
- *
- * */
 class TimetableMaker(
     private val facultyService: FacultyService,
     private val groupService: GroupService,
@@ -28,7 +26,7 @@ class TimetableMaker(
     private val rooms: List<Room>
     private val groups: List<Group>
     private val lessons: List<Lesson>
-
+    private val timetableContent: List<TimetableContent>
     init {
         faculties = findFaculties()
         specializations = findSpecializations()
@@ -38,6 +36,12 @@ class TimetableMaker(
         rooms = findRooms()
         groups = findGroups()
         lessons = findLessons()
+        timetableContent = createTimeTable()
+    }
+
+    private fun createTimeTable(): List<TimetableContent> {
+        val timetableContent = ArrayList<TimetableContent>()
+        return timetableContent
     }
 
     private fun findLessons(): List<Lesson> {
