@@ -36,8 +36,14 @@ class TimetableMaker(
                                 if (currLessons <= 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
                                     studyYear.subjects.forEach { subject ->
                                         val lessonsInWeekBySubject = subject.lessons.size / 16
-                                        for (i in 0 until  lessonsInWeekBySubject){
-
+                                        val seminars = subject.lessons.filter { lesson ->
+                                            lesson.subjectType == "Семинар"
+                                        }
+                                        val lections = subject.lessons.filter { lesson ->
+                                            lesson.subjectType == "Лекция"
+                                        }
+                                        val otherType = subject.lessons.filter { lesson ->
+                                            lesson.subjectType != "Семинар" && lesson.subjectType != "Лекция"
                                         }
                                     }
                                     currLessons += 1
