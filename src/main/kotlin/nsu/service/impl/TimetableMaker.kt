@@ -35,16 +35,22 @@ class TimetableMaker(
                                 val hoursInTimetable = timetableContentService.findSpecialHour(hours)
                                 if (currLessons <= 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
                                     studyYear.subjects.forEach { subject ->
-                                        val lessonsInWeekBySubject = subject.lessons.size / 16
                                         val seminars = subject.lessons.filter { lesson ->
                                             lesson.subjectType == "Семинар"
                                         }
                                         val lections = subject.lessons.filter { lesson ->
                                             lesson.subjectType == "Лекция"
                                         }
-                                        val otherType = subject.lessons.filter { lesson ->
+                                        val otherTypeLessons = subject.lessons.filter { lesson ->
                                             lesson.subjectType != "Семинар" && lesson.subjectType != "Лекция"
                                         }
+                                        val seminar = seminars[0]
+                                        val lection = lections[0]
+                                        var otherType: Lesson? = null
+                                        if (otherTypeLessons.isNotEmpty()){
+                                            otherType = otherTypeLessons[0]
+                                        }
+
                                     }
                                     currLessons += 1
                                 }
