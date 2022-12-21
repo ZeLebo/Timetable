@@ -22,6 +22,7 @@ class TimetableMaker(
 
     private fun createTimeTable(): List<TimetableContent> {
         val timetableContent = timetableContentService.findAll()
+        val rooms = roomService.findAll()
         faculties.forEach {
             val specializations = it.specializations
             specializations.forEach { specialization ->
@@ -36,6 +37,13 @@ class TimetableMaker(
                                     cell.day == "$days" && cell.hour == hours
                                 }
                                 if (thisDayAndTimeInTimeTable.isEmpty()){
+                                    val notAvailableRooms = ArrayList<Room>()
+                                    timetableContent.forEach{ cell->
+                                        notAvailableRooms.add(cell.room!!)
+                                    }
+                                    val freeRooms = rooms.filter {room->
+                                        room !in notAvailableRooms
+                                    }
 
                                     currLessons += 1
                                 } else if (currLessons == 4) {
