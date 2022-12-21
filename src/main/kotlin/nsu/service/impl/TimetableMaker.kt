@@ -32,17 +32,11 @@ class TimetableMaker(
                         for (days in 1..6) {
                             var currLessons = 0
                             for (hours in 1..7) {
-                                val dayInTimetable = timetableContentService.findSpecialDay("$days")
-                                val hoursInTimetable = timetableContentService.findSpecialHour(hours)
-                                if (currLessons < 4 && dayInTimetable.size == 0 && hoursInTimetable.size == 0) {
-                                    studyYear.subjects.forEach { subject ->
-                                        subject.lessons.forEach{lesson ->
-                                            timetableContent.forEach{cell ->
-                                                cell.discipline
-                                            }
-                                        }
+                                val thisDayAndTimeInTimeTable = timetableContent.filter {cell ->
+                                    cell.day == "$days" && cell.hour == hours
+                                }
+                                if (thisDayAndTimeInTimeTable.isEmpty()){
 
-                                    }
                                     currLessons += 1
                                 } else if (currLessons == 4) {
                                     continue
