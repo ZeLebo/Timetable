@@ -50,6 +50,26 @@ class TimetableMaker(
                                     if (freeRooms.isEmpty()){
                                         continue
                                     }
+                                    var lessons = ArrayList<Lesson>()
+                                    studyYear.subjects.forEach {subject ->
+                                        lessons = subject.lessons as ArrayList<Lesson>
+                                    }
+                                    val lectures = ArrayList<Lesson>()
+                                    val seminars = ArrayList<Lesson>()
+                                    val labaratory = ArrayList<Lesson>()
+                                    lessons.forEach { lesson ->
+                                        when(lesson.subjectType){
+                                            "Лекция" -> {
+                                                lectures.add(lesson)
+                                            }
+                                            "Семинар" -> {
+                                                seminars.add(lesson)
+                                            }
+                                            "Лабораторное занятие" -> {
+                                                labaratory.add(lesson)
+                                            }
+                                        }
+                                    }
                                     currLessons += 1
                                 }
                             }
