@@ -21,6 +21,7 @@ class TimetableMaker(
     }
 
     private fun createTimeTable(): List<TimetableContent> {
+        val result = ArrayList<TimetableContent>()
         val timetableContent = timetableContentService.findAll()
         val rooms = roomService.findAll()
         faculties.forEach {
@@ -74,7 +75,15 @@ class TimetableMaker(
                                         cell.discipline == lectures[0]
                                     }
                                     if (lectureCell.isEmpty()) {
-
+                                        val lessonTeacher = lectures[0].teacher
+                                        val roomType = lectures[0].roomType
+                                        val isTeacherAvailable = timetableContent.filter {cell ->
+                                            cell.day == "$days" && cell.hour == hours && lessonTeacher != cell.teacher
+                                        }
+                                        if(isTeacherAvailable.isEmpty()){
+                                            continue
+                                        }
+                                        val
                                     }
                                     currLessons += 1
                                 }
@@ -84,7 +93,8 @@ class TimetableMaker(
                 }
             }
         }
-        return timetableContent
+        return result
+
     }
 
     private fun findFaculties(): List<Faculty> {
