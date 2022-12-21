@@ -56,7 +56,7 @@ class TimetableMaker(
                                     }
                                     val lectures = ArrayList<Lesson>()
                                     val seminars = ArrayList<Lesson>()
-                                    val labaratory = ArrayList<Lesson>()
+                                    val laboratory = ArrayList<Lesson>()
                                     lessons.forEach { lesson ->
                                         when(lesson.subjectType){
                                             "Лекция" -> {
@@ -66,10 +66,11 @@ class TimetableMaker(
                                                 seminars.add(lesson)
                                             }
                                             "Лабораторное занятие" -> {
-                                                labaratory.add(lesson)
+                                                laboratory.add(lesson)
                                             }
                                         }
                                     }
+
                                     currLessons += 1
                                 }
                             }

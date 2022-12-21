@@ -1,6 +1,7 @@
 package nsu.service.impl
 
 import nsu.entities.timetable.TimetableContent
+import nsu.entities.university.Lesson
 import nsu.repository.TimetableContentRepository
 import nsu.service.TimetableContentService
 
@@ -16,7 +17,7 @@ class TimetableContentServiceImpl(
         return timetableContentRepository.save(timetableContent)
     }
 
-    override fun findSpecialDiscipline(discipline: String): MutableList<TimetableContent> {
+    override fun findSpecialDiscipline(discipline: Lesson): MutableList<TimetableContent> {
         val all = timetableContentRepository.findAll()
         // filter where the discipline is that
         return all.filter { it.discipline == discipline }.toMutableList()
