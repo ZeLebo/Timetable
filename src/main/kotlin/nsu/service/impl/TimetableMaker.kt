@@ -33,8 +33,11 @@ class TimetableMaker(
                         for (days in 1..6) {
                             var currLessons = 0
                             for (hours in 1..7) {
+                                if (currLessons == maxLessonsOneDay) {
+                                    break
+                                }
                                 val thisDayAndTimeInTimeTable = timetableContent.filter {cell ->
-                                    cell.day == "$days" && cell.hour == hours
+                                    cell.day == "$days" && cell.hour == hours && cell.groups == group
                                 }
                                 if (thisDayAndTimeInTimeTable.isEmpty()){
                                     val notAvailableRooms = ArrayList<Room>()
@@ -44,10 +47,10 @@ class TimetableMaker(
                                     val freeRooms = rooms.filter {room->
                                         room !in notAvailableRooms
                                     }
-
+                                    if (freeRooms.isEmpty()){
+                                        continue
+                                    }
                                     currLessons += 1
-                                } else if (currLessons == 4) {
-                                    continue
                                 }
                             }
                         }
