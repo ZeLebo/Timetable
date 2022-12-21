@@ -83,7 +83,6 @@ class TimetableMaker(
                                         if(isTeacherAvailable.isEmpty()){
                                             continue
                                         }
-                                        val
                                     }
                                     currLessons += 1
                                 }
