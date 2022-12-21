@@ -1,11 +1,12 @@
 package nsu.service
 
 import nsu.entities.timetable.TimetableContent
+import nsu.entities.university.Lesson
 
 interface TimetableContentService {
 
     fun addTimetableContent(timetableContent: TimetableContent): TimetableContent
-    fun findSpecialDiscipline(discipline: String): MutableList<TimetableContent>
+    fun findSpecialDiscipline(discipline: Lesson): MutableList<TimetableContent>
     fun findSpecialDay(day: String): MutableList<TimetableContent>
     fun findSpecialTeacher(teacher: String): MutableList<TimetableContent>
     fun findSpecialGroup(group: String): MutableList<TimetableContent>
