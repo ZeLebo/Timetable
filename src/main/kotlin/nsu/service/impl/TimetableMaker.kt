@@ -36,29 +36,29 @@ class TimetableMaker(
                                 if (currLessons == maxLessonsOneDay) {
                                     break
                                 }
-                                val thisDayAndTimeInTimeTable = timetableContent.filter {cell ->
+                                val thisDayAndTimeInTimeTable = timetableContent.filter { cell ->
                                     cell.day == "$days" && cell.hour == hours && cell.groups == group
                                 }
-                                if (thisDayAndTimeInTimeTable.isEmpty()){
+                                if (thisDayAndTimeInTimeTable.isEmpty()) {
                                     val notAvailableRooms = ArrayList<Room>()
-                                    timetableContent.forEach{ cell->
+                                    timetableContent.forEach { cell ->
                                         notAvailableRooms.add(cell.room!!)
                                     }
-                                    val freeRooms = rooms.filter {room->
+                                    val freeRooms = rooms.filter { room ->
                                         room !in notAvailableRooms
                                     }
-                                    if (freeRooms.isEmpty()){
+                                    if (freeRooms.isEmpty()) {
                                         continue
                                     }
                                     var lessons = ArrayList<Lesson>()
-                                    studyYear.subjects.forEach {subject ->
+                                    studyYear.subjects.forEach { subject ->
                                         lessons = subject.lessons as ArrayList<Lesson>
                                     }
                                     val lectures = ArrayList<Lesson>()
                                     val seminars = ArrayList<Lesson>()
                                     val laboratory = ArrayList<Lesson>()
                                     lessons.forEach { lesson ->
-                                        when(lesson.subjectType){
+                                        when (lesson.subjectType) {
                                             "Лекция" -> {
                                                 lectures.add(lesson)
                                             }
@@ -70,7 +70,12 @@ class TimetableMaker(
                                             }
                                         }
                                     }
+                                    val lectureCell = timetableContent.filter { cell ->
+                                        cell.discipline == lectures[0]
+                                    }
+                                    if (lectureCell.isEmpty()) {
 
+                                    }
                                     currLessons += 1
                                 }
                             }
