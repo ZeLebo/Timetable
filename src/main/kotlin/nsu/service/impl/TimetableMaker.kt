@@ -77,11 +77,27 @@ class TimetableMaker(
                                     if (lectureCell.isEmpty()) {
                                         val lessonTeacher = lectures[0].teacher
                                         val roomType = lectures[0].roomType
-                                        val isTeacherAvailable = timetableContent.filter {cell ->
+                                        val isTeacherAvailable = timetableContent.filter { cell ->
                                             cell.day == "$days" && cell.hour == hours && lessonTeacher != cell.teacher
                                         }
-                                        if(isTeacherAvailable.isEmpty()){
+                                        if (isTeacherAvailable.isEmpty()) {
                                             continue
+                                        }
+                                        var studentsOnLesson = 0
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            studentsOnLesson += gr.students.size
+                                        }
+
+                                        val suitableRooms = rooms.filter { room ->
+                                            room.capacity >= studentsOnLesson
+                                        }
+                                        val filteredSuitableRooms = ArrayList<Room>()
+                                        timetableContent.forEach { cell->
+                                            suitableRooms.forEach{suitableRoom ->
+                                                if (cell.day == "$days" && cell.hour == hours && suitableRoom != cell.room){
+                                                    filteredSuitableRooms.add(suitableRoom)
+                                                }
+                                            }
                                         }
                                     }
                                     currLessons += 1
