@@ -23,7 +23,7 @@ class TimetableMaker(
 
     private fun createTimeTable(): List<TimetableContent> {
         val result = ArrayList<TimetableContent>()
-        val timetableContent = timetableContentService.findAll()
+        var timetableContent = timetableContentService.findAll()
         val rooms = roomService.findAll()
         faculties.forEach {
             val specializations = it.specializations
@@ -115,7 +115,8 @@ class TimetableMaker(
                                                 }
                                             }
                                         }
-
+                                        result.add(TimetableContent(lectures[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
+                                        timetableContent = result
                                     }
                                     currLessons += 1
                                 }
