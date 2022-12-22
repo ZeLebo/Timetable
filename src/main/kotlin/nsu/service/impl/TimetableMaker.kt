@@ -1,5 +1,6 @@
 package nsu.service.impl
 
+import nsu.entities.people.Group
 import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.*
 import nsu.service.*
@@ -84,10 +85,25 @@ class TimetableMaker(
                                             continue
                                         }
                                         var studentsOnLesson = 0
+                                        val groupsOnLesson = ArrayList<Group>()
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            groupsOnLesson.add(gr)
+                                        }
+                                        val availableGroupsOnLesson = ArrayList<Group>()
+                                        groupsOnLesson.forEach {groupOnLesson ->
+                                            timetableContent.forEach{ cell ->
+                                                if (cell.day == "$days" && cell.hour == hours && groupOnLesson !in cell.groups){
+                                                    availableGroupsOnLesson.add(groupOnLesson)
+                                                }
+                                            }
+                                        }
+                                        if(availableGroupsOnLesson.size < groupsOnLesson.size){
+                                            continue
+                                        }
                                         lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
                                             studentsOnLesson += gr.students.size
+                                            groupsOnLesson.add(gr)
                                         }
-
                                         val suitableRooms = rooms.filter { room ->
                                             room.capacity >= studentsOnLesson
                                         }
@@ -99,6 +115,7 @@ class TimetableMaker(
                                                 }
                                             }
                                         }
+
                                     }
                                     currLessons += 1
                                 }
