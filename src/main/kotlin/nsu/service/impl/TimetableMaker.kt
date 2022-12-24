@@ -118,6 +118,101 @@ class TimetableMaker(
                                         result.add(TimetableContent(lectures[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
                                         timetableContent = result
                                     }
+                                    val seminarCell = timetableContent.filter { cell ->
+                                        cell.discipline == seminars[0]
+                                    }
+                                    if (seminarCell.isEmpty()) {
+                                        val lessonTeacher = seminars[0].teacher
+                                        val roomType = seminars[0].roomType
+                                        val isTeacherAvailable = timetableContent.filter { cell ->
+                                            cell.day == "$days" && cell.hour == hours && lessonTeacher != cell.teacher
+                                        }
+                                        if (isTeacherAvailable.isEmpty()) {
+                                            continue
+                                        }
+                                        var studentsOnLesson = 0
+                                        val groupsOnLesson = ArrayList<Group>()
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            groupsOnLesson.add(gr)
+                                        }
+                                        val availableGroupsOnLesson = ArrayList<Group>()
+                                        groupsOnLesson.forEach {groupOnLesson ->
+                                            timetableContent.forEach{ cell ->
+                                                if (cell.day == "$days" && cell.hour == hours && groupOnLesson !in cell.groups){
+                                                    availableGroupsOnLesson.add(groupOnLesson)
+                                                }
+                                            }
+                                        }
+                                        if(availableGroupsOnLesson.size < groupsOnLesson.size){
+                                            continue
+                                        }
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            studentsOnLesson += gr.students.size
+                                            groupsOnLesson.add(gr)
+                                        }
+                                        val suitableRooms = rooms.filter { room ->
+                                            room.capacity >= studentsOnLesson
+                                        }
+                                        val filteredSuitableRooms = ArrayList<Room>()
+                                        timetableContent.forEach { cell->
+                                            suitableRooms.forEach{suitableRoom ->
+                                                if (cell.day == "$days" && cell.hour == hours && suitableRoom != cell.room){
+                                                    filteredSuitableRooms.add(suitableRoom)
+                                                }
+                                            }
+                                        }
+                                        result.add(TimetableContent(seminars[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
+                                        timetableContent = result
+                                    }
+                                    if (laboratory.size == 0){
+                                        continue
+                                    }
+                                    val laboratoryCell = timetableContent.filter { cell ->
+                                        cell.discipline == laboratory[0]
+                                    }
+                                    if (laboratoryCell.isEmpty()) {
+                                        val lessonTeacher = laboratory[0].teacher
+                                        val roomType = laboratory[0].roomType
+                                        val isTeacherAvailable = timetableContent.filter { cell ->
+                                            cell.day == "$days" && cell.hour == hours && lessonTeacher != cell.teacher
+                                        }
+                                        if (isTeacherAvailable.isEmpty()) {
+                                            continue
+                                        }
+                                        var studentsOnLesson = 0
+                                        val groupsOnLesson = ArrayList<Group>()
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            groupsOnLesson.add(gr)
+                                        }
+                                        val availableGroupsOnLesson = ArrayList<Group>()
+                                        groupsOnLesson.forEach {groupOnLesson ->
+                                            timetableContent.forEach{ cell ->
+                                                if (cell.day == "$days" && cell.hour == hours && groupOnLesson !in cell.groups){
+                                                    availableGroupsOnLesson.add(groupOnLesson)
+                                                }
+                                            }
+                                        }
+                                        if(availableGroupsOnLesson.size < groupsOnLesson.size){
+                                            continue
+                                        }
+                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                            studentsOnLesson += gr.students.size
+                                            groupsOnLesson.add(gr)
+                                        }
+                                        val suitableRooms = rooms.filter { room ->
+                                            room.capacity >= studentsOnLesson
+                                        }
+                                        val filteredSuitableRooms = ArrayList<Room>()
+                                        timetableContent.forEach { cell->
+                                            suitableRooms.forEach{suitableRoom ->
+                                                if (cell.day == "$days" && cell.hour == hours && suitableRoom != cell.room){
+                                                    filteredSuitableRooms.add(suitableRoom)
+                                                }
+                                            }
+                                        }
+                                        result.add(TimetableContent(laboratory[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
+                                        timetableContent = result
+                                    }
                                     currLessons += 1
                                 }
                             }
