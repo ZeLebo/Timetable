@@ -4,7 +4,9 @@ import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.Lesson
 import nsu.repository.TimetableContentRepository
 import nsu.service.TimetableContentService
+import org.springframework.stereotype.Service
 
+@Service
 class TimetableContentServiceImpl(
     private val timetableContentRepository: TimetableContentRepository
 ): TimetableContentService {
