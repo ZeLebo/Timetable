@@ -4,7 +4,9 @@ import nsu.entities.people.Group
 import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.*
 import nsu.service.*
+import org.springframework.stereotype.Service
 
+@Service
 class TimetableMaker(
     private val facultyService: FacultyService,
     private val timetableContentService: TimetableContentService,
