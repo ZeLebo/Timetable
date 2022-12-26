@@ -5,7 +5,6 @@ import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.*
 import nsu.service.*
 
-// this is service for creating timetable
 class TimetableMaker(
     private val facultyService: FacultyService,
     private val timetableContentService: TimetableContentService,
@@ -21,7 +20,7 @@ class TimetableMaker(
         timetableContent = createTimeTable()
     }
 
-    private fun createTimeTable(): List<TimetableContent> {
+    fun createTimeTable(): List<TimetableContent> {
         val result = ArrayList<TimetableContent>()
         var timetableContent = timetableContentService.findAll()
         val rooms = roomService.findAll()
