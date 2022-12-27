@@ -1,5 +1,8 @@
 package nsu.repository
-
+/**
+ * Repository for specializations
+ *
+ */
 import nsu.entities.university.Specialization
 import org.springframework.data.jpa.repository.JpaRepository
 
