@@ -29,11 +29,11 @@ class StudyYear(
     var specializationName: String? = null,
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(org.hibernate.annotations.FetchMode.SELECT)
     var groups: MutableList<Group> = mutableListOf(),
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
+    @Fetch(org.hibernate.annotations.FetchMode.SELECT)
     var subjects: MutableList<Subject> = mutableListOf(),
 
     @Id

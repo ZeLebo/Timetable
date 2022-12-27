@@ -14,6 +14,7 @@ class StudyYearServiceImpl(
     private val subjectService: SubjectServiceImpl,
     private val groupService: GroupServiceImpl
 ): StudyYearService {
+    // TODO: there's a bug, when adding from Faculty the groups are not added
     override fun addStudyYear(studyYear: StudyYear): StudyYear {
         // check if exists
         if (studyYear.specializationName?.let {
@@ -24,7 +25,7 @@ class StudyYearServiceImpl(
             throw RuntimeException("Study year already exist")
         }
 
-        var studyYearDb = studyYearRepository.save(studyYear)
+        val studyYearDb = studyYearRepository.save(studyYear)
 
         studyYearDb.subjects = studyYear.subjects.map {
             subjectService.addSubject(
@@ -35,13 +36,14 @@ class StudyYearServiceImpl(
             )
         }.toMutableList()
 
-        studyYearDb = studyYearRepository.save(studyYear)
+//        studyYearDb = studyYearRepository.save(studyYear)
 
         studyYearDb.groups = studyYear.groups.map {
             groupService.addGroup(
                 Group(
                     it.number,
                     it.students,
+                    studyYearDb
                 )
             )
         }.toMutableList()
