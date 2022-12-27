@@ -6,7 +6,11 @@ import nsu.entities.university.Subject
 import nsu.service.StudyYearService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
+/**
+ * Controller for Stidents
+ *
+ * @param studentService - service logic for work with students entity
+ */
 @RestController
 @RequestMapping("/api/v1")
 class StudyYearController(

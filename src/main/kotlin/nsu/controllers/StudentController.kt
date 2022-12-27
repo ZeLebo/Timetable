@@ -5,7 +5,7 @@ import nsu.service.impl.StudentService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 /**
- * Controller for Stidents
+ * Controller for Students
  *
  * @param studentService - service logic for work with students entity
  */
