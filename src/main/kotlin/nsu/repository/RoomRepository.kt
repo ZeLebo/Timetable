@@ -1,5 +1,8 @@
 package nsu.repository
-
+/**
+ * Repository for room
+ *
+ */
 import nsu.entities.university.Room
 import org.springframework.data.jpa.repository.JpaRepository
 
