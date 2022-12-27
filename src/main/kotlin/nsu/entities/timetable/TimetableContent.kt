@@ -2,6 +2,7 @@ package nsu.entities.timetable
 
 import nsu.entities.people.Group
 import nsu.entities.people.Teacher
+import nsu.entities.university.Lesson
 import nsu.entities.university.Room
 import javax.persistence.*
 
@@ -18,8 +19,13 @@ import javax.persistence.*
 @Entity
 @Table(name = "timetable_content")
 class TimetableContent(
-    @Column(name = "discipline")
-    val discipline: String,
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+        name = "lesson_id",
+        nullable = true
+    )
+    val discipline: Lesson? = null,
 
     @Column(name = "day")
     val day: String,

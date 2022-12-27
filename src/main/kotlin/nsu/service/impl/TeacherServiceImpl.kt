@@ -3,14 +3,15 @@ package nsu.service.impl
 import nsu.repository.TeacherRepository
 import org.springframework.stereotype.Service
 import nsu.entities.people.Teacher
-import nsu.entities.university.Subject
+import nsu.entities.university.Lesson
+import nsu.service.LessonService
 import nsu.service.TeacherService
 import java.lang.RuntimeException
 
 @Service
 class TeacherServiceImpl(
     private val teacherRepository: TeacherRepository,
-    private val subjectService: SubjectServiceImpl,
+    private val lessonService: LessonService,
 ):  TeacherService {
     override fun addTeacher(teacher: Teacher): Teacher {
         if (teacherRepository.findByName(teacher.name) != null) {
@@ -19,16 +20,17 @@ class TeacherServiceImpl(
 
         val teacherDb = teacherRepository.save(teacher)
 
-        teacherDb.subjects = teacher.subjects.map {
-            subjectService.addSubject(
-                Subject(
+        teacherDb.lessons = teacher.lessons.map {
+            lessonService.addLesson(
+                Lesson(
                     it.name,
-                    it.StudyYear,
+                    it.roomType,
+                    it.subjectType,
+                    it.subject,
                     teacherDb
                 )
             )
         }.toMutableList()
-
 
     return teacherRepository.save(teacher)
 }
@@ -40,7 +42,7 @@ class TeacherServiceImpl(
         val teacherDb = this.findByID(teacherId)
             ?: throw RuntimeException("Teacher not found")
         teacherDb.name = teacher.name
-        teacherDb.subjects = teacher.subjects
+        teacherDb.lessons = teacher.lessons
         return this.updateTeacher(teacherDb)
     }
 
@@ -53,26 +55,26 @@ class TeacherServiceImpl(
         }
     }
 
-    override fun addSubject(teacherId: Long, subjectId: Long): Teacher {
+    override fun addLesson(teacherId: Long, subjectId: Long): Teacher {
         val teacherDb = this.findByID(teacherId)
             ?: throw RuntimeException("Teacher not found")
-        val subjectDb = subjectService.findByID(subjectId)
-            ?: throw RuntimeException("Subject not found")
+        val lessonDb = lessonService.findByID(subjectId)
+            ?: throw RuntimeException("Lesson not found")
 
-        subjectDb.teacher = teacherDb
-        teacherDb.subjects.add(subjectDb)
+        lessonDb.teacher = teacherDb
+        teacherDb.lessons.add(lessonDb)
 
-        subjectService.updateSubject(subjectDb)
+        lessonService.updateLesson(lessonDb)
         return this.updateTeacher(teacherDb)
     }
 
-    override fun removeSubjectFromTeacher(teacherId: Long, subjectId: Long): Teacher {
+    override fun removeLessonFromTeacher(teacherId: Long, subjectId: Long): Teacher {
         val teacherDb = this.findByID(teacherId)
             ?: throw RuntimeException("Teacher not found")
-        val subjectDb = subjectService.findByID(subjectId)
-            ?: throw RuntimeException("Subject not found")
+        val lessonDb = lessonService.findByID(subjectId)
+            ?: throw RuntimeException("Lesson not found")
 
-        teacherDb.subjects.remove(subjectDb)
+        teacherDb.lessons.remove(lessonDb)
         return this.updateTeacher(teacherDb)
     }
 

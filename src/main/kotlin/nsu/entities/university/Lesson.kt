@@ -1,6 +1,7 @@
 package nsu.entities.university
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import nsu.entities.people.Teacher
 import javax.persistence.*
 
 /**
@@ -26,6 +27,14 @@ class Lesson(
     @JoinColumn(name = "subject_id")
     @field: JsonIgnore
     var subject: Subject? = null,
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+        name = "teacher_id",
+        nullable = true
+    )
+    @field: JsonIgnore
+    var teacher: Teacher? = null,
 
     @Id
     @Column(name = "lesson_id")
