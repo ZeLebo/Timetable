@@ -5,18 +5,30 @@ import nsu.service.LessonService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Controller for lessons
+ *
+ * @param lessonService - service logic for work with lesson entity
+ */
 @RestController
 @RequestMapping("/api/v1")
 class LessonController(
     private val lessonService: LessonService,
 ) {
-    // get the list of all lessons
+    /**
+     * This method get the list of all lessons
+     *
+     * @return list of all lessons
+     */
     @GetMapping("lesson")
     fun getLessons(): ResponseEntity<*> {
         return ResponseEntity.ok(lessonService.findAll())
     }
-
-    // get specific lesson
+    /**
+     * This method get specific lesson
+     *
+     * @return lesson by id
+     */
     @GetMapping("lesson/{lessonId}")
     fun getLesson(@PathVariable lessonId: Int): ResponseEntity<*> {
         // check the existence of the lesson
@@ -24,8 +36,10 @@ class LessonController(
             ?: return ResponseEntity.badRequest().body("No such lesson")
         return ResponseEntity.ok(lesson)
     }
-
-    // delete specific lesson
+    /**
+     * This method delete lesson by id
+     *
+     */
     @DeleteMapping("lesson/{lessonId}")
     fun deleteLesson(@PathVariable lessonId: Int): ResponseEntity<*> {
         return try {
@@ -35,8 +49,9 @@ class LessonController(
             ResponseEntity.badRequest().body(e.message)
         }
     }
-
-    // update specific lesson
+    /**
+     * This method update specific lesson
+     */
     @PatchMapping("lesson/{lessonId}")
     fun updateLesson(@PathVariable lessonId: Int, @RequestBody lesson: Lesson): ResponseEntity<*> {
         return try {
