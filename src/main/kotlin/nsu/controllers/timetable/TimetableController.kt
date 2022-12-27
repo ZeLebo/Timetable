@@ -8,6 +8,7 @@ import nsu.service.FacultyService
 import nsu.service.SpecializationService
 import nsu.service.StudyYearService
 import nsu.service.impl.GroupServiceImpl
+import nsu.service.impl.TimetableMaker
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -19,6 +20,7 @@ class TimetableController(
     private val groupService: GroupServiceImpl,
     private val specializationService: SpecializationService,
     private val facultyService: FacultyService,
+    private val timetableMaker: TimetableMaker
 ) {
     @GetMapping("/test")
     fun test(): ResponseEntity<*> {
@@ -39,8 +41,12 @@ class TimetableController(
                 ),
             )
         )
-
         return ResponseEntity.ok(facultyService.addFaculty(faculty))
+    }
+
+    @GetMapping("/create")
+    fun createTimetable(): ResponseEntity<*>{
+        return ResponseEntity.ok(timetableMaker.createTimeTable())
     }
 
     @GetMapping("/group")
