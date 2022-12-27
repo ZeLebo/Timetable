@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*
  * @param groupService - service logic for work with groups entity
  * @param specializationService - service logic for work with specializations entity
  * @param timetableMakerService - service logic for creating timetables
+ * @param facultyService - service logic for work with faculty entity
  * */
 @RestController
 @RequestMapping("/api/v1/timetable")

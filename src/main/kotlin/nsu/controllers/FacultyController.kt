@@ -6,6 +6,13 @@ import nsu.service.FacultyService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Controller for faculty
+ *
+ * @param facultyService - service logic for work with faculty entity
+ * @param specializationService - service logic for work with specializations entity
+ * @param timetableMakerService - service logic for creating timetables
+ */
 @RestController
 @RequestMapping("/api/v1")
 class FacultyController(
