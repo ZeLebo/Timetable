@@ -21,7 +21,7 @@ class FacultyController(
     /**
      * This method get the list of all faculties
      *
-     * @return list og all faculties
+     * @return list of all faculties
      */
     @GetMapping("faculty")
     fun getFaculties(): ResponseEntity<*> {
