@@ -7,22 +7,15 @@ import nsu.service.*
 import org.springframework.stereotype.Service
 
 @Service
-class TimetableMaker(
+class TimetableMakerImpl(
     private val facultyService: FacultyService,
     private val timetableContentService: TimetableContentService,
     private val roomService: RoomService
-) {
-    private val faculties: List<Faculty>
-    private val timetableContent: List<TimetableContent>
+) : TimetableMaker{
+    private val faculties: List<Faculty> = facultyService.findAll()
     private val maxLessonsOneDay = 4
 
-    init {
-        faculties = findFaculties()
-
-        timetableContent = createTimeTable()
-    }
-
-    fun createTimeTable(): List<TimetableContent> {
+    override fun createTimeTable(): List<TimetableContent> {
         val result = ArrayList<TimetableContent>()
         var timetableContent = timetableContentService.findAll()
         val rooms = roomService.findAll()
@@ -227,10 +220,5 @@ class TimetableMaker(
             }
         }
         return timetableContent
-
-    }
-
-    private fun findFaculties(): List<Faculty> {
-        return facultyService.findAll()
     }
 }
