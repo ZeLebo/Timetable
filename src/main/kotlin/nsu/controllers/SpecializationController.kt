@@ -5,7 +5,11 @@ import nsu.entities.university.StudyYear
 import nsu.service.SpecializationService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
+/**
+ * Controller for Sp
+ *
+ * @param roomService - service logic for work with room entity
+ */
 @RestController
 @RequestMapping("/api/v1")
 class SpecializationController(
