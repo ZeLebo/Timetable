@@ -1,5 +1,8 @@
 package nsu.repository
-
+/**
+ * Repository for group
+ *
+ */
 import nsu.entities.people.Group
 import org.springframework.data.jpa.repository.JpaRepository
 
