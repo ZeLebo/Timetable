@@ -6,22 +6,16 @@ import nsu.entities.university.*
 import nsu.service.*
 
 // this is service for creating timetable
-class TimetableMaker(
+class TimetableMakerImpl(
     private val facultyService: FacultyService,
     private val timetableContentService: TimetableContentService,
     private val roomService: RoomService
-) {
-    private val faculties: List<Faculty>
-    private val timetableContent: List<TimetableContent>
+) : TimetableMakerService{
+    private val faculties: List<Faculty> = facultyService.findAll()
     private val maxLessonsOneDay = 4
 
-    init {
-        faculties = findFaculties()
-
-        timetableContent = createTimeTable()
-    }
-
-    private fun createTimeTable(): List<TimetableContent> {
+    override
+    fun createTimeTable(): MutableList<TimetableContent> {
         val result = ArrayList<TimetableContent>()
         var timetableContent = timetableContentService.findAll()
         val rooms = roomService.findAll()
@@ -222,10 +216,5 @@ class TimetableMaker(
             }
         }
         return result
-
-    }
-
-    private fun findFaculties(): List<Faculty> {
-        return facultyService.findAll()
     }
 }
