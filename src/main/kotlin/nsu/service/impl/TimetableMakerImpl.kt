@@ -112,6 +112,8 @@ class TimetableMakerImpl(
                                         }
                                         result.add(TimetableContent(lectures[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
                                         timetableContent = result
+                                        currLessons += 1
+                                        continue
                                     }
                                     val seminarCell = timetableContent.filter { cell ->
                                         cell.discipline == seminars[0]
@@ -158,6 +160,8 @@ class TimetableMakerImpl(
                                         }
                                         result.add(TimetableContent(seminars[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
                                         timetableContent = result
+                                        currLessons += 1
+                                        continue
                                     }
                                     if (laboratory.size == 0){
                                         continue
@@ -207,8 +211,8 @@ class TimetableMakerImpl(
                                         }
                                         result.add(TimetableContent(laboratory[0], "$days", hours, lessonTeacher, suitableRooms[0], availableGroupsOnLesson))
                                         timetableContent = result
+                                        currLessons += 1
                                     }
-                                    currLessons += 1
                                 }
                             }
                         }
