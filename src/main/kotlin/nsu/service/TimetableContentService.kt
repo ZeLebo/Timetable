@@ -2,7 +2,9 @@ package nsu.service
 
 import nsu.entities.timetable.TimetableContent
 import nsu.entities.university.Lesson
+import org.springframework.stereotype.Service
 
+@Service
 interface TimetableContentService {
 
     fun addTimetableContent(timetableContent: TimetableContent): TimetableContent
