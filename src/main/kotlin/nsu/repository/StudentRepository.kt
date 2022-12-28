@@ -1,5 +1,8 @@
 package nsu.repository
-
+/**
+ * Repository for students
+ *
+ */
 import nsu.entities.people.Student
 import org.springframework.data.jpa.repository.JpaRepository
 
