@@ -32,7 +32,7 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     implementation("org.thymeleaf:thymeleaf:3.0.15.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5")
-    implementation("org.postgresql:postgresql:42.3.7")
+    implementation("org.postgresql:postgresql:42.3.8")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //    implementation("org.liquibase:liquibase-core:4.9.1")
 	implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
