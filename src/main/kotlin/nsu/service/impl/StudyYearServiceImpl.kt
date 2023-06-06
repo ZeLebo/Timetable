@@ -6,7 +6,7 @@ import nsu.entities.university.Subject
 import nsu.repository.StudyYearRepository
 import nsu.service.StudyYearService
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
+import jakarta.transaction.Transactional
 
 @Service
 class StudyYearServiceImpl(

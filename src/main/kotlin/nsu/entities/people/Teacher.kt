@@ -4,7 +4,7 @@ package nsu.entities.people
  * Entity for teachers
  * */
 import nsu.entities.university.Lesson
-import javax.persistence.*
+import jakarta.persistence.*
 @Entity
 @Table(name = "teacher")
 class Teacher(

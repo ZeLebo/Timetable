@@ -1,7 +1,7 @@
 package nsu.entities.university
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Subject entity

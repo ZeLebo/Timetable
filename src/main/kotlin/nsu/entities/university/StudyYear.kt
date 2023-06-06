@@ -3,7 +3,7 @@ package nsu.entities.university
 import com.fasterxml.jackson.annotation.JsonIgnore
 import nsu.entities.people.Group
 import org.hibernate.annotations.Fetch
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Study Year (course) entity

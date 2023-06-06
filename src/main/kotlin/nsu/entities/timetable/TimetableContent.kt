@@ -4,7 +4,7 @@ import nsu.entities.people.Group
 import nsu.entities.people.Teacher
 import nsu.entities.university.Lesson
 import nsu.entities.university.Room
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Lesson in timetable entity.

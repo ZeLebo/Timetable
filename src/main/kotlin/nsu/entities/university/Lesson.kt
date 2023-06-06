@@ -2,7 +2,7 @@ package nsu.entities.university
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import nsu.entities.people.Teacher
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Lesson entity (lesson is like  para)

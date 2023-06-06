@@ -1,6 +1,6 @@
 package nsu.entities.university
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * @property specializations - list of specializations on this faculty.
