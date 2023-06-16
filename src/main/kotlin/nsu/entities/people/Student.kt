@@ -1,7 +1,7 @@
 package nsu.entities.people
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * @property name - name of the student

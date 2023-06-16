@@ -1,8 +1,9 @@
 package nsu.entities.people
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.Entity
 import nsu.entities.university.StudyYear
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * Entity for group
