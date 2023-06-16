@@ -1,4 +1,4 @@
-package nsu.auth
+package nsu.auth.entity
 
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
@@ -13,34 +13,22 @@ class User (
     val userId: Long = 0,
 
     @Column(name = "fullname")
-    var fullname: String,
+    var fullname: String = "",
+
+    @Column
+    val login: String = "",
 
     @Column(name = "email")
-    var email: String,
+    var email: String = "",
 
-    @Column(name = "role")
-    var roles: HashSet<Roles> = HashSet(),
+    @Column(name = "roles")
+    var roles: HashSet<Roles> = HashSet(setOf(Roles.STUDENT)),
 
-    var password: String = "",
+    var password: String = ""
 ) {
-    fun isAdmin(): Boolean {
-        return this.roles.contains(Roles.ADMIN)
-    }
-
-    fun isTeacher(): Boolean {
-        return this.roles.contains(Roles.TEACHER)
-    }
-
-    fun isStudent(): Boolean {
-        return this.roles.contains(Roles.STUDENT)
-    }
 
     fun getRoles(): Set<Roles> {
         return this.roles
-    }
-
-    fun getLogin(): String {
-        return this.fullname
     }
 }
 

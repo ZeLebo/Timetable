@@ -1,4 +1,4 @@
-package nsu.auth
+package nsu.auth.requests
 
 class JwtRequest(
     val login: String,

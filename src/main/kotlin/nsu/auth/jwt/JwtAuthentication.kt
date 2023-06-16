@@ -1,5 +1,6 @@
-package nsu.auth
+package nsu.auth.jwt
 
+import nsu.auth.entity.Roles
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 
@@ -19,12 +20,12 @@ class JwtAuthentication : Authentication {
         return null
     }
 
-    override fun getDetails(): Any? {
-        return null
+    override fun getDetails(): Any {
+        return email!!
     }
 
     override fun getPrincipal(): Any {
-        return email!!
+        return fullname!!
     }
 
     override fun isAuthenticated(): Boolean {

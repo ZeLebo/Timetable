@@ -1,4 +1,4 @@
-package nsu.auth
+package nsu.auth.jwt
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException

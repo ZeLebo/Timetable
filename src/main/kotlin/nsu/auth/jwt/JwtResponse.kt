@@ -1,4 +1,4 @@
-package nsu.auth
+package nsu.auth.jwt
 
 class JwtResponse(
     val type: String = "Bearer",

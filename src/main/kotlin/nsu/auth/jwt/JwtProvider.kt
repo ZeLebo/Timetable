@@ -1,8 +1,9 @@
-package nsu.auth
+package nsu.auth.jwt
 
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
+import nsu.auth.entity.User
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.lang.NonNull
 import org.springframework.stereotype.Component
@@ -31,7 +32,7 @@ class JwtProvider(
         val accessExpirationInstant = now.plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant()
         val accessExpiration = Date.from(accessExpirationInstant)
         return Jwts.builder()
-            .setSubject(user.getLogin())
+            .setSubject(user.login)
             .setExpiration(accessExpiration)
             .signWith(jwtAccessSecret)
             .claim("roles", user.getRoles())
@@ -44,7 +45,7 @@ class JwtProvider(
         val refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant()
         val refreshExpiration = Date.from(refreshExpirationInstant)
         return Jwts.builder()
-            .setSubject(user.getLogin())
+            .setSubject(user.login)
             .setExpiration(refreshExpiration)
             .signWith(jwtRefreshSecret)
             .compact()
