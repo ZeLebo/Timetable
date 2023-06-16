@@ -41,25 +41,6 @@ class GeneralController {
     fun showButton(): String {
         return "listsExample.html"
     }
-
-    /**
-     *  Method which runs when user is trying to get through '/stocks/{symbol}' path and sends dynamical changing page of stocks
-     *
-     *  @param symbol - name of the stock
-     *  @return dynamically changeable page
-     * */
-    @GetMapping(
-        value = ["/stocks/{symbol}"],
-        produces = [MediaType.TEXT_EVENT_STREAM_VALUE]
-    )
-    fun prices(@PathVariable symbol: String): Flux<StockPrice> {
-        return Flux.interval(Duration.ofSeconds(1))
-            .map { StockPrice(symbol, randomStockPrice(), LocalDateTime.now()) }
-    }
-
-    private fun randomStockPrice(): Double {
-        return ThreadLocalRandom.current().nextDouble(100.0)
-    }
 }
 
 /**
@@ -72,16 +53,3 @@ class ErrorResponse(val message: String) {
         return "{\"error\": \"$this.message\"}"
     }
 }
-
-/**
- * Data class for stock
- *
- * @param symbol - name of stock
- * @param price - price of stock
- * @param time - current time
- * */
-data class StockPrice(
-    val symbol: String,
-    val price: Double,
-    val time: LocalDateTime
-)
