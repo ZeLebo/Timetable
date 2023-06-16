@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:13.3
     environment:
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=timetable_db
+      POSTGRES_DB: "timetable_db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
     volumes:
       - .:/tmp/pg
     ports:
@@ -17,27 +17,8 @@ services:
       retries: 5
       start_period: 10s
     restart: unless-stopped
-    networks:
-      - postgres
     deploy:
       resources:
         limits:
           cpus: '1'
           memory: 4G
-  pg_admin:
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports: [ "9000:80" ]
-    volumes:
-      - pg_pgadmin:/var/lib/pgadmin
-    networks:
-      - postgres
-networks:
-  postgres:
-    driver: bridge
-volumes:
-  database_spring:
-  pg_pgadmin:
