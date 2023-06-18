@@ -57,6 +57,8 @@ class AuthController(
     * access token is used to send requests
     * refresh - to update the token
     * */
+
+    @CrossOrigin
     @PostMapping("login")
     fun login(@RequestBody authRequest: JwtRequest?): ResponseEntity<*> {
         return try {
