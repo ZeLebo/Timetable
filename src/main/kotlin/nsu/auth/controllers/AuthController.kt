@@ -12,6 +12,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@CrossOrigin
 class AuthController(
     private val authService: AuthService,
     private val userService: UserService
@@ -58,7 +59,6 @@ class AuthController(
     * refresh - to update the token
     * */
 
-    @CrossOrigin
     @PostMapping("login")
     fun login(@RequestBody authRequest: JwtRequest?): ResponseEntity<*> {
         return try {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*
  * @param facultyService - service logic for work with faculty entity
  * */
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/timetable")
 class TimetableController(
     private val studyYearService: StudyYearService,

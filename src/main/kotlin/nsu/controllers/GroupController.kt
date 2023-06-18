@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
  * @param groupService - service logic for work with group entity
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/")
 class GroupController(
     private val groupService: GroupService,
