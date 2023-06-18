@@ -66,6 +66,14 @@ class UserService(
         return res
     }
 
+    fun getLogins(login: String): List<String> {
+        val res = userRepository.findAllByLoginLike(login).map { it.login }
+        if (res.isEmpty()) {
+            throw RuntimeException("Пользователь не найден")
+        }
+        return res
+    }
+
     fun getByEmail(email: String): User {
         return userRepository.findByEmail(email) ?: throw RuntimeException("Пользователь не найден")
     }

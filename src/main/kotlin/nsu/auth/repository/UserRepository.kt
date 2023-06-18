@@ -12,4 +12,6 @@ interface UserRepository: JpaRepository<User, Long> {
     fun deleteByLogin(login: String)
     @Query("SELECT u FROM User u WHERE u.email LIKE %?1%")
     fun findAllByEmailLike(email: String): List<User>
+    @Query("SELECT u FROM User u WHERE u.login LIKE %?1%")
+    fun findAllByLoginLike(login: String): List<User>
 }
