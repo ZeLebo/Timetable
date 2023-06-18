@@ -39,7 +39,7 @@ class SecurityConfig(private val jwtFilter: JwtFilter) {
         val configuration = CorsConfiguration()
         configuration.allowedHeaders = listOf("*")
         configuration.exposedHeaders = listOf("*")
-        configuration.allowedMethods = listOf("*")
+        configuration.allowedMethods = listOf("GET", "POST", "UPDATE", "PUT", "DELETE", "OPTIONS", "PATCH")
         configuration.allowCredentials = true
         configuration.maxAge = 1800
         val urlConfiguration = UrlBasedCorsConfigurationSource()
