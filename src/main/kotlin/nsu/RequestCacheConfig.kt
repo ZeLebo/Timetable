@@ -11,7 +11,8 @@ class RequestCacheConfig {
     @Bean
     fun cacheManager(): SimpleCacheManager {
         val cacheManager: SimpleCacheManager = SimpleCacheManager()
-        cacheManager.setCaches(listOf(ConcurrentMapCache("MailRequest")))
+        // allow caching for MailRequest and LoginRequest
+        cacheManager.setCaches(listOf(ConcurrentMapCache("mails"), ConcurrentMapCache("logins")))
         return cacheManager
     }
 
