@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +22,7 @@ class SecurityConfig(private val jwtFilter: JwtFilter) {
         return http
             .httpBasic().disable()
             .csrf().disable()
+            .cors().and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests { authz ->
@@ -29,5 +33,18 @@ class SecurityConfig(private val jwtFilter: JwtFilter) {
                     .and()
                     .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             }.build()
+    }
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedHeaders = listOf("*")
+        configuration.exposedHeaders = listOf("*")
+        configuration.allowedMethods = listOf("*")
+        configuration.allowCredentials = true
+        configuration.maxAge = 1800
+        val urlConfiguration = UrlBasedCorsConfigurationSource()
+        urlConfiguration.registerCorsConfiguration("/**", configuration)
+
+        return urlConfiguration
     }
 }
