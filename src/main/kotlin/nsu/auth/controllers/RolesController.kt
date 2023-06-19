@@ -14,9 +14,9 @@ class RolesController(
     private val userService: UserService
 ) {
     @GetMapping("")
-    fun getRoles(@RequestBody user: LoginRequest): ResponseEntity<*> {
+    fun getRoles(@RequestParam login: String): ResponseEntity<*> {
         return try {
-            ResponseEntity.ok(userService.getRoles(user.login))
+            ResponseEntity.ok(userService.getRoles(login))
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }
