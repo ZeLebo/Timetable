@@ -74,6 +74,13 @@ class UserService(
         return res
     }
 
+    fun getRoles(login: String): List<String> {
+        val user = userRepository.findByLogin(login) ?: throw RuntimeException("Пользователь не найден")
+        return user.roles.toList().map {
+            it.name
+        }
+    }
+
     fun getByEmail(email: String): User {
         return userRepository.findByEmail(email) ?: throw RuntimeException("Пользователь не найден")
     }
