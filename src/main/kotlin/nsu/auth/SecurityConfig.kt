@@ -36,18 +36,19 @@ class SecurityConfig(private val jwtFilter: JwtFilter) {
                     .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             }.build()
     }
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedHeaders = listOf("*")
-        configuration.exposedHeaders = listOf("*")
-        configuration.allowedMethods = listOf("GET", "POST", "UPDATE", "PUT", "DELETE", "OPTIONS", "PATCH")
-        configuration.allowedOriginPatterns = listOf("*")
-        configuration.allowCredentials = true
-        configuration.maxAge = 1800L
-        val urlConfiguration = UrlBasedCorsConfigurationSource()
-        urlConfiguration.registerCorsConfiguration("/", configuration)
-
-        return urlConfiguration
-    }
+//    If you uncomment this the requests will be blocked by CORS policy
+//    @Bean
+//    fun corsConfigurationSource(): CorsConfigurationSource {
+//        val configuration = CorsConfiguration()
+//        configuration.allowedHeaders = listOf("*")
+//        configuration.exposedHeaders = listOf("*")
+//        configuration.allowedMethods = listOf("GET", "POST", "UPDATE", "PUT", "DELETE", "OPTIONS", "PATCH")
+//        configuration.allowedOriginPatterns = listOf("*")
+//        configuration.allowCredentials = true
+//        configuration.maxAge = 1800L
+//        val urlConfiguration = UrlBasedCorsConfigurationSource()
+//        urlConfiguration.registerCorsConfiguration("/", configuration)
+//
+//        return urlConfiguration
+//    }
 }
