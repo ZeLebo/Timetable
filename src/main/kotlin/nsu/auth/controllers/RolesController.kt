@@ -1,5 +1,6 @@
 package nsu.auth.controllers
 
+import nsu.auth.requests.LoginRequest
 import nsu.auth.requests.RolesRequest
 import nsu.auth.service.UserService
 import org.springframework.http.ResponseEntity
@@ -12,6 +13,15 @@ import org.springframework.web.bind.annotation.*
 class RolesController(
     private val userService: UserService
 ) {
+    @GetMapping("")
+    fun getRoles(@RequestBody user: LoginRequest): ResponseEntity<*> {
+        return try {
+            ResponseEntity.ok(userService.getRoles(user.login))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
+
+    }
     // add new roles to user
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")

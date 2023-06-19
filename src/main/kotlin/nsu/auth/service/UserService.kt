@@ -58,6 +58,29 @@ class UserService(
         return Optional.ofNullable(userRepository.findByLogin(login))
     }
 
+    fun getMails(email: String): List<String> {
+        val res =  userRepository.findAllByEmailLike(email).map { it.email }
+        if (res.isEmpty()) {
+            throw RuntimeException("Пользователь не найден")
+        }
+        return res
+    }
+
+    fun getLogins(login: String): List<String> {
+        val res = userRepository.findAllByLoginLike(login).map { it.login }
+        if (res.isEmpty()) {
+            throw RuntimeException("Пользователь не найден")
+        }
+        return res
+    }
+
+    fun getRoles(login: String): List<String> {
+        val user = userRepository.findByLogin(login) ?: throw RuntimeException("Пользователь не найден")
+        return user.roles.toList().map {
+            it.name
+        }
+    }
+
     fun getByEmail(email: String): User {
         return userRepository.findByEmail(email) ?: throw RuntimeException("Пользователь не найден")
     }

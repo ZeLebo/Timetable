@@ -28,6 +28,24 @@ class AuthController(
         }
     }
 
+    @PostMapping("emails")
+    fun getMails(@RequestBody mail: MailRequest): ResponseEntity<List<String>> {
+        return try {
+            ResponseEntity.ok(userService.getMails(mail.email))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(Collections.emptyList())
+        }
+    }
+
+    @PostMapping("logins")
+    fun getLogins(@RequestBody login: LoginRequest): ResponseEntity<List<String>> {
+        return try {
+            ResponseEntity.ok(userService.getLogins(login.login))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(Collections.emptyList())
+        }
+    }
+
     // only admin can do this endpoint, have to add roles to the person
     /*
     * "roles" : ["STUDENT", "TEACHER"]
