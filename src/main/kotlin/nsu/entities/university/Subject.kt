@@ -31,4 +31,8 @@ class Subject(
     @Column(name = "subject_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val subjectId: Long = 0,
-)
+) {
+    constructor(): this(
+        "", null, mutableListOf()
+    )
+}

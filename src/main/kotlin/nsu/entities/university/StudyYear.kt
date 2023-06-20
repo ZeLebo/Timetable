@@ -40,4 +40,8 @@ class StudyYear(
     @Column(name = "study_year_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val studyYearId: Long = 0,
-)
+) {
+    constructor(): this(
+        1, null, null, mutableListOf(), mutableListOf(), 0
+    )
+}

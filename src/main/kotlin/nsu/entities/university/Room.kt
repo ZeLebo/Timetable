@@ -23,4 +23,8 @@ class Room(
     @Column(name = "room_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val roomId: Long = 0,
-)
+) {
+    constructor(): this(
+        0, RoomType.PRACTICE.name, ""
+    )
+}

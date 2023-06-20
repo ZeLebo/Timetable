@@ -6,8 +6,6 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
-//    kotlin("plugin.lombok") version "1.8.21"
-//    id("io.freefair.lombok") version "5.3.0"
 }
 
 allOpen {
@@ -23,7 +21,7 @@ repositories {
 }
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -39,7 +37,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5")
     implementation("org.postgresql:postgresql:42.3.8")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.0")
-//	implementation("com.vladmihalcea:hibernate-types-52:2.16.2")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")

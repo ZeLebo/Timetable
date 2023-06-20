@@ -12,10 +12,14 @@ class Teacher(
     var name: String,
 
     @OneToMany(mappedBy = "teacher")
-    var lessons: MutableList<Lesson>,
+    var lessons: MutableList<Lesson> = mutableListOf(),
 
     @Id
     @Column(name = "teacher_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val teacherId: Long = 0,
-)
+) {
+    constructor(): this(
+        ""
+    )
+}
