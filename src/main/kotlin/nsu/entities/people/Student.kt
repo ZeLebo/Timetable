@@ -26,4 +26,8 @@ class Student(
     @Column(name = "student_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val studentId: Long = 0,
-)
+) {
+    constructor(): this(
+        ""
+    )
+}

@@ -28,10 +28,10 @@ class TimetableContent(
     val discipline: Lesson? = null,
 
     @Column(name = "day")
-    val day: String,
+    val day: String = "",
 
     @Column(name = "hour")
-    val hour: Int,
+    val hour: Int = 0,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
@@ -59,4 +59,8 @@ class TimetableContent(
     @Column(name = "timetable_content_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val timetableContentId: Long = 0,
-)
+) {
+    constructor(): this(
+        null,
+    )
+}

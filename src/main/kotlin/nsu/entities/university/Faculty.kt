@@ -19,4 +19,6 @@ class Faculty(
     @Column(name = "faculty_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val facultyId: Long = 0,
-)
+) {
+    constructor() : this("", mutableListOf(),0)
+}

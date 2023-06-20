@@ -30,4 +30,8 @@ class Specialization(
     @Column(name = "specialization_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val specializationId: Long = 0,
-)
+) {
+    constructor(): this(
+        "", null, mutableListOf(), 0
+    )
+}

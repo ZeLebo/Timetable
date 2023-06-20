@@ -40,4 +40,8 @@ class Lesson(
     @Column(name = "lesson_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val lessonId: Long = 0,
-)
+) {
+    constructor(): this(
+        "", RoomType.PRACTICE.name, RoomType.PRACTICE.name, null, null, 0
+    )
+}

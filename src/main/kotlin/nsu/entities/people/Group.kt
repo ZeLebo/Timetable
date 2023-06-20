@@ -30,4 +30,8 @@ class Group(
     @Column(name = "group_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val groupId: Long = 0,
-)
+) {
+    constructor(): this(
+        ""
+    )
+}
