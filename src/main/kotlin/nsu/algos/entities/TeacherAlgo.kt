@@ -8,8 +8,8 @@ class TeacherAlgo (
     @Id
     @Column(name = "TEACHER_ID_ALGO")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    val teacherId: Long,
 
     @Column(name = "NAME")
-    val name: String
+    var name: String
 )

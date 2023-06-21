@@ -8,7 +8,7 @@ class RoomAlgo(
     @Id
     @Column(name = "ROOM_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    val id: Long,
 
     @Column(name = "NAME")
     var name: String,

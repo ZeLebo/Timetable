@@ -11,10 +11,10 @@ class Course(
     val id: Int,
 
     @Column(name = "NAME")
-    val name: String,
+    var name: String,
 
     @Column(name = "TYPE")
-    val type: String,
+    var type: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(

@@ -11,7 +11,7 @@ class RoomAlgoServiceImpl(
     private val roomRepository: RoomAlgoRepository
 ): RoomAlgoService {
     override fun addRoom(room: RoomAlgo): RoomAlgo {
-        if (roomRepository.findByNumber(room.name) != null) {
+        if (roomRepository.findByName(room.name) != null) {
             throw RuntimeException("Room already exists")
         }
         return roomRepository.save(room)
@@ -44,14 +44,14 @@ class RoomAlgoServiceImpl(
     }
 
     override fun findByNumber(number: String): RoomAlgo? {
-        return roomRepository.findByNumber(number)
+        return roomRepository.findByName(number)
     }
     override fun exists(id: Long): Boolean {
         return roomRepository.existsById(id)
     }
 
     override fun exists(number: String): Boolean {
-        return roomRepository.findByNumber(number) != null
+        return roomRepository.findByName(number) != null
     }
 
     override fun findAll(): List<RoomAlgo> {

@@ -12,7 +12,7 @@ class GroupAlgoServiceImpl(
 ): GroupAlgoService {
     @Transactional
     override fun addGroup(group: GroupAlgo): GroupAlgo {
-        if (groupRepository.existsByNumber(group.name)) {
+        if (groupRepository.existsByName(group.name)) {
             throw Exception("Group already exists")
         }
         return groupRepository.save(group)
@@ -43,7 +43,7 @@ class GroupAlgoServiceImpl(
     }
 
     override fun findByNumber(number: String): GroupAlgo? {
-        return groupRepository.findByNumber(number)
+        return groupRepository.findByName(number)
     }
 
     override fun exists(id: Long): Boolean {
@@ -51,7 +51,7 @@ class GroupAlgoServiceImpl(
     }
 
     override fun exists(number: String): Boolean {
-        return groupRepository.existsByNumber(number)
+        return groupRepository.existsByName(number)
     }
 
     override fun findAll(): List<GroupAlgo> {

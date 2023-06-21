@@ -8,7 +8,7 @@ class Period(
     @Id
     @Column(name = "PERION_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    val id: Long,
 
     @Column(name = "DAY")
     val day: Int,
