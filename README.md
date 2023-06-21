@@ -19,3 +19,6 @@ git remote add origin git@github.com:ZeLebo/Timetable.git
 ```
 docker-compose up
 ```
+
+# FrontEnd (Malov + Ordina):
+Another project, another repo - [link to front](https://github.com/L3XxXa/TimetableFrontend/)
