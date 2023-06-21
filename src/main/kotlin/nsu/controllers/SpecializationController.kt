@@ -77,7 +77,7 @@ class SpecializationController(
      * This method add new study year to specific specialization
      */
 
-    @PostMapping("specialization/{specializationId}studyYear")
+    @PostMapping("specialization/{specializationId}/studyYear")
     fun addStudyYear(@PathVariable specializationId: Int, @RequestBody request: StudyYear): ResponseEntity<*> {
         return try {
             ResponseEntity.ok(specializationService.addStudyYearToSpecialization(specializationId.toLong(), request))
