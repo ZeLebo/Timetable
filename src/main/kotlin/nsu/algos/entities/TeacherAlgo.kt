@@ -12,4 +12,8 @@ class TeacherAlgo (
 
     @Column(name = "NAME")
     var name: String
-)
+){
+    constructor(): this(
+        0,""
+    )
+}

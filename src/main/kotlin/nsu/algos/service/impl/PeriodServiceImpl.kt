@@ -11,7 +11,7 @@ class PeriodServiceImpl (
     private val periodRepository: PeriodRepository
 ): PeriodService{
     override fun addPeriod(period: Period): Period {
-        if (periodRepository.findByGroupId(period.groupId) != null) {
+        if (periodRepository.findByPeriodId(period.periodId) != null) {
             throw RuntimeException("Lesson already exists")
         }
         return periodRepository.save(period)
@@ -21,16 +21,23 @@ class PeriodServiceImpl (
         return periodRepository.save(period)
     }
 
-    override fun updatePeriod(periodId: Long, course: Period): Period {
-        TODO("Not yet implemented")
+    override fun updatePeriod(periodId: Long, period: Period): Period {
+        this.findByID(periodId) ?: throw RuntimeException("Period not found")
+        val periodDb = period
+        return this.updatePeriod(periodDb)
     }
 
     override fun delete(id: Long) {
-        TODO("Not yet implemented")
+        this.findByID(id) ?: throw RuntimeException("Period not found")
+        periodRepository.deleteById(id)
+
+        if (this.findByID(id) != null) {
+            throw RuntimeException("Period not deleted")
+        }
     }
 
     override fun findByID(id: Long): Period? {
-        TODO("Not yet implemented")
+        return periodRepository.findByPeriodId(id)
     }
 
     override fun findByGroup(group: String): Period? {
@@ -38,7 +45,7 @@ class PeriodServiceImpl (
     }
 
     override fun exists(id: Long): Boolean {
-        TODO("Not yet implemented")
+        return periodRepository.existsById(id)
     }
 
     override fun exists(name: String): Boolean {
@@ -46,7 +53,7 @@ class PeriodServiceImpl (
     }
 
     override fun findAll(): List<Period> {
-        TODO("Not yet implemented")
+        return periodRepository.findAll()
     }
 
 }

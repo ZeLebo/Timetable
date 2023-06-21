@@ -20,4 +20,8 @@ class GroupAlgo (
 
     @Column(name = "SIZE")
     val size: Int,
-)
+) {
+    constructor(): this(
+        0,"",0
+    )
+}

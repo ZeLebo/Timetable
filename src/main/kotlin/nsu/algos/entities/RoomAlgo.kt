@@ -15,4 +15,8 @@ class RoomAlgo(
 
     @Column(name = "CAPACITY")
     var capacity: Int
-)
+) {
+    constructor() : this(
+        0, "", 0
+    )
+}

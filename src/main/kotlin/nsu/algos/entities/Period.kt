@@ -6,9 +6,9 @@ import jakarta.persistence.*
 @Table(name = "PERIOD")
 class Period(
     @Id
-    @Column(name = "PERION_ID")
+    @Column(name = "PERIOD_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val periodId: Long,
 
     @Column(name = "DAY")
     val day: Int,
@@ -47,4 +47,8 @@ class Period(
     )
     val groupId: GroupAlgo,
 
+    ) {
+    constructor() : this(
+        0, 0, 0, "", RoomAlgo(), TeacherAlgo(), Course(), GroupAlgo()
     )
+}
