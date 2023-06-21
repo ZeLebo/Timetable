@@ -20,9 +20,7 @@ class Subject(
         nullable = true
     )
     @field: JsonIgnore
-    var StudyYear: StudyYear? = null,
-
-
+    var studyYear: StudyYear? = null,
 
     @OneToMany(mappedBy = "subject")
     var lessons: MutableList<Lesson> = mutableListOf(),
@@ -33,6 +31,6 @@ class Subject(
     val subjectId: Long = 0,
 ) {
     constructor(): this(
-        "", null, mutableListOf()
+        ""
     )
 }

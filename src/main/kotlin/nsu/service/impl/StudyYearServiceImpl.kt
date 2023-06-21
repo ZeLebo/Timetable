@@ -95,7 +95,7 @@ class StudyYearServiceImpl(
         val studyYear = this.findByID(studyYearId)
             ?: throw RuntimeException("No study year found")
 
-        subject.StudyYear = studyYear
+        subject.studyYear = studyYear
         val sub = subjectService.addSubject(subject)
         studyYear.subjects.add(sub)
         return this.updateYear(studyYear)

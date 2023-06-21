@@ -80,7 +80,7 @@ class TimetableMakerImpl(
                                         }
                                         var studentsOnLesson = 0
                                         val groupsOnLesson = ArrayList<Group>()
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             groupsOnLesson.add(gr)
                                         }
                                         val availableGroupsOnLesson = ArrayList<Group>()
@@ -94,7 +94,7 @@ class TimetableMakerImpl(
                                         if(availableGroupsOnLesson.size < groupsOnLesson.size){
                                             continue
                                         }
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             studentsOnLesson += gr.students.size
                                             groupsOnLesson.add(gr)
                                         }
@@ -128,7 +128,7 @@ class TimetableMakerImpl(
                                         }
                                         var studentsOnLesson = 0
                                         val groupsOnLesson = ArrayList<Group>()
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             groupsOnLesson.add(gr)
                                         }
                                         val availableGroupsOnLesson = ArrayList<Group>()
@@ -142,7 +142,7 @@ class TimetableMakerImpl(
                                         if(availableGroupsOnLesson.size < groupsOnLesson.size){
                                             continue
                                         }
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             studentsOnLesson += gr.students.size
                                             groupsOnLesson.add(gr)
                                         }
@@ -179,7 +179,7 @@ class TimetableMakerImpl(
                                         }
                                         var studentsOnLesson = 0
                                         val groupsOnLesson = ArrayList<Group>()
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             groupsOnLesson.add(gr)
                                         }
                                         val availableGroupsOnLesson = ArrayList<Group>()
@@ -193,7 +193,7 @@ class TimetableMakerImpl(
                                         if(availableGroupsOnLesson.size < groupsOnLesson.size){
                                             continue
                                         }
-                                        lectures[0].subject!!.StudyYear!!.groups.forEach { gr ->
+                                        lectures[0].subject!!.studyYear!!.groups.forEach { gr ->
                                             studentsOnLesson += gr.students.size
                                             groupsOnLesson.add(gr)
                                         }
