@@ -2,9 +2,7 @@ package nsu.algos.service.impl
 
 import nsu.algos.entities.*
 import nsu.algos.service.*
-import nsu.entities.timetable.TimetableContent
 import org.springframework.stereotype.Service
-import reactor.util.annotation.Nullable
 
 @Service
 class AlgoMakerImpl(
@@ -119,26 +117,11 @@ fun main() {
     //course day room
     //println(courseMap)
     //courseid, windows
-    val availableTimeForCourse: MutableMap<Int, MutableSet<Pair<Int, Int>>> = mutableMapOf(
-        1 to mutableSetOf(Pair(1, 1), Pair(1, 2)),
-        2 to mutableSetOf(Pair(3, 1), Pair(3, 3)),
-        3 to mutableSetOf(Pair(2, 4), Pair(2, 3)),
-        4 to mutableSetOf(Pair(4, 4), Pair(4, 3)),
-        5 to mutableSetOf(Pair(5, 4)),
-    )
-    //roomId, availableTime
-    val availableTimeForRoom: MutableMap<Int, MutableSet<Pair<Int, Int>>> = mutableMapOf(
-        1 to mutableSetOf(Pair(1, 2), Pair(1, 2)),
-        2 to mutableSetOf(Pair(3, 1), Pair(3, 3)),
-        3 to mutableSetOf(Pair(2, 4), Pair(2, 3)),
-        4 to mutableSetOf(Pair(4, 4), Pair(4, 3)),
-        5 to mutableSetOf(Pair(5, 4)),
-    )
 
 
-    val availableTimeForCourseSorted = availableTimeForCourse
-
-    availableTimeForCourse.keys.sortedBy { availableTimeForCourse[it]!!.size }
+//    val availableTimeForCourseSorted = availableTimeForCourse
+//
+//    availableTimeForCourse.keys.sortedBy { availableTimeForCourse[it]!!.size }
 
     // courseid - свободные окна
 //    val mapOfIntersection: MutableMap<Int, Int> = mutableMapOf()
@@ -169,17 +152,51 @@ fun main() {
     teachers.add(TeacherAlgo(5, "Postovalov"))
 
     val rooms: MutableList<RoomAlgo> = mutableListOf()
-    rooms.add(RoomAlgo(1, "2128", 50))
-    rooms.add(RoomAlgo(2, "3343", 30))
-    rooms.add(RoomAlgo(3, "2128", 200))
-    rooms.add(RoomAlgo(4, "1234", 24))
+    rooms.add(RoomAlgo(12, "2128", 50))
+    rooms.add(RoomAlgo(21, "3343", 30))
+    rooms.add(RoomAlgo(31, "2128", 200))
+    rooms.add(RoomAlgo(41, "1234", 24))
 
     val courses: MutableList<Course> = mutableListOf()
-    courses.add(Course(1, "OOP", "Lecture", teachers[0], 1))
-    courses.add(Course(2, "Math", "Lecture", teachers[1], 2))
-    courses.add(Course(3, "Law", "Seminar", teachers[2], 3))
-    courses.add(Course(4, "DAO", "Lecture", teachers[3], 4))
-    courses.add(Course(5, "DAO", "Lecture", teachers[3], 5))
+    courses.add(Course(1, "OOP", "Lecture", teachers[0], 1, 1, 2))
+    courses.add(Course(2, "Math", "Lecture", teachers[1], 2, 1, 3))
+    courses.add(Course(3, "Law", "Seminar", teachers[2], 3, 2, 2))
+    courses.add(Course(4, "DAO", "Lecture", teachers[3], 4, 2, 3))
+    courses.add(Course(5, "Aboba", "Lecture", teachers[4], 5, 2, 5))
+
+    val availableTimeForCourse: MutableMap<Int, MutableSet<Pair<Int, Int>>> = mutableMapOf(
+        1 to mutableSetOf(Pair(1, 1), Pair(1, 2)),
+        2 to mutableSetOf(Pair(3, 1), Pair(3, 3)),
+        3 to mutableSetOf(Pair(2, 4), Pair(2, 3)),
+        4 to mutableSetOf(Pair(4, 4), Pair(4, 3)),
+        5 to mutableSetOf(Pair(5, 4)),
+    )
+
+    //generate mutable set of Pairs
+    val pairs: MutableSet<Pair<Int, Int>> = mutableSetOf()
+//    for (i in 1 until 7) {
+//        for(j in 1 until 6 ){
+//            pairs.add(Pair (i, j))
+//        }
+//    }
+
+    println(pairs)
+    // from courses to availableTimeForCourse
+    courses.forEach {
+        availableTimeForCourse[it.id] = mutableSetOf(Pair(it.day, it.hour))
+    }
+
+    println("$availableTimeForCourse - time")
+
+
+    //roomId, availableTime
+    val availableTimeForRoom: MutableMap<Int, MutableSet<Pair<Int, Int>>> = mutableMapOf(
+        1 to mutableSetOf(Pair(1, 2), Pair(1, 2)),
+        2 to mutableSetOf(Pair(3, 1), Pair(3, 3)),
+        3 to mutableSetOf(Pair(2, 4), Pair(2, 3)),
+        4 to mutableSetOf(Pair(4, 4), Pair(4, 3)),
+        5 to mutableSetOf(Pair(5, 4)),
+    )
 
     var roomSet = mutableSetOf(12, 21, 31, 41, 51)
     // day room courseId?
@@ -212,7 +229,6 @@ fun main() {
                         if (!groupCourseMap.keys.contains(groupTemp)) {
                             groupCourseMap[groupTemp] = mutableSetOf(Pair(dayFromList + 1, hourFromList + 1))
                             lim = 1
-
                         }
                     }
                 }
@@ -222,11 +238,25 @@ fun main() {
 
     }
 
-    val timeTableOut: MutableList<TimetableOut> = mutableListOf()
+    val timetableOut: MutableList<TimetableOut> = mutableListOf()
+    for ((day, timetableData) in timetable) {
+        for ((roomId, lesson) in timetableData) {
+            for(( lessonNum, courseId ) in lesson.withIndex()){
+                if (courseId != null){
+                    val roomNum = rooms.filter { it.id.toInt() == roomId }.first().name
+                    val courseName = courses.filter { it.id == courseId }.first().name
+                    val teacherId = courses.filter { it.id == courseId }.first().teacherId.teacherId
+                    val teacherName = teachers.filter { it.teacherId == teacherId }.first().name
+                    val groupId = courses.filter { it.id == courseId }.first().groupId
+                    val groupName = groups.filter { it.id.toInt() == groupId }.first().name
+                    timetableOut.add(TimetableOut(day, lessonNum, roomId, roomNum, courseId, courseName, teacherName, groupName))
+                }
+            }
+        }
+    }
 
-
+    println("$timetableOut - timetableOut")
     timetable.forEach { println(it) }
-
 
 
     //println(timetable)

@@ -24,9 +24,16 @@ class Course(
     val teacherId: TeacherAlgo,
 
     @Column(name = "COURSE")
-    var groupId: Int
-){
-    constructor(): this(
-        0,"","", TeacherAlgo(), 0
+    var groupId: Int,
+
+    @Column(name = "DAY")
+    var day: Int,
+
+    @Column(name = "HOUR")
+    var hour: Int
+
+) {
+    constructor() : this(
+        0, "", "", TeacherAlgo(), 0, 0, 0
     )
 }
