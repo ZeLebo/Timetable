@@ -5,7 +5,6 @@ import nsu.algos.entities.Course
 import nsu.algos.repository.CourseRepository
 import nsu.algos.service.CourseService
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 
 @Service

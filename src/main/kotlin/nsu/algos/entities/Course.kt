@@ -22,8 +22,11 @@ class Course(
         nullable = true
     )
     val teacherId: TeacherAlgo,
+
+    @Column(name = "COURSE")
+    var groupId: Int
 ){
     constructor(): this(
-        0,"","", TeacherAlgo()
+        0,"","", TeacherAlgo(), 0
     )
 }

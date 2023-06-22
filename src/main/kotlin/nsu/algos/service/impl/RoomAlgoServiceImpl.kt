@@ -4,7 +4,6 @@ import nsu.algos.entities.RoomAlgo
 import nsu.algos.repository.RoomAlgoRepository
 import nsu.algos.service.RoomAlgoService
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class RoomAlgoServiceImpl(

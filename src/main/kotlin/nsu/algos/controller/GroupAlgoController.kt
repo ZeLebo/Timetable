@@ -1,7 +1,6 @@
 package nsu.algos.controller
 
 import nsu.algos.service.*
-import nsu.service.RoomService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping

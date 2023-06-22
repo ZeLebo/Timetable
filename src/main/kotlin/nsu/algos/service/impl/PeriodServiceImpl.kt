@@ -4,7 +4,6 @@ import nsu.algos.entities.Period
 import nsu.algos.repository.PeriodRepository
 import nsu.algos.service.PeriodService
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class PeriodServiceImpl (
