@@ -1,7 +1,7 @@
 package nsu.algos.service
 
-import nsu.algos.entities.Period
+import nsu.algos.entities.TimetableOut
 
 interface AlgoMaker {
-    fun runAlgo():List<Period>
+    fun runAlgo():List<TimetableOut>
 }
