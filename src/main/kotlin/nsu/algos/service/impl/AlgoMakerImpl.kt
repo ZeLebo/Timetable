@@ -9,8 +9,8 @@ class AlgoMakerImpl(
     private val groupAlgoService: GroupAlgoService,
     private val courseService: CourseService,
     private val roomAlgoService: RoomAlgoService,
-    private val teacherAlgoService: TeacherAlgoService
-) : AlgoMaker {
+    private val teacherAlgoService: TeacherAlgoService,
+) : AlgoMakerService {
 
     val groups: List<GroupAlgo> = groupAlgoService.findAll()
     val teachers: List<TeacherAlgo> = teacherAlgoService.findAll()
@@ -24,8 +24,8 @@ class AlgoMakerImpl(
             availableTimeForCourse[it.id] = mutableSetOf(Pair(it.day, it.hour))
         }
 
-        val roomSet:MutableSet<Int> = mutableSetOf()
-        for (room in rooms){
+        val roomSet: MutableSet<Int> = mutableSetOf()
+        for (room in rooms) {
             roomSet.add(room.id.toInt())
         }
         // day room courseId?
@@ -71,15 +71,26 @@ class AlgoMakerImpl(
         val timetableOut: MutableList<TimetableOut> = mutableListOf()
         for ((day, timetableData) in timetable) {
             for ((roomId, lesson) in timetableData) {
-                for(( lessonNum, courseId ) in lesson.withIndex()){
-                    if (courseId != null){
+                for ((lessonNum, courseId) in lesson.withIndex()) {
+                    if (courseId != null) {
                         val roomNum = rooms.filter { it.id.toInt() == roomId }.first().name
                         val courseName = courses.filter { it.id == courseId }.first().name
                         val teacherId = courses.filter { it.id == courseId }.first().teacherId.teacherId
                         val teacherName = teachers.filter { it.teacherId == teacherId }.first().name
                         val groupId = courses.filter { it.id == courseId }.first().groupId
                         val groupName = groups.filter { it.id.toInt() == groupId }.first().name
-                        timetableOut.add(TimetableOut(count ,day, lessonNum, roomNum, courseId, courseName, teacherName, groupName))
+                        timetableOut.add(
+                            TimetableOut(
+                                count,
+                                day,
+                                lessonNum,
+                                roomNum,
+                                courseId,
+                                courseName,
+                                teacherName,
+                                groupName
+                            )
+                        )
                         count += 1
                     }
                 }
@@ -135,8 +146,8 @@ fun main() {
         availableTimeForCourse[it.id] = mutableSetOf(Pair(it.day, it.hour))
     }
 
-    val roomSet:MutableSet<Int> = mutableSetOf()
-    for (room in rooms){
+    val roomSet: MutableSet<Int> = mutableSetOf()
+    for (room in rooms) {
         roomSet.add(room.id.toInt())
     }
     // day room courseId?
@@ -181,15 +192,26 @@ fun main() {
     val timetableOut: MutableList<TimetableOut> = mutableListOf()
     for ((day, timetableData) in timetable) {
         for ((roomId, lesson) in timetableData) {
-            for(( lessonNum, courseId ) in lesson.withIndex()){
-                if (courseId != null){
+            for ((lessonNum, courseId) in lesson.withIndex()) {
+                if (courseId != null) {
                     val roomNum = rooms.filter { it.id.toInt() == roomId }.first().name
                     val courseName = courses.filter { it.id == courseId }.first().name
                     val teacherId = courses.filter { it.id == courseId }.first().teacherId.teacherId
                     val teacherName = teachers.filter { it.teacherId == teacherId }.first().name
                     val groupId = courses.filter { it.id == courseId }.first().groupId
                     val groupName = groups.filter { it.id.toInt() == groupId }.first().name
-                    timetableOut.add(TimetableOut(count ,day, lessonNum, roomNum, courseId, courseName, teacherName, groupName))
+                    timetableOut.add(
+                        TimetableOut(
+                            count,
+                            day,
+                            lessonNum,
+                            roomNum,
+                            courseId,
+                            courseName,
+                            teacherName,
+                            groupName
+                        )
+                    )
                     count += 1
                 }
             }

@@ -3,6 +3,7 @@ package nsu.algos.entities
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "TIMETABLEOUT")
 class TimetableOut(
 
     @Id

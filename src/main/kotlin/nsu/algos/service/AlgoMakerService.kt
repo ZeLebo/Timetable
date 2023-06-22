@@ -2,6 +2,6 @@ package nsu.algos.service
 
 import nsu.algos.entities.TimetableOut
 
-interface AlgoMaker {
+interface AlgoMakerService {
     fun runAlgo():List<TimetableOut>
 }
